@@ -1,0 +1,4 @@
+/intnode/xil/**
+/extnode/xil/**
+!/intnode/xil/intnode.xpr
+!/extnode/xil/extnode.xpr
