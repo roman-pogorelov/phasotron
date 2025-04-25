@@ -34,7 +34,7 @@ if { $list_projs eq "" } {
 set bCheckIPs 1
 set bCheckIPsPassed 1
 if { $bCheckIPs == 1 } {
-  set list_check_ips { xilinx.com:ip:clk_wiz:6.0 xilinx.com:ip:mig_7series:4.2 }
+  set list_check_ips { xilinx.com:ip:aurora_8b10b:11.1 xilinx.com:ip:clk_wiz:6.0 xilinx.com:ip:mig_7series:4.2 }
   set list_ips_missing ""
   common::send_msg_id "IPS_TCL-1001" "INFO" "Checking if the following IPs exist in the project's IP catalog: $list_check_ips ."
 
@@ -55,6 +55,31 @@ if { $bCheckIPsPassed != 1 } {
   common::send_msg_id "IPS_TCL-102" "WARNING" "Will not continue with creation of design due to the error(s) above."
   return 1
 }
+
+##################################################################
+# CREATE IP aurora8b10b
+##################################################################
+
+set aurora8b10b [create_ip -name aurora_8b10b -vendor xilinx.com -library ip -version 11.1 -module_name aurora8b10b]
+
+set_property -dict { 
+  CONFIG.C_AURORA_LANES {2}
+  CONFIG.C_LANE_WIDTH {4}
+  CONFIG.C_LINE_RATE {6.250}
+  CONFIG.C_REFCLK_FREQUENCY {156.250}
+  CONFIG.C_INIT_CLK {100.0}
+  CONFIG.DRP_FREQ {100.0000}
+  CONFIG.Interface_Mode {Streaming}
+  CONFIG.C_GT_LOC_2 {2}
+  CONFIG.C_GT_LOC_1 {1}
+  CONFIG.C_USE_BYTESWAP {true}
+} [get_ips aurora8b10b]
+
+set_property -dict { 
+  GENERATE_SYNTH_CHECKPOINT {1}
+} $aurora8b10b
+
+##################################################################
 
 ##################################################################
 # CREATE IP clk_gen

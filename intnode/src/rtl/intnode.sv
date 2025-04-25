@@ -24,7 +24,43 @@ module intnode
     // QSPI Flash interface (clock must be
     // connected to a dedicated pin)
     output wire             flash_cs_n,
-    inout  wire [3 : 0]     flash_data
+    inout  wire [3 : 0]     flash_data,
+
+    // GT reference clock
+    input  wire             clk_gt_p,
+    input  wire             clk_gt_n,
+
+    // Downstream GT RX
+    input  wire  [1 : 0]    dn0_rx_p,
+    input  wire  [1 : 0]    dn0_rx_n,
+    input  wire  [1 : 0]    dn1_rx_p,
+    input  wire  [1 : 0]    dn1_rx_n,
+    input  wire  [1 : 0]    dn2_rx_p,
+    input  wire  [1 : 0]    dn2_rx_n,
+    input  wire  [1 : 0]    dn3_rx_p,
+    input  wire  [1 : 0]    dn3_rx_n,
+
+    // Downstream GT TX
+    output wire  [1 : 0]    dn0_tx_p,
+    output wire  [1 : 0]    dn0_tx_n,
+    output wire  [1 : 0]    dn1_tx_p,
+    output wire  [1 : 0]    dn1_tx_n,
+    output wire  [1 : 0]    dn2_tx_p,
+    output wire  [1 : 0]    dn2_tx_n,
+    output wire  [1 : 0]    dn3_tx_p,
+    output wire  [1 : 0]    dn3_tx_n,
+
+    // Upstream GT RX
+    input  wire  [1 : 0]    up0_rx_p,
+    input  wire  [1 : 0]    up0_rx_n,
+    input  wire  [1 : 0]    up1_rx_p,
+    input  wire  [1 : 0]    up1_rx_n,
+
+    // Upstream GT TX
+    output wire  [1 : 0]    up0_tx_p,
+    output wire  [1 : 0]    up0_tx_n,
+    output wire  [1 : 0]    up1_tx_p,
+    output wire  [1 : 0]    up1_tx_n
 );
     // Variables
     logic           clk_sys;
@@ -35,6 +71,8 @@ module intnode
     //
     logic           clk_mig_sys;
     logic           clk_mig_ref;
+    //
+    logic           clk_gt;
     //
     logic [27 : 0]  app_addr;
     logic [2 : 0]   app_cmd;
@@ -163,5 +201,76 @@ module intnode
         .init_calib_complete    (init_calib_complete),  // o
         .device_temp            (  )                    // o [11 : 0]
     ); // the_mig7series
+
+
+    // GT differential buffer instance
+    IBUFDS_GTE2 the_ibufds_gte2
+    (
+        .I      (clk_gt_p),
+        .IB     (clk_gt_n),
+        .CEB    (1'b0),
+        .O      (clk_gt),
+        .ODIV2  (  )
+    ); // the_ibufds_gte2
+
+
+    // Downstream unit
+    dnstream_unit the_dnstream_unit
+    (
+        // Common asynchronous reset
+        .rst            (rst_sys),  // i
+
+        // Intialization clock
+        .clk_init       (clk_sys),  // i
+
+        // GT reference clock
+        .clk_gt         (clk_gt),   // i
+
+        // GT RX
+        .dn0_rx_p       (dn0_rx_p), // i  [1 : 0]
+        .dn0_rx_n       (dn0_rx_n), // i  [1 : 0]
+        .dn1_rx_p       (dn1_rx_p), // i  [1 : 0]
+        .dn1_rx_n       (dn1_rx_n), // i  [1 : 0]
+        .dn2_rx_p       (dn2_rx_p), // i  [1 : 0]
+        .dn2_rx_n       (dn2_rx_n), // i  [1 : 0]
+        .dn3_rx_p       (dn3_rx_p), // i  [1 : 0]
+        .dn3_rx_n       (dn3_rx_n), // i  [1 : 0]
+
+        // GT TX
+        .dn0_tx_p       (dn0_tx_p), // o  [1 : 0]
+        .dn0_tx_n       (dn0_tx_n), // o  [1 : 0]
+        .dn1_tx_p       (dn1_tx_p), // o  [1 : 0]
+        .dn1_tx_n       (dn1_tx_n), // o  [1 : 0]
+        .dn2_tx_p       (dn2_tx_p), // o  [1 : 0]
+        .dn2_tx_n       (dn2_tx_n), // o  [1 : 0]
+        .dn3_tx_p       (dn3_tx_p), // o  [1 : 0]
+        .dn3_tx_n       (dn3_tx_n)  // o  [1 : 0]
+    ); // the_dnstream_unit
+
+
+    // Upstream unit
+    upstream_unit the_upstream_unit
+    (
+        // Common asynchronous reset
+        .rst            (rst_sys),  // i
+
+        // Intialization clock
+        .clk_init       (clk_sys),  // i
+
+        // GT reference clock
+        .clk_gt         (clk_gt),   // i
+
+        // GT RX
+        .up0_rx_p       (up0_rx_p), // i  [1 : 0]
+        .up0_rx_n       (up0_rx_n), // i  [1 : 0]
+        .up1_rx_p       (up1_rx_p), // i  [1 : 0]
+        .up1_rx_n       (up1_rx_n), // i  [1 : 0]
+
+        // GT TX
+        .up0_tx_p       (up0_tx_p), // o  [1 : 0]
+        .up0_tx_n       (up0_tx_n), // o  [1 : 0]
+        .up1_tx_p       (up1_tx_p), // o  [1 : 0]
+        .up1_tx_n       (up1_tx_n)  // o  [1 : 0]
+    ); // the_upstream_unit
 
 endmodule: intnode
