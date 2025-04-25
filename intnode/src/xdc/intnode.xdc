@@ -1,7 +1,7 @@
 # System clock
-set_property IOSTANDARD     LVDS_25             [get_ports {clk_100mhz_?}]
-set_property PACKAGE_PIN    M23                 [get_ports {clk_100mhz_p}]
-set_property PACKAGE_PIN    M24                 [get_ports {clk_100mhz_n}]
+set_property IOSTANDARD     DIFF_SSTL15         [get_ports {clk_100mhz_?}]
+set_property PACKAGE_PIN    G27                 [get_ports {clk_100mhz_p}]
+set_property PACKAGE_PIN    F27                 [get_ports {clk_100mhz_n}]
 #
 # DDR3 Reset
 set_property SLEW           FAST                [get_ports {ddr3_reset_n}]
