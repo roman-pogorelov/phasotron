@@ -103,3 +103,19 @@ set_property PACKAGE_PIN    P24                 [get_ports {flash_data[0]}]
 set_property PACKAGE_PIN    R25                 [get_ports {flash_data[1]}]
 set_property PACKAGE_PIN    R20                 [get_ports {flash_data[2]}]
 set_property PACKAGE_PIN    R21                 [get_ports {flash_data[3]}]
+#
+# Common GT reference clock
+set_property PACKAGE_PIN    R8                  [get_ports clk_gt_p]
+set_property PACKAGE_PIN    R7                  [get_ports clk_gt_n]
+#
+# Upsteam ports GT RX
+set_property PACKAGE_PIN    AA4                 [get_ports {up0_rx_p[0]}]
+set_property PACKAGE_PIN    AA3                 [get_ports {up0_rx_n[0]}]
+set_property PACKAGE_PIN    Y6                  [get_ports {up0_rx_p[1]}]
+set_property PACKAGE_PIN    Y5                  [get_ports {up0_rx_n[1]}]
+#
+# Upsteam ports GT TX
+set_property PACKAGE_PIN    Y2                  [get_ports {up0_tx_p[0]}]
+set_property PACKAGE_PIN    Y1                  [get_ports {up0_tx_n[0]}]
+set_property PACKAGE_PIN    V2                  [get_ports {up0_tx_p[1]}]
+set_property PACKAGE_PIN    V1                  [get_ports {up0_tx_n[1]}]

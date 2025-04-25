@@ -24,7 +24,19 @@ module extnode
     // QSPI Flash interface (clock must be
     // connected to a dedicated pin)
     output wire             flash_cs_n,
-    inout  wire [3 : 0]     flash_data
+    inout  wire [3 : 0]     flash_data,
+
+    // GT reference clock
+    input  wire             clk_gt_p,
+    input  wire             clk_gt_n,
+
+    // Upstream GT RX
+    input  wire  [1 : 0]    up0_rx_p,
+    input  wire  [1 : 0]    up0_rx_n,
+
+    // Upstream GT TX
+    output wire  [1 : 0]    up0_tx_p,
+    output wire  [1 : 0]    up0_tx_n
 );
     // Variables
     logic           clk_sys;
@@ -35,6 +47,8 @@ module extnode
     //
     logic           clk_mig_sys;
     logic           clk_mig_ref;
+    //
+    logic           clk_gt;
     //
     logic [27 : 0]  app_addr;
     logic [2 : 0]   app_cmd;
@@ -164,4 +178,36 @@ module extnode
         .device_temp            (  )                    // o [11 : 0]
     ); // the_mig7series
 
+
+    // GT differential buffer instance
+    IBUFDS_GTE2 the_ibufds_gte2
+    (
+        .I      (clk_gt_p),
+        .IB     (clk_gt_n),
+        .CEB    (1'b0),
+        .O      (clk_gt),
+        .ODIV2  (  )
+    ); // the_ibufds_gte2
+
+
+    // Upstream unit
+    upstream_unit the_upstream_unit
+    (
+        // Common asynchronous reset
+        .rst            (rst_sys),  // i
+
+        // Intialization clock
+        .clk_init       (clk_sys),  // i
+
+        // GT reference clock
+        .clk_gt         (clk_gt),   // i
+
+        // GT RX
+        .up0_rx_p       (up0_rx_p), // i  [1 : 0]
+        .up0_rx_n       (up0_rx_n), // i  [1 : 0]
+
+        // GT TX
+        .up0_tx_p       (up0_tx_p), // o  [1 : 0]
+        .up0_tx_n       (up0_tx_n)  // o  [1 : 0]
+    ); // the_upstream_unit
 endmodule: extnode
