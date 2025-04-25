@@ -36,7 +36,34 @@ module extnode
 
     // Upstream GT TX
     output wire  [1 : 0]    up0_tx_p,
-    output wire  [1 : 0]    up0_tx_n
+    output wire  [1 : 0]    up0_tx_n,
+
+    // ADC/DAC reference clock
+    input  wire             clk_ref_p,
+    input  wire             clk_ref_n,
+
+    // DAC data interface A
+    output wire  [15 : 0]   dac_data_a_p,
+    output wire  [15 : 0]   dac_data_a_n,
+    output wire             dac_frame_a_p,
+    output wire             dac_frame_a_n,
+    output wire             dac_clock_a_p,
+    output wire             dac_clock_a_n,
+
+    // DAC data interface A
+    output wire  [15 : 0]   dac_data_b_p,
+    output wire  [15 : 0]   dac_data_b_n,
+    output wire             dac_frame_b_p,
+    output wire             dac_frame_b_n,
+    output wire             dac_clock_b_p,
+    output wire             dac_clock_b_n,
+
+    // DAC control interface
+    output wire             dac_spi_rstn,
+    output wire             dac_spi_cs_n,
+    output wire             dac_spi_sclk,
+    output wire             dac_spi_mosi,
+    input  wire             dac_spi_miso
 );
     // Variables
     logic           clk_sys;
@@ -49,6 +76,7 @@ module extnode
     logic           clk_mig_ref;
     //
     logic           clk_gt;
+    logic           clk_ref;
     //
     logic [27 : 0]  app_addr;
     logic [2 : 0]   app_cmd;
@@ -210,4 +238,46 @@ module extnode
         .up0_tx_p       (up0_tx_p), // o  [1 : 0]
         .up0_tx_n       (up0_tx_n)  // o  [1 : 0]
     ); // the_upstream_unit
+
+
+    // Differential clock buffer
+    IBUFDS ibufds_clk_ref
+    (
+        .I      (clk_ref_p),
+        .IB     (clk_ref_n),
+        .O      (clk_ref)
+    ); // ibufds_clk_ref
+
+
+    // AD9148 DAC stub
+    dac_stub the_dac_stub
+    (
+        // DAC reference clock
+        .clk            (clk_ref),          // i
+
+        // DAC data interface A
+        .dac_data_a_p   (dac_data_a_p),     // o  [15 : 0]
+        .dac_data_a_n   (dac_data_a_n),     // o  [15 : 0]
+        .dac_frame_a_p  (dac_frame_a_p),    // o
+        .dac_frame_a_n  (dac_frame_a_n),    // o
+        .dac_clock_a_p  (dac_clock_a_p),    // o
+        .dac_clock_a_n  (dac_clock_a_n),    // o
+
+        // DAC data interface A
+        .dac_data_b_p   (dac_data_b_p),     // o  [15 : 0]
+        .dac_data_b_n   (dac_data_b_n),     // o  [15 : 0]
+        .dac_frame_b_p  (dac_frame_b_p),    // o
+        .dac_frame_b_n  (dac_frame_b_n),    // o
+        .dac_clock_b_p  (dac_clock_b_p),    // o
+        .dac_clock_b_n  (dac_clock_b_n),    // o
+
+        // DAC control interface
+        .dac_spi_rstn   (dac_spi_rstn),     // o
+        .dac_spi_cs_n   (dac_spi_cs_n),     // o
+        .dac_spi_sclk   (dac_spi_sclk),     // o
+        .dac_spi_mosi   (dac_spi_mosi),     // o
+        .dac_spi_miso   (dac_spi_miso)      // i
+    ); // the_dac_stub
+
+
 endmodule: extnode
