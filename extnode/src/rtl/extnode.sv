@@ -27,8 +27,8 @@ module extnode
     inout  wire [3 : 0]     flash_data,
 
     // GT reference clock
-    input  wire             clk_gt_p,
-    input  wire             clk_gt_n,
+    input  wire             clk_gt_156p25mhz_p,
+    input  wire             clk_gt_156p25mhz_n,
 
     // Upstream GT RX
     input  wire  [1 : 0]    up0_rx_p,
@@ -330,8 +330,8 @@ module extnode
     // GT differential buffer instance
     IBUFDS_GTE2 ibufds_gte2_aurora
     (
-        .I      (clk_gt_p),
-        .IB     (clk_gt_n),
+        .I      (clk_gt_156p25mhz_p),
+        .IB     (clk_gt_156p25mhz_n),
         .CEB    (1'b0),
         .O      (clk_gt_aurora),
         .ODIV2  (  )
