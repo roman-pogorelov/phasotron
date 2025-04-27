@@ -5,6 +5,9 @@
         // DAC reference clock
         .clk            (), // i
 
+        // Incoming data
+        .data_in        (), // i  [63 : 0]
+
         // DAC data interface A
         .dac_data_a_p   (), // o  [15 : 0]
         .dac_data_a_n   (), // o  [15 : 0]
@@ -35,6 +38,9 @@ module dac_stub
     // DAC reference clock
     input  logic            clk,
 
+    // Incoming data
+    input  logic [63 : 0]   data_in,
+
     // DAC data interface A
     output wire  [15 : 0]   dac_data_a_p,
     output wire  [15 : 0]   dac_data_a_n,
@@ -60,7 +66,6 @@ module dac_stub
 );
     // Variables
     logic           frame_cnt = '0;
-    logic [31 : 0]  data_cnt  = '0;
     //
     logic           dac_clock_a;
     logic           dac_clock_b;
@@ -72,10 +77,9 @@ module dac_stub
     logic [15 : 0]  dac_data_b;
 
 
-    // Dummy counters counter
+    // Dummy frame counter
     always @(posedge clk) begin
         frame_cnt <= !frame_cnt;
-        data_cnt  <= data_cnt + 1'b1;
     end
 
 
@@ -189,8 +193,8 @@ module dac_stub
         .Q              (dac_data_a),
         .C              (clk),
         .CE             (1'b1),
-        .D1             (data_cnt[15 : 0]),
-        .D2             (data_cnt[31 : 16]),
+        .D1             (data_in[15 : 0]),
+        .D2             (data_in[31 : 16]),
         .R              (1'b0),
         .S              (1'b0)
     ); // oddr_dac_data_a
@@ -214,8 +218,8 @@ module dac_stub
         .Q              (dac_data_b),
         .C              (clk),
         .CE             (1'b1),
-        .D1             (data_cnt[15 : 0]),
-        .D2             (data_cnt[31 : 16]),
+        .D1             (data_in[47 : 32]),
+        .D2             (data_in[63 : 48]),
         .R              (1'b0),
         .S              (1'b0)
     ); // oddr_dac_data_b

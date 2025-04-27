@@ -91,7 +91,41 @@ module extnode
     output wire             dac1_spi_cs_n,
     output wire             dac1_spi_sclk,
     output wire             dac1_spi_mosi,
-    input  wire             dac1_spi_miso
+    input  wire             dac1_spi_miso,
+
+    // JESD204B GT reference clock
+    input  wire             clk_jesd204b_gt_p,
+    input  wire             clk_jesd204b_gt_n,
+
+    // JESD204B SYSREF
+    input  wire             sysref_jesd204b_p,
+    input  wire             sysref_jesd204b_n,
+
+    // JESD204B SYNCB outputs
+    output logic            adc0_jesd204b_syncb_p,
+    output logic            adc0_jesd204b_syncb_n,
+    output logic            adc1_jesd204b_syncb_p,
+    output logic            adc1_jesd204b_syncb_n,
+    output logic            adc2_jesd204b_syncb_p,
+    output logic            adc2_jesd204b_syncb_n,
+    output logic            adc3_jesd204b_syncb_p,
+    output logic            adc3_jesd204b_syncb_n,
+
+    // JESD204B ADC #0 GT RX
+    input  wire [1 : 0]     adc0_jesd204b_gt_rx_p,
+    input  wire [1 : 0]     adc0_jesd204b_gt_rx_n,
+
+    // JESD204B ADC #1 GT RX
+    input  wire [1 : 0]     adc1_jesd204b_gt_rx_p,
+    input  wire [1 : 0]     adc1_jesd204b_gt_rx_n,
+
+    // JESD204B ADC #2 GT RX
+    input  wire [1 : 0]     adc2_jesd204b_gt_rx_p,
+    input  wire [1 : 0]     adc2_jesd204b_gt_rx_n,
+
+    // JESD204B ADC #3 GT RX
+    input  wire [1 : 0]     adc3_jesd204b_gt_rx_p,
+    input  wire [1 : 0]     adc3_jesd204b_gt_rx_n
 );
     // Variables
     logic           clk_sys;
@@ -103,7 +137,8 @@ module extnode
     logic           clk_mig_sys;
     logic           clk_mig_ref;
     //
-    logic           clk_gt;
+    logic           clk_gt_aurora;
+    logic           clk_gt_jesd204b;
     logic           clk_ref;
     //
     logic           sync;
@@ -128,6 +163,14 @@ module extnode
     logic           app_zq_ack;
     //
     logic           init_calib_complete;
+    //
+    logic [63 : 0]  adc0_data;
+    logic [63 : 0]  adc1_data;
+    logic [63 : 0]  adc2_data;
+    logic [63 : 0]  adc3_data;
+    //
+    logic [63 : 0]  dac0_data = '0;
+    logic [63 : 0]  dac1_data = '0;
 
 
     // Generates clocks and related resets
@@ -238,35 +281,35 @@ module extnode
 
 
     // GT differential buffer instance
-    IBUFDS_GTE2 the_ibufds_gte2
+    IBUFDS_GTE2 ibufds_gte2_aurora
     (
         .I      (clk_gt_p),
         .IB     (clk_gt_n),
         .CEB    (1'b0),
-        .O      (clk_gt),
+        .O      (clk_gt_aurora),
         .ODIV2  (  )
-    ); // the_ibufds_gte2
+    ); // ibufds_gte2_aurora
 
 
     // Upstream unit
     upstream_unit the_upstream_unit
     (
         // Common asynchronous reset
-        .rst            (rst_sys),  // i
+        .rst            (rst_sys),          // i
 
         // Intialization clock
-        .clk_init       (clk_sys),  // i
+        .clk_init       (clk_sys),          // i
 
         // GT reference clock
-        .clk_gt         (clk_gt),   // i
+        .clk_gt         (clk_gt_aurora),    // i
 
         // GT RX
-        .up0_rx_p       (up0_rx_p), // i  [1 : 0]
-        .up0_rx_n       (up0_rx_n), // i  [1 : 0]
+        .up0_rx_p       (up0_rx_p),         // i  [1 : 0]
+        .up0_rx_n       (up0_rx_n),         // i  [1 : 0]
 
         // GT TX
-        .up0_tx_p       (up0_tx_p), // o  [1 : 0]
-        .up0_tx_n       (up0_tx_n)  // o  [1 : 0]
+        .up0_tx_p       (up0_tx_p),         // o  [1 : 0]
+        .up0_tx_n       (up0_tx_n)          // o  [1 : 0]
     ); // the_upstream_unit
 
 
@@ -293,6 +336,9 @@ module extnode
     (
         // DAC reference clock
         .clk            (clk_ref),          // i
+
+        // Incoming data
+        .data_in        (dac0_data),        // i  [63 : 0]
 
         // DAC data interface A
         .dac_data_a_p   (dac0_data_a_p),    // o  [15 : 0]
@@ -325,6 +371,9 @@ module extnode
         // DAC reference clock
         .clk            (clk_ref),          // i
 
+        // Incoming data
+        .data_in        (dac1_data),        // i  [63 : 0]
+
         // DAC data interface A
         .dac_data_a_p   (dac1_data_a_p),    // o  [15 : 0]
         .dac_data_a_n   (dac1_data_a_n),    // o  [15 : 0]
@@ -349,5 +398,72 @@ module extnode
         .dac_spi_miso   (dac1_spi_miso)     // i
     ); // dac1_stub
 
+
+    // GT differential buffer instance
+    IBUFDS_GTE2 ibufds_gte2_jesd204b
+    (
+        .I      (clk_jesd204b_gt_p),
+        .IB     (clk_jesd204b_gt_n),
+        .CEB    (1'b0),
+        .O      (clk_gt_jesd204b),
+        .ODIV2  (  )
+    ); // ibufds_gte2_jesd204b
+
+
+    // AD9695 ADCs stub
+    adc_stub the_adc_stub
+    (
+        // JESD204B GT reference clock
+        .clk_jesd204b_gt        (clk_gt_jesd204b),          // i
+
+        // JESD204B link clock
+        .clk_jesd204b_link      (clk_ref),                  // i
+
+        // System clock
+        .clk_sys                (clk_sys),                  // i
+
+        // JESD204B SYSREF input
+        .jesd204b_sysref_p      (sysref_jesd204b_p),        // o
+        .jesd204b_sysref_n      (sysref_jesd204b_n),        // o
+
+        // JESD204B sync outputs
+        .adc0_jesd204b_syncb_p  (adc0_jesd204b_syncb_p),    // o
+        .adc0_jesd204b_syncb_n  (adc0_jesd204b_syncb_n),    // o
+        .adc1_jesd204b_syncb_p  (adc1_jesd204b_syncb_p),    // o
+        .adc1_jesd204b_syncb_n  (adc1_jesd204b_syncb_n),    // o
+        .adc2_jesd204b_syncb_p  (adc2_jesd204b_syncb_p),    // o
+        .adc2_jesd204b_syncb_n  (adc2_jesd204b_syncb_n),    // o
+        .adc3_jesd204b_syncb_p  (adc3_jesd204b_syncb_p),    // o
+        .adc3_jesd204b_syncb_n  (adc3_jesd204b_syncb_n),    // o
+
+        // JESD204B ADC #0 GT RX
+        .adc0_jesd204b_gt_rx_p  (adc0_jesd204b_gt_rx_p),    // i  [1 : 0]
+        .adc0_jesd204b_gt_rx_n  (adc0_jesd204b_gt_rx_n),    // i  [1 : 0]
+
+        // JESD204B ADC #1 GT RX
+        .adc1_jesd204b_gt_rx_p  (adc1_jesd204b_gt_rx_p),    // i  [1 : 0]
+        .adc1_jesd204b_gt_rx_n  (adc1_jesd204b_gt_rx_n),    // i  [1 : 0]
+
+        // JESD204B ADC #2 GT RX
+        .adc2_jesd204b_gt_rx_p  (adc2_jesd204b_gt_rx_p),    // i  [1 : 0]
+        .adc2_jesd204b_gt_rx_n  (adc2_jesd204b_gt_rx_n),    // i  [1 : 0]
+
+        // JESD204B ADC #3 GT RX
+        .adc3_jesd204b_gt_rx_p  (adc3_jesd204b_gt_rx_p),    // i  [1 : 0]
+        .adc3_jesd204b_gt_rx_n  (adc3_jesd204b_gt_rx_n),    // i  [1 : 0]
+
+        // ADC data
+        .adc0_data              (adc0_data),                // o  [63 : 0]
+        .adc1_data              (adc1_data),                // o  [63 : 0]
+        .adc2_data              (adc2_data),                // o  [63 : 0]
+        .adc3_data              (adc3_data)                 // o  [63 : 0]
+    ); // the_adc_stub
+
+
+    // Make incoming DAC data
+    always @(posedge clk_ref) begin
+        dac0_data = adc0_data + adc1_data;
+        dac1_data = adc2_data + adc3_data;
+    end
 
 endmodule: extnode

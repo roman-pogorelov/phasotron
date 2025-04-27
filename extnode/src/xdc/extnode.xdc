@@ -309,3 +309,31 @@ set_property PACKAGE_PIN    AA26                [get_ports {dac1_spi_cs_n}]
 set_property PACKAGE_PIN    AA27                [get_ports {dac1_spi_sclk}]
 set_property PACKAGE_PIN    AA28                [get_ports {dac1_spi_mosi}]
 set_property PACKAGE_PIN    Y28                 [get_ports {dac1_spi_miso}]
+#
+# JESD204B GT reference clock
+set_property PACKAGE_PIN    G8                  [get_ports {clk_jesd204b_gt_p}]
+set_property PACKAGE_PIN    G7                  [get_ports {clk_jesd204b_gt_n}]
+#
+# JESD204B ADC #0 GT RX
+set_property PACKAGE_PIN    K6                  [get_ports {adc0_jesd204b_gt_rx_p[0]}]
+set_property PACKAGE_PIN    K5                  [get_ports {adc0_jesd204b_gt_rx_n[0]}]
+set_property PACKAGE_PIN    H6                  [get_ports {adc0_jesd204b_gt_rx_p[1]}]
+set_property PACKAGE_PIN    H5                  [get_ports {adc0_jesd204b_gt_rx_n[1]}]
+#
+# JESD204B ADC #1 GT RX
+set_property PACKAGE_PIN    G4                  [get_ports {adc1_jesd204b_gt_rx_p[0]}]
+set_property PACKAGE_PIN    G3                  [get_ports {adc1_jesd204b_gt_rx_n[0]}]
+set_property PACKAGE_PIN    F6                  [get_ports {adc1_jesd204b_gt_rx_p[1]}]
+set_property PACKAGE_PIN    F5                  [get_ports {adc1_jesd204b_gt_rx_n[1]}]
+#
+# JESD204B ADC #2 GT RX
+set_property PACKAGE_PIN    E4                  [get_ports {adc2_jesd204b_gt_rx_p[0]}]
+set_property PACKAGE_PIN    E3                  [get_ports {adc2_jesd204b_gt_rx_n[0]}]
+set_property PACKAGE_PIN    D6                  [get_ports {adc2_jesd204b_gt_rx_p[1]}]
+set_property PACKAGE_PIN    D5                  [get_ports {adc2_jesd204b_gt_rx_n[1]}]
+#
+# JESD204B ADC #3 GT RX
+set_property PACKAGE_PIN    B6                  [get_ports {adc3_jesd204b_gt_rx_p[0]}]
+set_property PACKAGE_PIN    B5                  [get_ports {adc3_jesd204b_gt_rx_n[0]}]
+set_property PACKAGE_PIN    A8                  [get_ports {adc3_jesd204b_gt_rx_p[1]}]
+set_property PACKAGE_PIN    A7                  [get_ports {adc3_jesd204b_gt_rx_n[1]}]

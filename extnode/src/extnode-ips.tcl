@@ -34,7 +34,7 @@ if { $list_projs eq "" } {
 set bCheckIPs 1
 set bCheckIPsPassed 1
 if { $bCheckIPs == 1 } {
-  set list_check_ips { xilinx.com:ip:aurora_8b10b:11.1 xilinx.com:ip:clk_wiz:6.0 xilinx.com:ip:mig_7series:4.2 }
+  set list_check_ips { xilinx.com:ip:aurora_8b10b:11.1 xilinx.com:ip:clk_wiz:6.0 xilinx.com:ip:jesd204_phy:4.0 xilinx.com:ip:mig_7series:4.2 }
   set list_ips_missing ""
   common::send_msg_id "IPS_TCL-1001" "INFO" "Checking if the following IPs exist in the project's IP catalog: $list_check_ips ."
 
@@ -119,6 +119,22 @@ set_property -dict {
 set_property -dict { 
   GENERATE_SYNTH_CHECKPOINT {1}
 } $clk_gen
+
+##################################################################
+
+##################################################################
+# CREATE IP jesd204phy
+##################################################################
+
+set jesd204phy [create_ip -name jesd204_phy -vendor xilinx.com -library ip -version 4.0 -module_name jesd204phy]
+
+set_property -dict { 
+  CONFIG.SupportLevel {0}
+} [get_ips jesd204phy]
+
+set_property -dict { 
+  GENERATE_SYNTH_CHECKPOINT {1}
+} $jesd204phy
 
 ##################################################################
 
