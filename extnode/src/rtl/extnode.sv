@@ -125,7 +125,39 @@ module extnode
 
     // JESD204B ADC #3 GT RX
     input  wire [1 : 0]     adc3_jesd204b_gt_rx_p,
-    input  wire [1 : 0]     adc3_jesd204b_gt_rx_n
+    input  wire [1 : 0]     adc3_jesd204b_gt_rx_n,
+
+    // ADC #0 control
+    output wire             adc0_pdwn_stby,
+    inout  wire             adc0_gpio_a0,
+    inout  wire             adc0_gpio_b0,
+    output wire             adc0_spi_cs_n,
+    output wire             adc0_spi_sclk,
+    inout  wire             adc0_spi_sdio,
+
+    // ADC #1 control
+    output wire             adc1_pdwn_stby,
+    inout  wire             adc1_gpio_a0,
+    inout  wire             adc1_gpio_b0,
+    output wire             adc1_spi_cs_n,
+    output wire             adc1_spi_sclk,
+    inout  wire             adc1_spi_sdio,
+
+    // ADC #2 control
+    output wire             adc2_pdwn_stby,
+    inout  wire             adc2_gpio_a0,
+    inout  wire             adc2_gpio_b0,
+    output wire             adc2_spi_cs_n,
+    output wire             adc2_spi_sclk,
+    inout  wire             adc2_spi_sdio,
+
+    // ADC #3 control
+    output wire             adc3_pdwn_stby,
+    inout  wire             adc3_gpio_a0,
+    inout  wire             adc3_gpio_b0,
+    output wire             adc3_spi_cs_n,
+    output wire             adc3_spi_sclk,
+    inout  wire             adc3_spi_sdio
 );
     // Variables
     logic           clk_sys;
@@ -456,7 +488,39 @@ module extnode
         .adc0_data              (adc0_data),                // o  [63 : 0]
         .adc1_data              (adc1_data),                // o  [63 : 0]
         .adc2_data              (adc2_data),                // o  [63 : 0]
-        .adc3_data              (adc3_data)                 // o  [63 : 0]
+        .adc3_data              (adc3_data),                // o  [63 : 0]
+
+        // ADC #0 control
+        .adc0_pdwn_stby         (adc0_pdwn_stby),           // o
+        .adc0_gpio_a0           (adc0_gpio_a0),             // io
+        .adc0_gpio_b0           (adc0_gpio_b0),             // io
+        .adc0_spi_cs_n          (adc0_spi_cs_n),            // o
+        .adc0_spi_sclk          (adc0_spi_sclk),            // o
+        .adc0_spi_sdio          (adc0_spi_sdio),            // io
+
+        // ADC #1 control
+        .adc1_pdwn_stby         (adc1_pdwn_stby),           // o
+        .adc1_gpio_a0           (adc1_gpio_a0),             // io
+        .adc1_gpio_b0           (adc1_gpio_b0),             // io
+        .adc1_spi_cs_n          (adc1_spi_cs_n),            // o
+        .adc1_spi_sclk          (adc1_spi_sclk),            // o
+        .adc1_spi_sdio          (adc1_spi_sdio),            // io
+
+        // ADC #2 control
+        .adc2_pdwn_stby         (adc2_pdwn_stby),           // o
+        .adc2_gpio_a0           (adc2_gpio_a0),             // io
+        .adc2_gpio_b0           (adc2_gpio_b0),             // io
+        .adc2_spi_cs_n          (adc2_spi_cs_n),            // o
+        .adc2_spi_sclk          (adc2_spi_sclk),            // o
+        .adc2_spi_sdio          (adc2_spi_sdio),            // io
+
+        // ADC #3 control
+        .adc3_pdwn_stby         (adc3_pdwn_stby),           // o
+        .adc3_gpio_a0           (adc3_gpio_a0),             // io
+        .adc3_gpio_b0           (adc3_gpio_b0),             // io
+        .adc3_spi_cs_n          (adc3_spi_cs_n),            // o
+        .adc3_spi_sclk          (adc3_spi_sclk),            // o
+        .adc3_spi_sdio          (adc3_spi_sdio)             // io
     ); // the_adc_stub
 
 

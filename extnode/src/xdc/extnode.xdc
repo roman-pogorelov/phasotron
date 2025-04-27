@@ -353,3 +353,47 @@ set_property PACKAGE_PIN    B6                  [get_ports {adc3_jesd204b_gt_rx_
 set_property PACKAGE_PIN    B5                  [get_ports {adc3_jesd204b_gt_rx_n[0]}]
 set_property PACKAGE_PIN    A8                  [get_ports {adc3_jesd204b_gt_rx_p[1]}]
 set_property PACKAGE_PIN    A7                  [get_ports {adc3_jesd204b_gt_rx_n[1]}]
+#
+# ADC #0 control
+set_property IOSTANDARD     LVCMOS18            [get_ports {adc0_pdwn_*}]
+set_property IOSTANDARD     LVCMOS18            [get_ports {adc0_gpio_*}]
+set_property IOSTANDARD     LVCMOS18            [get_ports {adc0_spi*}]
+set_property PACKAGE_PIN    AG15                [get_ports {adc0_pdwn_stby}]
+set_property PACKAGE_PIN    AH15                [get_ports {adc0_gpio_a0}]
+set_property PACKAGE_PIN    AG14                [get_ports {adc0_gpio_b0}]
+set_property PACKAGE_PIN    AF15                [get_ports {adc0_spi_cs_n}]
+set_property PACKAGE_PIN    AE15                [get_ports {adc0_spi_sclk}]
+set_property PACKAGE_PIN    AE14                [get_ports {adc0_spi_sdio}]
+#
+# ADC #1 control
+set_property IOSTANDARD     LVCMOS18            [get_ports {adc1_pdwn_*}]
+set_property IOSTANDARD     LVCMOS18            [get_ports {adc1_gpio_*}]
+set_property IOSTANDARD     LVCMOS18            [get_ports {adc1_spi*}]
+set_property PACKAGE_PIN    AC14                [get_ports {adc1_pdwn_stby}]
+set_property PACKAGE_PIN    AD14                [get_ports {adc1_gpio_a0}]
+set_property PACKAGE_PIN    AC15                [get_ports {adc1_gpio_b0}]
+set_property PACKAGE_PIN    AB14                [get_ports {adc1_spi_cs_n}]
+set_property PACKAGE_PIN    AB15                [get_ports {adc1_spi_sclk}]
+set_property PACKAGE_PIN    AA15                [get_ports {adc1_spi_sdio}]
+#
+# ADC #2 control
+set_property IOSTANDARD     LVCMOS18            [get_ports {adc2_pdwn_*}]
+set_property IOSTANDARD     LVCMOS18            [get_ports {adc2_gpio_*}]
+set_property IOSTANDARD     LVCMOS18            [get_ports {adc2_spi*}]
+set_property PACKAGE_PIN    Y16                 [get_ports {adc2_pdwn_stby}]
+set_property PACKAGE_PIN    Y15                 [get_ports {adc2_gpio_a0}]
+set_property PACKAGE_PIN    Y14                 [get_ports {adc2_gpio_b0}]
+set_property PACKAGE_PIN    AA16                [get_ports {adc2_spi_cs_n}]
+set_property PACKAGE_PIN    Y18                 [get_ports {adc2_spi_sclk}]
+set_property PACKAGE_PIN    Y19                 [get_ports {adc2_spi_sdio}]
+#
+# ADC #3 control
+set_property IOSTANDARD     LVCMOS18            [get_ports {adc3_pdwn_*}]
+set_property IOSTANDARD     LVCMOS18            [get_ports {adc3_gpio_*}]
+set_property IOSTANDARD     LVCMOS18            [get_ports {adc3_spi*}]
+set_property PACKAGE_PIN    AB19                [get_ports {adc3_pdwn_stby}]
+set_property PACKAGE_PIN    AA18                [get_ports {adc3_gpio_a0}]
+set_property PACKAGE_PIN    AA17                [get_ports {adc3_gpio_b0}]
+set_property PACKAGE_PIN    AB18                [get_ports {adc3_spi_cs_n}]
+set_property PACKAGE_PIN    AB17                [get_ports {adc3_spi_sclk}]
+set_property PACKAGE_PIN    AC17                [get_ports {adc3_spi_sdio}]

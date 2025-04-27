@@ -45,7 +45,39 @@
         .adc0_data              (), // o  [63 : 0]
         .adc1_data              (), // o  [63 : 0]
         .adc2_data              (), // o  [63 : 0]
-        .adc3_data              ()  // o  [63 : 0]
+        .adc3_data              (), // o  [63 : 0]
+
+        // ADC #0 control
+        .adc0_pdwn_stby         (), // o
+        .adc0_gpio_a0           (), // io
+        .adc0_gpio_b0           (), // io
+        .adc0_spi_cs_n          (), // o
+        .adc0_spi_sclk          (), // o
+        .adc0_spi_sdio          (), // io
+
+        // ADC #1 control
+        .adc1_pdwn_stby         (), // o
+        .adc1_gpio_a0           (), // io
+        .adc1_gpio_b0           (), // io
+        .adc1_spi_cs_n          (), // o
+        .adc1_spi_sclk          (), // o
+        .adc1_spi_sdio          (), // io
+
+        // ADC #2 control
+        .adc2_pdwn_stby         (), // o
+        .adc2_gpio_a0           (), // io
+        .adc2_gpio_b0           (), // io
+        .adc2_spi_cs_n          (), // o
+        .adc2_spi_sclk          (), // o
+        .adc2_spi_sdio          (), // io
+
+        // ADC #3 control
+        .adc3_pdwn_stby         (), // o
+        .adc3_gpio_a0           (), // io
+        .adc3_gpio_b0           (), // io
+        .adc3_spi_cs_n          (), // o
+        .adc3_spi_sclk          (), // o
+        .adc3_spi_sdio          ()  // io
     ); // the_adc_stub
 */
 
@@ -95,7 +127,39 @@ module adc_stub
     output logic [63 : 0]   adc0_data,
     output logic [63 : 0]   adc1_data,
     output logic [63 : 0]   adc2_data,
-    output logic [63 : 0]   adc3_data
+    output logic [63 : 0]   adc3_data,
+
+    // ADC #0 control
+    output wire             adc0_pdwn_stby,
+    inout  wire             adc0_gpio_a0,
+    inout  wire             adc0_gpio_b0,
+    output wire             adc0_spi_cs_n,
+    output wire             adc0_spi_sclk,
+    inout  wire             adc0_spi_sdio,
+
+    // ADC #1 control
+    output wire             adc1_pdwn_stby,
+    inout  wire             adc1_gpio_a0,
+    inout  wire             adc1_gpio_b0,
+    output wire             adc1_spi_cs_n,
+    output wire             adc1_spi_sclk,
+    inout  wire             adc1_spi_sdio,
+
+    // ADC #2 control
+    output wire             adc2_pdwn_stby,
+    inout  wire             adc2_gpio_a0,
+    inout  wire             adc2_gpio_b0,
+    output wire             adc2_spi_cs_n,
+    output wire             adc2_spi_sclk,
+    inout  wire             adc2_spi_sdio,
+
+    // ADC #3 control
+    output wire             adc3_pdwn_stby,
+    inout  wire             adc3_gpio_a0,
+    inout  wire             adc3_gpio_b0,
+    output wire             adc3_spi_cs_n,
+    output wire             adc3_spi_sclk,
+    inout  wire             adc3_spi_sdio
 );
     // Variables
     logic       jesd204b_sysref;
@@ -413,5 +477,36 @@ module adc_stub
         .txn_out                (  ),                       // o  [1 : 0]
         .txp_out                (  )                        // o  [1 : 0]
     ); // jesd204phy_adc3
+
+
+    // Terminate the control signals
+    // ADC #0 control
+    assign adc0_pdwn_stby = 1'b0;
+    assign adc0_gpio_a0   = 1'bz;
+    assign adc0_gpio_b0   = 1'bz;
+    assign adc0_spi_cs_n  = 1'b1;
+    assign adc0_spi_sclk  = 1'b0;
+    assign adc0_spi_sdio  = 1'bz;
+    // ADC #1 control
+    assign adc1_pdwn_stby = 1'b0;
+    assign adc1_gpio_a0   = 1'bz;
+    assign adc1_gpio_b0   = 1'bz;
+    assign adc1_spi_cs_n  = 1'b1;
+    assign adc1_spi_sclk  = 1'b0;
+    assign adc1_spi_sdio  = 1'bz;
+    // ADC #2 control
+    assign adc2_pdwn_stby = 1'b0;
+    assign adc2_gpio_a0   = 1'bz;
+    assign adc2_gpio_b0   = 1'bz;
+    assign adc2_spi_cs_n  = 1'b1;
+    assign adc2_spi_sclk  = 1'b0;
+    assign adc2_spi_sdio  = 1'bz;
+    // ADC #3 control
+    assign adc3_pdwn_stby = 1'b0;
+    assign adc3_gpio_a0   = 1'bz;
+    assign adc3_gpio_b0   = 1'bz;
+    assign adc3_spi_cs_n  = 1'b1;
+    assign adc3_spi_sclk  = 1'b0;
+    assign adc3_spi_sdio  = 1'bz;
 
 endmodule: adc_stub
