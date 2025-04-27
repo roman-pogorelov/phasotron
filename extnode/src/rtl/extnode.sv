@@ -157,7 +157,22 @@ module extnode
     inout  wire             adc3_gpio_b0,
     output wire             adc3_spi_cs_n,
     output wire             adc3_spi_sclk,
-    inout  wire             adc3_spi_sdio
+    inout  wire             adc3_spi_sdio,
+
+    // LMK0482 output clock/synchronization
+    output  wire            lmk0482_clkin0_p,
+    output  wire            lmk0482_clkin0_n,
+
+    // LMK0482 control
+    output  wire            lmk0482_reset,
+    output  wire            lmk0482_sync,
+    output  wire            lmk0482_clkin_sel0,
+    output  wire            lmk0482_clkin_sel1,
+    input   wire            lmk0482_status_ld1,
+    input   wire            lmk0482_status_ld2,
+    output  wire            lmk0482_spi_cs_n,
+    output  wire            lmk0482_spi_sclk,
+    inout   wire            lmk0482_spi_sdio
 );
     // Variables
     logic           clk_sys;
@@ -529,5 +544,25 @@ module extnode
         dac0_data = adc0_data + adc1_data;
         dac1_data = adc2_data + adc3_data;
     end
+
+
+    // LMK0482 control stub
+    lmk0482_stub the_lmk0482_stub
+    (
+        // Output clock/synchronization
+        .lmk0482_clkin0_p   (lmk0482_clkin0_p),     // o
+        .lmk0482_clkin0_n   (lmk0482_clkin0_n),     // o
+
+        // Control
+        .lmk0482_reset      (lmk0482_reset),        // o
+        .lmk0482_sync       (lmk0482_sync),         // o
+        .lmk0482_clkin_sel0 (lmk0482_clkin_sel0),   // o
+        .lmk0482_clkin_sel1 (lmk0482_clkin_sel1),   // o
+        .lmk0482_status_ld1 (lmk0482_status_ld1),   // i
+        .lmk0482_status_ld2 (lmk0482_status_ld2),   // i
+        .lmk0482_spi_cs_n   (lmk0482_spi_cs_n),     // o
+        .lmk0482_spi_sclk   (lmk0482_spi_sclk),     // o
+        .lmk0482_spi_sdio   (lmk0482_spi_sdio)      // io
+    ); // the_lmk0482_stub
 
 endmodule: extnode
