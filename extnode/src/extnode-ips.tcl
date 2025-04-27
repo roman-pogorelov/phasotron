@@ -186,7 +186,7 @@ proc write_mig_7series_mig_b { mig_7series_mig_b_filepath } {
   puts $mig_7series_mig_b {}
   puts $mig_7series_mig_b {  <Controller number="0">}
   puts $mig_7series_mig_b {    <MemoryDevice>DDR3_SDRAM/Components/MT41J128M16XX-125</MemoryDevice>}
-  puts $mig_7series_mig_b {    <TimePeriod>2500</TimePeriod>}
+  puts $mig_7series_mig_b {    <TimePeriod>1250</TimePeriod>}
   puts $mig_7series_mig_b {    <VccAuxIO>1.8V</VccAuxIO>}
   puts $mig_7series_mig_b {    <PHYRatio>4:1</PHYRatio>}
   puts $mig_7series_mig_b {    <InputClkFreq>400</InputClkFreq>}
@@ -211,54 +211,54 @@ proc write_mig_7series_mig_b { mig_7series_mig_b_filepath } {
   puts $mig_7series_mig_b {    <MemoryVoltage>1.5V</MemoryVoltage>}
   puts $mig_7series_mig_b {    <UserMemoryAddressMap>BANK_ROW_COLUMN</UserMemoryAddressMap>}
   puts $mig_7series_mig_b {    <PinSelection>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="G22" SLEW="" VCCAUX_IO="" name="ddr3_addr[0]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="G20" SLEW="" VCCAUX_IO="" name="ddr3_addr[10]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="H20" SLEW="" VCCAUX_IO="" name="ddr3_addr[11]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="J18" SLEW="" VCCAUX_IO="" name="ddr3_addr[12]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="K18" SLEW="" VCCAUX_IO="" name="ddr3_addr[13]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="C21" SLEW="" VCCAUX_IO="" name="ddr3_addr[1]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="D21" SLEW="" VCCAUX_IO="" name="ddr3_addr[2]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="H22" SLEW="" VCCAUX_IO="" name="ddr3_addr[3]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="H21" SLEW="" VCCAUX_IO="" name="ddr3_addr[4]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="K19" SLEW="" VCCAUX_IO="" name="ddr3_addr[5]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="L18" SLEW="" VCCAUX_IO="" name="ddr3_addr[6]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="L17" SLEW="" VCCAUX_IO="" name="ddr3_addr[7]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="H19" SLEW="" VCCAUX_IO="" name="ddr3_addr[8]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="J19" SLEW="" VCCAUX_IO="" name="ddr3_addr[9]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="C22" SLEW="" VCCAUX_IO="" name="ddr3_ba[0]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="D22" SLEW="" VCCAUX_IO="" name="ddr3_ba[1]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="F22" SLEW="" VCCAUX_IO="" name="ddr3_ba[2]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="E21" SLEW="" VCCAUX_IO="" name="ddr3_cas_n"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="H17" SLEW="" VCCAUX_IO="" name="ddr3_ck_n[0]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="J17" SLEW="" VCCAUX_IO="" name="ddr3_ck_p[0]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="D16" SLEW="" VCCAUX_IO="" name="ddr3_cke[0]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="E20" SLEW="" VCCAUX_IO="" name="ddr3_cs_n[0]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="C20" SLEW="" VCCAUX_IO="" name="ddr3_dm[0]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="B23" SLEW="" VCCAUX_IO="" name="ddr3_dm[1]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="A16" SLEW="" VCCAUX_IO="" name="ddr3_dq[0]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="D23" SLEW="" VCCAUX_IO="" name="ddr3_dq[10]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="E24" SLEW="" VCCAUX_IO="" name="ddr3_dq[11]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="D24" SLEW="" VCCAUX_IO="" name="ddr3_dq[12]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="F26" SLEW="" VCCAUX_IO="" name="ddr3_dq[13]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="E26" SLEW="" VCCAUX_IO="" name="ddr3_dq[14]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="G23" SLEW="" VCCAUX_IO="" name="ddr3_dq[15]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="A17" SLEW="" VCCAUX_IO="" name="ddr3_dq[1]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="B18" SLEW="" VCCAUX_IO="" name="ddr3_dq[2]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="A18" SLEW="" VCCAUX_IO="" name="ddr3_dq[3]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="B22" SLEW="" VCCAUX_IO="" name="ddr3_dq[4]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="A22" SLEW="" VCCAUX_IO="" name="ddr3_dq[5]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="C19" SLEW="" VCCAUX_IO="" name="ddr3_dq[6]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="B19" SLEW="" VCCAUX_IO="" name="ddr3_dq[7]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="A23" SLEW="" VCCAUX_IO="" name="ddr3_dq[8]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="E23" SLEW="" VCCAUX_IO="" name="ddr3_dq[9]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="A21" SLEW="" VCCAUX_IO="" name="ddr3_dqs_n[0]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="E25" SLEW="" VCCAUX_IO="" name="ddr3_dqs_n[1]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="A20" SLEW="" VCCAUX_IO="" name="ddr3_dqs_p[0]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="F25" SLEW="" VCCAUX_IO="" name="ddr3_dqs_p[1]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="C16" SLEW="" VCCAUX_IO="" name="ddr3_odt[0]"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="F21" SLEW="" VCCAUX_IO="" name="ddr3_ras_n"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="C17" SLEW="" VCCAUX_IO="" name="ddr3_reset_n"/>}
-  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="F20" SLEW="" VCCAUX_IO="" name="ddr3_we_n"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AG4" SLEW="" VCCAUX_IO="" name="ddr3_addr[0]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AC1" SLEW="" VCCAUX_IO="" name="ddr3_addr[10]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AC2" SLEW="" VCCAUX_IO="" name="ddr3_addr[11]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AD3" SLEW="" VCCAUX_IO="" name="ddr3_addr[12]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AD4" SLEW="" VCCAUX_IO="" name="ddr3_addr[13]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AF1" SLEW="" VCCAUX_IO="" name="ddr3_addr[1]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AE1" SLEW="" VCCAUX_IO="" name="ddr3_addr[2]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AF2" SLEW="" VCCAUX_IO="" name="ddr3_addr[3]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AF3" SLEW="" VCCAUX_IO="" name="ddr3_addr[4]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AC7" SLEW="" VCCAUX_IO="" name="ddr3_addr[5]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AE6" SLEW="" VCCAUX_IO="" name="ddr3_addr[6]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AD6" SLEW="" VCCAUX_IO="" name="ddr3_addr[7]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AC4" SLEW="" VCCAUX_IO="" name="ddr3_addr[8]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AC5" SLEW="" VCCAUX_IO="" name="ddr3_addr[9]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AE3" SLEW="" VCCAUX_IO="" name="ddr3_ba[0]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AE4" SLEW="" VCCAUX_IO="" name="ddr3_ba[1]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AG3" SLEW="" VCCAUX_IO="" name="ddr3_ba[2]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AF5" SLEW="" VCCAUX_IO="" name="ddr3_cas_n"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AD1" SLEW="" VCCAUX_IO="" name="ddr3_ck_n[0]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AD2" SLEW="" VCCAUX_IO="" name="ddr3_ck_p[0]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AG2" SLEW="" VCCAUX_IO="" name="ddr3_cke[0]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AG5" SLEW="" VCCAUX_IO="" name="ddr3_cs_n[0]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AF8" SLEW="" VCCAUX_IO="" name="ddr3_dm[0]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AA12" SLEW="" VCCAUX_IO="" name="ddr3_dm[1]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AF7" SLEW="" VCCAUX_IO="" name="ddr3_dq[0]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AB8" SLEW="" VCCAUX_IO="" name="ddr3_dq[10]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="Y11" SLEW="" VCCAUX_IO="" name="ddr3_dq[11]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="Y10" SLEW="" VCCAUX_IO="" name="ddr3_dq[12]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AA11" SLEW="" VCCAUX_IO="" name="ddr3_dq[13]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AA10" SLEW="" VCCAUX_IO="" name="ddr3_dq[14]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AA13" SLEW="" VCCAUX_IO="" name="ddr3_dq[15]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AG7" SLEW="" VCCAUX_IO="" name="ddr3_dq[1]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AJ6" SLEW="" VCCAUX_IO="" name="ddr3_dq[2]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AK6" SLEW="" VCCAUX_IO="" name="ddr3_dq[3]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AJ8" SLEW="" VCCAUX_IO="" name="ddr3_dq[4]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AK8" SLEW="" VCCAUX_IO="" name="ddr3_dq[5]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AK5" SLEW="" VCCAUX_IO="" name="ddr3_dq[6]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AK4" SLEW="" VCCAUX_IO="" name="ddr3_dq[7]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AB12" SLEW="" VCCAUX_IO="" name="ddr3_dq[8]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AA8" SLEW="" VCCAUX_IO="" name="ddr3_dq[9]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AJ7" SLEW="" VCCAUX_IO="" name="ddr3_dqs_n[0]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AC9" SLEW="" VCCAUX_IO="" name="ddr3_dqs_n[1]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AH7" SLEW="" VCCAUX_IO="" name="ddr3_dqs_p[0]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AB9" SLEW="" VCCAUX_IO="" name="ddr3_dqs_p[1]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AH1" SLEW="" VCCAUX_IO="" name="ddr3_odt[0]"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AE5" SLEW="" VCCAUX_IO="" name="ddr3_ras_n"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AH4" SLEW="" VCCAUX_IO="" name="ddr3_reset_n"/>}
+  puts $mig_7series_mig_b {      <Pin IN_TERM="" IOSTANDARD="" PADName="AF6" SLEW="" VCCAUX_IO="" name="ddr3_we_n"/>}
   puts $mig_7series_mig_b {    </PinSelection>}
   puts $mig_7series_mig_b {    <System_Control>}
   puts $mig_7series_mig_b {      <Pin Bank="Select Bank" PADName="No connect" name="sys_rst"/>}
@@ -270,7 +270,7 @@ proc write_mig_7series_mig_b { mig_7series_mig_b_filepath } {
   puts $mig_7series_mig_b {    </TimingParameters>}
   puts $mig_7series_mig_b {    <mrBurstLength name="Burst Length">8 - Fixed</mrBurstLength>}
   puts $mig_7series_mig_b {    <mrBurstType name="Read Burst Type and Length">Sequential</mrBurstType>}
-  puts $mig_7series_mig_b {    <mrCasLatency name="CAS Latency">6</mrCasLatency>}
+  puts $mig_7series_mig_b {    <mrCasLatency name="CAS Latency">11</mrCasLatency>}
   puts $mig_7series_mig_b {    <mrMode name="Mode">Normal</mrMode>}
   puts $mig_7series_mig_b {    <mrDllReset name="DLL Reset">No</mrDllReset>}
   puts $mig_7series_mig_b {    <mrPdMode name="DLL control for precharge PD">Slow Exit</mrPdMode>}
@@ -284,7 +284,7 @@ proc write_mig_7series_mig_b { mig_7series_mig_b_filepath } {
   puts $mig_7series_mig_b {    <emrDQS name="TDQS enable">Enabled</emrDQS>}
   puts $mig_7series_mig_b {    <emrRDQS name="Qoff">Output Buffer Enabled</emrRDQS>}
   puts $mig_7series_mig_b {    <mr2PartialArraySelfRefresh name="Partial-Array Self Refresh">Full Array</mr2PartialArraySelfRefresh>}
-  puts $mig_7series_mig_b {    <mr2CasWriteLatency name="CAS write latency">5</mr2CasWriteLatency>}
+  puts $mig_7series_mig_b {    <mr2CasWriteLatency name="CAS write latency">8</mr2CasWriteLatency>}
   puts $mig_7series_mig_b {    <mr2AutoSelfRefresh name="Auto Self Refresh">Enabled</mr2AutoSelfRefresh>}
   puts $mig_7series_mig_b {    <mr2SelfRefreshTempRange name="High Temparature Self Refresh Rate">Normal</mr2SelfRefreshTempRange>}
   puts $mig_7series_mig_b {    <mr2RTTWR name="RTT_WR - Dynamic On Die Termination (ODT)">Dynamic ODT off</mr2RTTWR>}
