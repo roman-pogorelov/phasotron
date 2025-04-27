@@ -105,8 +105,8 @@ set_property PACKAGE_PIN    R28                 [get_ports {flash_data[2]}]
 set_property PACKAGE_PIN    T28                 [get_ports {flash_data[3]}]
 #
 # Common GT reference clock
-set_property PACKAGE_PIN    U8                  [get_ports clk_gt_p]
-set_property PACKAGE_PIN    U7                  [get_ports clk_gt_n]
+set_property PACKAGE_PIN    U8                  [get_ports {clk_gt_156p25mhz_p}]
+set_property PACKAGE_PIN    U7                  [get_ports {clk_gt_156p25mhz_n}]
 #
 # Downsteam ports GT RX
 set_property PACKAGE_PIN    AH6                 [get_ports {dn0_rx_p[0]}]
@@ -163,3 +163,13 @@ set_property PACKAGE_PIN    P2                  [get_ports {up1_tx_p[0]}]
 set_property PACKAGE_PIN    P1                  [get_ports {up1_tx_n[0]}]
 set_property PACKAGE_PIN    N4                  [get_ports {up1_tx_p[1]}]
 set_property PACKAGE_PIN    N3                  [get_ports {up1_tx_n[1]}]
+#
+# System reference clock
+set_property IOSTANDARD     LVDS_25             [get_ports {clk_ref_?}]
+set_property PACKAGE_PIN    AG24                [get_ports {clk_ref_p}]
+set_property PACKAGE_PIN    AH24                [get_ports {clk_ref_n}]
+#
+# System synchronization
+set_property IOSTANDARD     LVDS_25             [get_ports {sync_?}]
+set_property PACKAGE_PIN    AG22                [get_ports {sync_p}]
+set_property PACKAGE_PIN    AG23                [get_ports {sync_n}]

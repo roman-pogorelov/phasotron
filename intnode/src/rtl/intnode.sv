@@ -27,8 +27,8 @@ module intnode
     inout  wire [3 : 0]     flash_data,
 
     // GT reference clock
-    input  wire             clk_gt_p,
-    input  wire             clk_gt_n,
+    input  wire             clk_gt_156p25mhz_p,
+    input  wire             clk_gt_156p25mhz_n,
 
     // Downstream GT RX
     input  wire  [1 : 0]    dn0_rx_p,
@@ -60,7 +60,16 @@ module intnode
     output wire  [1 : 0]    up0_tx_p,
     output wire  [1 : 0]    up0_tx_n,
     output wire  [1 : 0]    up1_tx_p,
-    output wire  [1 : 0]    up1_tx_n
+    output wire  [1 : 0]    up1_tx_n,
+
+    // System reference clock
+    input  wire             clk_ref_p,
+    input  wire             clk_ref_n,
+
+    // System synchronization
+    // at the system reference clock
+    input  wire             sync_p,
+    input  wire             sync_n
 );
     // Variables
     logic           clk_sys;
@@ -73,6 +82,9 @@ module intnode
     logic           clk_mig_ref;
     //
     logic           clk_gt;
+    logic           clk_ref;
+    //
+    logic           sync;
     //
     logic [27 : 0]  app_addr;
     logic [2 : 0]   app_cmd;
@@ -206,8 +218,8 @@ module intnode
     // GT differential buffer instance
     IBUFDS_GTE2 the_ibufds_gte2
     (
-        .I      (clk_gt_p),
-        .IB     (clk_gt_n),
+        .I      (clk_gt_156p25mhz_p),
+        .IB     (clk_gt_156p25mhz_n),
         .CEB    (1'b0),
         .O      (clk_gt),
         .ODIV2  (  )
@@ -272,5 +284,23 @@ module intnode
         .up1_tx_p       (up1_tx_p), // o  [1 : 0]
         .up1_tx_n       (up1_tx_n)  // o  [1 : 0]
     ); // the_upstream_unit
+
+
+    // Differential clock buffer
+    IBUFGDS ibufgds_clk_ref
+    (
+        .I      (clk_ref_p),
+        .IB     (clk_ref_n),
+        .O      (clk_ref)
+    ); // ibufgds_clk_ref
+
+
+    // Differential buffer
+    IBUFDS ibufds_sync
+    (
+        .I      (sync_p),
+        .IB     (sync_n),
+        .O      (sync)
+    ); // ibufds_sync
 
 endmodule: intnode
