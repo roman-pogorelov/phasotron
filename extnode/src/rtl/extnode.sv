@@ -172,7 +172,15 @@ module extnode
     input   wire            lmk0482_status_ld2,
     output  wire            lmk0482_spi_cs_n,
     output  wire            lmk0482_spi_sclk,
-    inout   wire            lmk0482_spi_sdio
+    inout   wire            lmk0482_spi_sdio,
+
+    // MKBUS
+    output  wire            mkbus_nrst,
+    output  wire            mkbus_clk,
+    output  wire            mkbus_valid,
+    input   wire            mkbus_ready,
+    output  wire [1 : 0]    mkbus_code,
+    inout   wire [7 : 0]    mkbus_dt
 );
     // Variables
     logic           clk_sys;
@@ -564,5 +572,13 @@ module extnode
         .lmk0482_spi_sclk   (lmk0482_spi_sclk),     // o
         .lmk0482_spi_sdio   (lmk0482_spi_sdio)      // io
     ); // the_lmk0482_stub
+
+
+    // Terminate MKBUS
+    assign mkbus_nrst   = 1'b0;
+    assign mkbus_clk    = 1'b0;
+    assign mkbus_valid  = 1'b0;
+    assign mkbus_code   = '0;
+    assign mkbus_dt     = 'z;
 
 endmodule: extnode
