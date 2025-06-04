@@ -69,7 +69,25 @@ module intnode
     // System synchronization
     // at the system reference clock
     input  wire             sync_p,
-    input  wire             sync_n
+    input  wire             sync_n,
+
+    // DDS control
+    output wire             dds_syncio,
+    input  wire             dds_sdo,
+    inout  wire             dds_sdio,
+    output wire             dds_sclk,
+    output wire             dds_cs_n,
+    output wire             dds_io_update,
+    output wire             dds_master_reset,
+    output wire             dds_ext_pwr_dwn,
+    output wire             dds_drctl,
+    output wire             dds_drhold,
+    input  wire             dds_drover,
+    output wire             dds_osk,
+
+    // HMC1118 control
+    output wire             hmc1118_vctrl,
+    output wire             hmc1118_ls
 );
     // Variables
     logic           clk_sys;
@@ -302,5 +320,23 @@ module intnode
         .IB     (sync_n),
         .O      (sync)
     ); // ibufds_sync
+
+
+    // Terminate DDS control
+    assign dds_syncio       = 1'b0;
+    assign dds_sdio         = 1'bz;
+    assign dds_sclk         = 1'b0;
+    assign dds_cs_n         = 1'b0;
+    assign dds_io_update    = 1'b0;
+    assign dds_master_reset = 1'b0;
+    assign dds_ext_pwr_dwn  = 1'b0;
+    assign dds_drctl        = 1'b0;
+    assign dds_drhold       = 1'b0;
+    assign dds_osk          = 1'b0;
+
+
+    // Terminate HMC1118 control
+    assign hmc1118_vctrl    = 1'b0;
+    assign hmc1118_ls       = 1'b0;
 
 endmodule: intnode

@@ -173,3 +173,23 @@ set_property PACKAGE_PIN    AH24                [get_ports {clk_ref_n}]
 set_property IOSTANDARD     LVDS_25             [get_ports {sync_?}]
 set_property PACKAGE_PIN    AG22                [get_ports {sync_p}]
 set_property PACKAGE_PIN    AG23                [get_ports {sync_n}]
+#
+# DDS control
+set_property IOSTANDARD     LVCMOS33            [get_ports {dds_*}]
+set_property PACKAGE_PIN    R18                 [get_ports {dds_cs_n}]
+set_property PACKAGE_PIN    R20                 [get_ports {dds_drctl}]
+set_property PACKAGE_PIN    R21                 [get_ports {dds_drhold}]
+set_property PACKAGE_PIN    T17                 [get_ports {dds_drover}]
+set_property PACKAGE_PIN    T18                 [get_ports {dds_ext_pwr_dwn}]
+set_property PACKAGE_PIN    T20                 [get_ports {dds_io_update}]
+set_property PACKAGE_PIN    T21                 [get_ports {dds_master_reset}]
+set_property PACKAGE_PIN    T22                 [get_ports {dds_osk}]
+set_property PACKAGE_PIN    U17                 [get_ports {dds_sclk}]
+set_property PACKAGE_PIN    U18                 [get_ports {dds_sdo}]
+set_property PACKAGE_PIN    U19                 [get_ports {dds_syncio}]
+set_property PACKAGE_PIN    U20                 [get_ports {dds_sdio}]
+#
+# HMC1118 control
+set_property IOSTANDARD     LVCMOS33            [get_ports {hmc1118_*}]
+set_property PACKAGE_PIN    W18                 [get_ports {hmc1118_ls}]
+set_property PACKAGE_PIN    W19                 [get_ports {hmc1118_vctrl}]
