@@ -149,20 +149,12 @@ set_property PACKAGE_PIN    V6                  [get_ports {up0_rx_p[0]}]
 set_property PACKAGE_PIN    V5                  [get_ports {up0_rx_n[0]}]
 set_property PACKAGE_PIN    U4                  [get_ports {up0_rx_p[1]}]
 set_property PACKAGE_PIN    U3                  [get_ports {up0_rx_n[1]}]
-set_property PACKAGE_PIN    R4                  [get_ports {up1_rx_p[0]}]
-set_property PACKAGE_PIN    R3                  [get_ports {up1_rx_n[0]}]
-set_property PACKAGE_PIN    P6                  [get_ports {up1_rx_p[1]}]
-set_property PACKAGE_PIN    P5                  [get_ports {up1_rx_n[1]}]
 #
 # Upsteam ports GT TX
 set_property PACKAGE_PIN    V2                  [get_ports {up0_tx_p[0]}]
 set_property PACKAGE_PIN    V1                  [get_ports {up0_tx_n[0]}]
 set_property PACKAGE_PIN    T2                  [get_ports {up0_tx_p[1]}]
 set_property PACKAGE_PIN    T1                  [get_ports {up0_tx_n[1]}]
-set_property PACKAGE_PIN    P2                  [get_ports {up1_tx_p[0]}]
-set_property PACKAGE_PIN    P1                  [get_ports {up1_tx_n[0]}]
-set_property PACKAGE_PIN    N4                  [get_ports {up1_tx_p[1]}]
-set_property PACKAGE_PIN    N3                  [get_ports {up1_tx_n[1]}]
 #
 # System reference clock
 set_property IOSTANDARD     LVDS_25             [get_ports {clk_ref_?}]

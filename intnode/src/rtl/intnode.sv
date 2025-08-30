@@ -53,14 +53,10 @@ module intnode
     // Upstream GT RX
     input  wire  [1 : 0]    up0_rx_p,
     input  wire  [1 : 0]    up0_rx_n,
-    input  wire  [1 : 0]    up1_rx_p,
-    input  wire  [1 : 0]    up1_rx_n,
 
     // Upstream GT TX
     output wire  [1 : 0]    up0_tx_p,
     output wire  [1 : 0]    up0_tx_n,
-    output wire  [1 : 0]    up1_tx_p,
-    output wire  [1 : 0]    up1_tx_n,
 
     // System reference clock
     input  wire             clk_ref_p,
@@ -293,14 +289,10 @@ module intnode
         // GT RX
         .up0_rx_p       (up0_rx_p), // i  [1 : 0]
         .up0_rx_n       (up0_rx_n), // i  [1 : 0]
-        .up1_rx_p       (up1_rx_p), // i  [1 : 0]
-        .up1_rx_n       (up1_rx_n), // i  [1 : 0]
 
         // GT TX
         .up0_tx_p       (up0_tx_p), // o  [1 : 0]
-        .up0_tx_n       (up0_tx_n), // o  [1 : 0]
-        .up1_tx_p       (up1_tx_p), // o  [1 : 0]
-        .up1_tx_n       (up1_tx_n)  // o  [1 : 0]
+        .up0_tx_n       (up0_tx_n)  // o  [1 : 0]
     ); // the_upstream_unit
 
 
