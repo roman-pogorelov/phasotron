@@ -67,6 +67,11 @@ module intnode
     input  wire             sync_p,
     input  wire             sync_n,
 
+    // GL interface
+    output wire [3 : 0]     gl_clk_p,
+    output wire [3 : 0]     gl_clk_n,
+    output wire [3 : 0]     gl_nrst,
+
     // DDS control
     output wire             dds_syncio,
     input  wire             dds_sdo,
@@ -121,6 +126,8 @@ module intnode
     logic           app_zq_ack;
     //
     logic           init_calib_complete;
+    //
+    logic           gl_clk;
 
 
     // Generates clocks and related resets
@@ -313,6 +320,26 @@ module intnode
         .IB     (sync_n),
         .O      (sync)
     ); // ibufds_sync
+
+
+    // Generate a dummy GL clock
+    initial gl_clk = 1'b0;
+    always @(posedge clk_sys) begin
+        gl_clk <= !gl_clk;
+    end
+
+
+    // Differential buffer
+    OBUFDS obufds_gl_clk [3 : 0]
+    (
+        .I      ({4{gl_clk}}),
+        .O      (gl_clk_p),
+        .OB     (gl_clk_n)
+    ); // obufds_gl_clk
+
+
+    // Terminate GL resets
+    assign gl_nrst = {4{1'b1}};
 
 
     // Terminate DDS control
