@@ -80,6 +80,7 @@ module intnode
     output wire             dds_drhold,
     input  wire             dds_drover,
     output wire             dds_osk,
+    output wire [2 : 0]     dds_ps,
 
     // HMC1118 control
     output wire             hmc1118_vctrl,
@@ -325,6 +326,7 @@ module intnode
     assign dds_drctl        = 1'b0;
     assign dds_drhold       = 1'b0;
     assign dds_osk          = 1'b0;
+    assign dds_ps           = 3'b0;
 
 
     // Terminate HMC1118 control

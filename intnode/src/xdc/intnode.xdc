@@ -180,6 +180,9 @@ set_property PACKAGE_PIN    U17                 [get_ports {dds_sclk}]
 set_property PACKAGE_PIN    U18                 [get_ports {dds_sdo}]
 set_property PACKAGE_PIN    U19                 [get_ports {dds_syncio}]
 set_property PACKAGE_PIN    U20                 [get_ports {dds_sdio}]
+set_property PACKAGE_PIN    V20                 [get_ports {dds_ps[0]}]
+set_property PACKAGE_PIN    W22                 [get_ports {dds_ps[1]}]
+set_property PACKAGE_PIN    W23                 [get_ports {dds_ps[2]}]
 #
 # HMC1118 control
 set_property IOSTANDARD     LVCMOS33            [get_ports {hmc1118_*}]
