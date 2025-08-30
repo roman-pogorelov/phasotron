@@ -204,3 +204,10 @@ set_property PACKAGE_PIN    AD26                [get_ports {gl_nrst[0]}]
 set_property PACKAGE_PIN    AE26                [get_ports {gl_nrst[1]}]
 set_property PACKAGE_PIN    AH25                [get_ports {gl_nrst[2]}]
 set_property PACKAGE_PIN    AH26                [get_ports {gl_nrst[3]}]
+#
+# PLL control
+set_property IOSTANDARD     LVCMOS33            [get_ports {pll_*}]
+set_property PACKAGE_PIN    U30                 [get_ports {pll_sck}]
+set_property PACKAGE_PIN    U28                 [get_ports {pll_sen}]
+set_property PACKAGE_PIN    U27                 [get_ports {pll_sdi}]
+set_property PACKAGE_PIN    U29                 [get_ports {pll_ld_sdo}]

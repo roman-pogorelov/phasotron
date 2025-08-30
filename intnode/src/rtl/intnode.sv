@@ -87,6 +87,12 @@ module intnode
     output wire             dds_osk,
     output wire [2 : 0]     dds_ps,
 
+    // PLL control
+    output wire             pll_sck,
+    output wire             pll_sen,
+    output wire             pll_sdi,
+    input  wire             pll_ld_sdo,
+
     // HMC1118 control
     output wire             hmc1118_vctrl,
     output wire             hmc1118_ls
@@ -354,6 +360,12 @@ module intnode
     assign dds_drhold       = 1'b0;
     assign dds_osk          = 1'b0;
     assign dds_ps           = 3'b0;
+
+
+    // Terminate PLL control
+    assign pll_sck = 1'b0;
+    assign pll_sen = 1'b1;
+    assign pll_sdi = 1'b0;
 
 
     // Terminate HMC1118 control
