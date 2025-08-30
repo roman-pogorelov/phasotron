@@ -72,6 +72,18 @@ module intnode
     output wire [3 : 0]     gl_clk_n,
     output wire [3 : 0]     gl_nrst,
 
+    // SFP control
+    input  wire             sfp0_los,
+    inout  wire [2 : 0]     sfp0_mod_def,
+    output wire [1 : 0]     sfp0_rs,
+    output logic            sfp0_tx_disable,
+    input  logic            sfp0_tx_fault,
+    input  wire             sfp1_los,
+    inout  wire [2 : 0]     sfp1_mod_def,
+    output wire [1 : 0]     sfp1_rs,
+    output logic            sfp1_tx_disable,
+    input  logic            sfp1_tx_fault,
+
     // DDS control
     output wire             dds_syncio,
     input  wire             dds_sdo,
@@ -346,6 +358,15 @@ module intnode
 
     // Terminate GL resets
     assign gl_nrst = {4{1'b1}};
+
+
+    // Terminate SFP control
+    assign sfp0_mod_def     = {3{1'bz}};
+    assign sfp0_rs          = {2{1'bz}};
+    assign sfp0_tx_disable  = 1'b0;
+    assign sfp1_mod_def     = {3{1'bz}};
+    assign sfp1_rs          = {2{1'bz}};
+    assign sfp1_tx_disable  = 1'b0;
 
 
     // Terminate DDS control
