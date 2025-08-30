@@ -1,3 +1,7 @@
+# Configuration voltages
+set_property CFGBVS         VCCO                [current_design]
+set_property CONFIG_VOLTAGE 3.3                 [current_desig]
+#
 # System clock
 set_property IOSTANDARD     DIFF_SSTL15         [get_ports {clk_100mhz_?}]
 set_property PACKAGE_PIN    G27                 [get_ports {clk_100mhz_p}]
