@@ -32,4 +32,4 @@ IP_TCL_FILES = src/extnode-ips.tcl
 # CONFIG_TCL_FILES = ./config.tcl
 
 
-include ../../common/vivado.mk
+include ../../../common/vivado.mk
