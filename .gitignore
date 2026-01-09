@@ -1,4 +1,2 @@
-/projects/intnode/xil/**
-/projects/extnode/xil/**
-!/projects/intnode/xil/Makefile
-!/projects/extnode/xil/Makefile
+/**/xil/**
+!/**/xil/Makefile
