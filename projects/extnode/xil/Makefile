@@ -8,24 +8,24 @@ FPGA_TOP = extnode
 
 
 # Files for synthesis
-SYN_FILES = src/rtl/extnode.sv
-SYN_FILES += src/rtl/adc_stub.sv
-SYN_FILES += src/rtl/clock_unit.sv
-SYN_FILES += src/rtl/dac_stub.sv
-SYN_FILES += src/rtl/lmk0482_stub.sv
-SYN_FILES += src/rtl/mig7_stub.sv
-SYN_FILES += src/rtl/upstream_unit.sv
-SYN_FILES += src/rtl/aurora8b10b_ex/aurora8b10b_cdc_sync_exdes.v
-SYN_FILES += src/rtl/aurora8b10b_ex/aurora8b10b_gt_common_wrapper.v
-SYN_FILES += src/rtl/aurora8b10b_ex/aurora8b10b_support_reset_logic.v
+SYN_FILES  = ../src/rtl/extnode.sv
+SYN_FILES += ../src/rtl/adc_stub.sv
+SYN_FILES += ../src/rtl/clock_unit.sv
+SYN_FILES += ../src/rtl/dac_stub.sv
+SYN_FILES += ../src/rtl/lmk0482_stub.sv
+SYN_FILES += ../src/rtl/mig7_stub.sv
+SYN_FILES += ../src/rtl/upstream_unit.sv
+SYN_FILES += ../src/rtl/aurora8b10b_ex/aurora8b10b_cdc_sync_exdes.v
+SYN_FILES += ../src/rtl/aurora8b10b_ex/aurora8b10b_gt_common_wrapper.v
+SYN_FILES += ../src/rtl/aurora8b10b_ex/aurora8b10b_support_reset_logic.v
 
 
 # XDC files
-XDC_FILES = src/xdc/extnode.xdc
+XDC_FILES = ../src/xdc/extnode.xdc
 
 
 # IP
-IP_TCL_FILES = src/extnode-ips.tcl
+IP_TCL_FILES = ../src/extnode-ips.tcl
 
 
 # Configuration

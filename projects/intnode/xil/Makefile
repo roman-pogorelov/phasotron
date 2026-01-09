@@ -8,22 +8,22 @@ FPGA_TOP = intnode
 
 
 # Files for synthesis
-SYN_FILES = src/rtl/intnode.sv
-SYN_FILES += src/rtl/upstream_unit.sv
-SYN_FILES += src/rtl/dnstream_unit.sv
-SYN_FILES += src/rtl/clock_unit.sv
-SYN_FILES += src/rtl/mig7_stub.sv
-SYN_FILES += src/rtl/aurora8b10b_ex/aurora8b10b_cdc_sync_exdes.v
-SYN_FILES += src/rtl/aurora8b10b_ex/aurora8b10b_gt_common_wrapper.v
-SYN_FILES += src/rtl/aurora8b10b_ex/aurora8b10b_support_reset_logic.v
+SYN_FILES  = ../src/rtl/intnode.sv
+SYN_FILES += ../src/rtl/upstream_unit.sv
+SYN_FILES += ../src/rtl/dnstream_unit.sv
+SYN_FILES += ../src/rtl/clock_unit.sv
+SYN_FILES += ../src/rtl/mig7_stub.sv
+SYN_FILES += ../src/rtl/aurora8b10b_ex/aurora8b10b_cdc_sync_exdes.v
+SYN_FILES += ../src/rtl/aurora8b10b_ex/aurora8b10b_gt_common_wrapper.v
+SYN_FILES += ../src/rtl/aurora8b10b_ex/aurora8b10b_support_reset_logic.v
 
 
 # XDC files
-XDC_FILES = src/xdc/intnode.xdc
+XDC_FILES = ../src/xdc/intnode.xdc
 
 
 # IP
-IP_TCL_FILES = src/intnode-ips.tcl
+IP_TCL_FILES = ../src/intnode-ips.tcl
 
 
 # Configuration
