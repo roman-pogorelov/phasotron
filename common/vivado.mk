@@ -43,6 +43,25 @@ PROJECT ?= $(FPGA_TOP)
 # directory created by Vivado for some reason
 IP_GEN_DIR = ../../$(PROJECT).gen
 
+# Color codes for "echo"
+BLACK = \033[0;30m
+DARK_GRAY = \033[1;30m
+RED = \033[0;31m
+LIGHT_RED = \033[1;31m
+GREEN = \033[0;32m
+LIGHT_GREEN = \033[1;32m
+ORANGE = \033[0;33m
+YELLOW = \033[1;33m
+BLUE = \033[0;34m
+LIGHT_BLUE = \033[1;34m
+PURPLE = \033[0;35m
+LIGHT_PURPLE = \033[1;35m
+CYAN = \033[0;36m
+LIGHT_CYAN = \033[1;36m
+LIGHT_GRAY = \033[0;37m
+WHITE = \033[1;37m
+RESET = \033[0m
+
 ###################################################################
 # Main Targets
 #
@@ -55,6 +74,7 @@ all: fpga
 fpga: $(PROJECT).bit
 
 vivado: $(PROJECT).xpr
+	@echo "$(LIGHT_BLUE)\nOpening Vivado project...\n$(RESET)"
 	vivado $(PROJECT).xpr
 
 tmpclean::
@@ -86,10 +106,12 @@ update_config.tcl: $(CONFIG_TCL_FILES) $(SYN_FILES) $(INC_FILES) $(XDC_FILES)
 	@for x in $(CONFIG_TCL_FILES); do echo "source $$x" >> $@; done
 
 $(PROJECT).xpr: create_project.tcl update_config.tcl
+	@echo "$(LIGHT_BLUE)\nGenerating Vivado project...\n$(RESET)"
 	vivado -nojournal -nolog -mode batch $(foreach x,$?,-source $x)
 
 # synthesis run
 $(PROJECT).runs/synth_1/$(PROJECT).dcp: create_project.tcl update_config.tcl $(SYN_FILES) $(INC_FILES) $(XDC_FILES) | $(PROJECT).xpr
+	@echo "$(LIGHT_BLUE)\nRunning synthesis...\n$(RESET)"
 	@echo "open_project $(PROJECT).xpr" > run_synth.tcl
 	@echo "reset_run synth_1" >> run_synth.tcl
 	@echo "launch_runs -jobs 4 synth_1" >> run_synth.tcl
@@ -99,6 +121,7 @@ $(PROJECT).runs/synth_1/$(PROJECT).dcp: create_project.tcl update_config.tcl $(S
 
 # implementation run
 $(PROJECT).runs/impl_1/$(PROJECT)_routed.dcp: $(PROJECT).runs/synth_1/$(PROJECT).dcp
+	@echo "$(LIGHT_BLUE)\nRunning implementation...\n$(RESET)"
 	@echo "open_project $(PROJECT).xpr" > run_impl.tcl
 	@echo "reset_run impl_1" >> run_impl.tcl
 	@echo "launch_runs -jobs 4 impl_1" >> run_impl.tcl
@@ -111,6 +134,7 @@ $(PROJECT).runs/impl_1/$(PROJECT)_routed.dcp: $(PROJECT).runs/synth_1/$(PROJECT)
 
 # bit file
 $(PROJECT).bit $(PROJECT).ltx: $(PROJECT).runs/impl_1/$(PROJECT)_routed.dcp
+	@echo "$(LIGHT_BLUE)\nGenerating bitstream...\n$(RESET)"
 	@echo "open_project $(PROJECT).xpr" > generate_bit.tcl
 	@echo "open_run impl_1" >> generate_bit.tcl
 	@echo "write_bitstream -force $(PROJECT).runs/impl_1/$(PROJECT).bit" >> generate_bit.tcl
