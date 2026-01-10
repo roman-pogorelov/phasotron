@@ -15,20 +15,23 @@ SYN_FILES += ../src/rtl/dac_stub.sv
 SYN_FILES += ../src/rtl/lmk0482_stub.sv
 SYN_FILES += ../src/rtl/mig7_stub.sv
 SYN_FILES += ../src/rtl/upstream_unit.sv
-SYN_FILES += ../src/rtl/aurora8b10b_ex/aurora8b10b_cdc_sync_exdes.v
-SYN_FILES += ../src/rtl/aurora8b10b_ex/aurora8b10b_gt_common_wrapper.v
-SYN_FILES += ../src/rtl/aurora8b10b_ex/aurora8b10b_support_reset_logic.v
+SYN_FILES += ../src/rtl/gt_common_wrapper.v
+SYN_FILES += ../../../common/src/rtl/aurora/aurora64b66b_wrp.sv
+SYN_FILES += ../../../common/src/rtl/aurora/support_6_2500/aurora64b66b_clock_module.v
+SYN_FILES += ../../../common/src/rtl/aurora/support_6_2500/aurora64b66b_gt_common_wrapper.v
+SYN_FILES += ../../../common/src/rtl/aurora/support_6_2500/aurora64b66b_support_reset_logic.v
 
 
 # XDC files
-XDC_FILES = ../src/xdc/extnode.xdc
+XDC_FILES  = ../src/xdc/extnode.xdc
+XDC_FILES += ../../../common/src/xdc/aurora64b66b_wrp.xdc
 
 
 # IP
-IP_TCL_FILES  = ../src/tcl/aurora8b10b.tcl
-IP_TCL_FILES += ../src/tcl/clk_gen.tcl
+IP_TCL_FILES  = ../src/tcl/clk_gen.tcl
 IP_TCL_FILES += ../src/tcl/mig7series.tcl
 IP_TCL_FILES += ../src/tcl/jesd204phy.tcl
+IP_TCL_FILES += ../../../common/src/tcl/aurora64b66b_6_2500.tcl
 
 
 # Configuration

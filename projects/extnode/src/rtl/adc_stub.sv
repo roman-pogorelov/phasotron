@@ -197,8 +197,8 @@ module adc_stub
     ); // obufds_syncb
 
 
-    // Aurora 8B10B GT common instance
-    aurora8b10b_gt_common_wrapper gt_common_adc0_adc1
+    // GT common instance
+    gt_common_wrapper gt_common_adc0_adc1
     (
         .gt_qpllclk_quad1_i         (gtq0_qpllclk),
         .gt_qpllrefclk_quad1_i      (gtq0_qpllrefclk),
@@ -212,8 +212,8 @@ module adc_stub
     ); // gt_common_adc0_adc1
 
 
-    // Aurora 8B10B GT common instance
-    aurora8b10b_gt_common_wrapper gt_common_adc2_adc3
+    // GT common instance
+    gt_common_wrapper gt_common_adc2_adc3
     (
         .gt_qpllclk_quad1_i         (gtq1_qpllclk),
         .gt_qpllrefclk_quad1_i      (gtq1_qpllrefclk),

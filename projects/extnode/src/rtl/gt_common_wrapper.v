@@ -52,7 +52,7 @@
 
 //***************************** Entity Declaration ****************************
 
-module aurora8b10b_gt_common_wrapper
+module gt_common_wrapper
 (
 //____________________________COMMON PORTS ,_______________________________{
 output                     gt_qpllclk_quad1_i,
@@ -187,5 +187,3 @@ gtxe2_common_i
 
 
 endmodule
-
- 
