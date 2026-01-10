@@ -25,7 +25,10 @@ XDC_FILES = ../src/xdc/extnode.xdc
 
 
 # IP
-IP_TCL_FILES = ../src/extnode-ips.tcl
+IP_TCL_FILES  = ../src/tcl/aurora8b10b.tcl
+IP_TCL_FILES += ../src/tcl/clk_gen.tcl
+IP_TCL_FILES += ../src/tcl/mig7series.tcl
+IP_TCL_FILES += ../src/tcl/jesd204phy.tcl
 
 
 # Configuration

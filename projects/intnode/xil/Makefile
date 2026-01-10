@@ -23,7 +23,9 @@ XDC_FILES = ../src/xdc/intnode.xdc
 
 
 # IP
-IP_TCL_FILES = ../src/intnode-ips.tcl
+IP_TCL_FILES  = ../src/tcl/aurora8b10b.tcl
+IP_TCL_FILES += ../src/tcl/clk_gen.tcl
+IP_TCL_FILES += ../src/tcl/mig7series.tcl
 
 
 # Configuration
