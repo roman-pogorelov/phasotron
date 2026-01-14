@@ -21,6 +21,7 @@ SYN_FILES += ../../../common/src/rtl/aurora/support_6_2500/aurora64b66b_support_
 
 # XDC files
 XDC_FILES  = ../src/xdc/intnode.xdc
+XDC_FILES += ../src/xdc/timing.xdc
 XDC_FILES += ../../../common/src/xdc/aurora64b66b_wrp.xdc
 
 
