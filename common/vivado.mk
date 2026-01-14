@@ -40,6 +40,13 @@ CONFIG ?= config.mk
 FPGA_TOP ?= fpga
 PROJECT ?= $(FPGA_TOP)
 
+# target files
+PRJ_TARGET = $(PROJECT).xpr
+SYN_TARGET = $(PROJECT).runs/synth_1/$(PROJECT).dcp
+IMP_TARGET = $(PROJECT).runs/impl_1/$(PROJECT)_routed.dcp
+BIT_TARGET = $(PROJECT).runs/impl_1/$(PROJECT).bit
+ILA_TARGET = $(PROJECT).runs/impl_1/$(PROJECT).ltx
+
 # directory created by Vivado for some reason
 IP_GEN_DIR = ../../$(PROJECT).gen
 
@@ -71,11 +78,11 @@ RESET = \033[0m
 
 all: fpga
 
-fpga: $(PROJECT).bit
+fpga: $(BIT_TARGET)
 
-vivado: $(PROJECT).xpr
+vivado: $(PRJ_TARGET)
 	@echo "$(LIGHT_BLUE)\nOpening Vivado project...\n$(RESET)"
-	vivado $(PROJECT).xpr
+	vivado $(PRJ_TARGET)
 
 tmpclean::
 	@-rm -rf *.log *.jou *.cache *.gen *.hbs *.hw *.ip_user_files *.runs *.xpr *.html *.xml *.sim *.srcs *.str .Xil
@@ -102,17 +109,17 @@ create_project.tcl: Makefile $(XCI_FILES) $(IP_TCL_FILES)
 	@for x in $(CONFIG_TCL_FILES); do echo "source $$x" >> $@; done
 
 update_config.tcl: $(CONFIG_TCL_FILES) $(SYN_FILES) $(INC_FILES) $(XDC_FILES)
-	@echo "open_project -quiet $(PROJECT).xpr" > $@
+	@echo "open_project -quiet $(PRJ_TARGET)" > $@
 	@for x in $(CONFIG_TCL_FILES); do echo "source $$x" >> $@; done
 
-$(PROJECT).xpr: create_project.tcl update_config.tcl
+$(PRJ_TARGET): create_project.tcl update_config.tcl
 	@echo "$(LIGHT_BLUE)\nGenerating Vivado project...\n$(RESET)"
 	vivado -nojournal -nolog -mode batch $(foreach x,$?,-source $x)
 
 # synthesis run
-$(PROJECT).runs/synth_1/$(PROJECT).dcp: create_project.tcl update_config.tcl $(SYN_FILES) $(INC_FILES) $(XDC_FILES) | $(PROJECT).xpr
+$(SYN_TARGET): create_project.tcl update_config.tcl $(SYN_FILES) $(INC_FILES) $(XDC_FILES) | $(PRJ_TARGET)
 	@echo "$(LIGHT_BLUE)\nRunning synthesis...\n$(RESET)"
-	@echo "open_project $(PROJECT).xpr" > run_synth.tcl
+	@echo "open_project $(PRJ_TARGET)" > run_synth.tcl
 	@echo "reset_run synth_1" >> run_synth.tcl
 	@echo "launch_runs -jobs 4 synth_1" >> run_synth.tcl
 	@echo "wait_on_run synth_1" >> run_synth.tcl
@@ -120,9 +127,9 @@ $(PROJECT).runs/synth_1/$(PROJECT).dcp: create_project.tcl update_config.tcl $(S
 	@if [ -e $(IP_GEN_DIR) ]; then rm -rf $(IP_GEN_DIR); fi
 
 # implementation run
-$(PROJECT).runs/impl_1/$(PROJECT)_routed.dcp: $(PROJECT).runs/synth_1/$(PROJECT).dcp
+$(IMP_TARGET): $(SYN_TARGET)
 	@echo "$(LIGHT_BLUE)\nRunning implementation...\n$(RESET)"
-	@echo "open_project $(PROJECT).xpr" > run_impl.tcl
+	@echo "open_project $(PRJ_TARGET)" > run_impl.tcl
 	@echo "reset_run impl_1" >> run_impl.tcl
 	@echo "launch_runs -jobs 4 impl_1" >> run_impl.tcl
 	@echo "wait_on_run impl_1" >> run_impl.tcl
@@ -133,10 +140,10 @@ $(PROJECT).runs/impl_1/$(PROJECT)_routed.dcp: $(PROJECT).runs/synth_1/$(PROJECT)
 	@if [ -e $(IP_GEN_DIR) ]; then rm -rf $(IP_GEN_DIR); fi
 
 # bit file
-$(PROJECT).bit $(PROJECT).ltx: $(PROJECT).runs/impl_1/$(PROJECT)_routed.dcp
+$(BIT_TARGET) $(ILA_TARGET): $(IMP_TARGET)
 	@echo "$(LIGHT_BLUE)\nGenerating bitstream...\n$(RESET)"
-	@echo "open_project $(PROJECT).xpr" > generate_bit.tcl
+	@echo "open_project $(PRJ_TARGET)" > generate_bit.tcl
 	@echo "open_run impl_1" >> generate_bit.tcl
-	@echo "write_bitstream -force $(PROJECT).runs/impl_1/$(PROJECT).bit" >> generate_bit.tcl
-	@echo "write_debug_probes -force $(PROJECT).runs/impl_1/$(PROJECT).ltx" >> generate_bit.tcl
+	@echo "write_bitstream -force $(BIT_TARGET)" >> generate_bit.tcl
+	@echo "write_debug_probes -force $(ILA_TARGET)" >> generate_bit.tcl
 	vivado -nojournal -nolog -mode batch -source generate_bit.tcl
