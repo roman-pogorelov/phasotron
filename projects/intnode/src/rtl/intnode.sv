@@ -119,7 +119,9 @@ module intnode
     logic           clk_mig_sys;
     logic           clk_mig_ref;
     //
-    logic           clk_gt;
+    logic           clk_gt_ref;
+    logic           clk_gt_init;
+    //
     logic           clk_ref;
     //
     logic           sync;
@@ -149,21 +151,30 @@ module intnode
 
 
     // Generates clocks and related resets
-    clock_unit the_clock_unit
-    (
-        // Input reference clock 100MHz
-        .clk_100mhz_p   (clk_100mhz_p), // i
-        .clk_100mhz_n   (clk_100mhz_n), // i
+    clock_unit the_clock_unit (
+        // Reference 100 MHz clock input
+        .clk_100mhz_p           (clk_100mhz_p),         // i
+        .clk_100mhz_n           (clk_100mhz_n),         // i
 
-        // System clock and reset
-        .clk_sys        (clk_sys),      // o
-        .rst_sys        (rst_sys),      // o
+        // GT reference 156.25 MHz clock input
+        .clk_gt_156p25mhz_p     (clk_gt_156p25mhz_p),   // i
+        .clk_gt_156p25mhz_n     (clk_gt_156p25mhz_n),   // i
 
-        // MIG system clock
-        .clk_mig_sys    (clk_mig_sys),  // o
+        // System clock and reset outputs
+        .clk_sys                (clk_sys),              // o
+        .rst_sys                (rst_sys),              // o
 
-        // MIG reference clock 200MHz
-        .clk_mig_ref    (clk_mig_ref)   // o
+        // MIG system clock output
+        .clk_mig_sys            (clk_mig_sys),          // o
+
+        // MIG reference clock output
+        .clk_mig_ref            (clk_mig_ref),          // o
+
+        // GT reference clock output
+        .clk_gt_ref             (clk_gt_ref),           // o
+
+        // GT init clock output
+        .clk_gt_init            (clk_gt_init)           // o
     ); // the_clock_unit
 
 
@@ -255,48 +266,37 @@ module intnode
     ); // the_mig7series
 
 
-    // GT differential buffer instance
-    IBUFDS_GTE2 the_ibufds_gte2
-    (
-        .I      (clk_gt_156p25mhz_p),
-        .IB     (clk_gt_156p25mhz_n),
-        .CEB    (1'b0),
-        .O      (clk_gt),
-        .ODIV2  (  )
-    ); // the_ibufds_gte2
-
-
     // Downstream unit
     dnstream_unit the_dnstream_unit
     (
         // Common asynchronous reset
-        .rst            (rst_sys),  // i
+        .rst            (rst_sys),      // i
 
         // Intialization clock
-        .clk_init       (clk_sys),  // i
+        .clk_init       (clk_gt_init),  // i
 
         // GT reference clock
-        .clk_gt         (clk_gt),   // i
+        .clk_gt         (clk_gt_ref),   // i
 
         // GT RX
-        .dn0_rx_p       (dn0_rx_p), // i  [1 : 0]
-        .dn0_rx_n       (dn0_rx_n), // i  [1 : 0]
-        .dn1_rx_p       (dn1_rx_p), // i  [1 : 0]
-        .dn1_rx_n       (dn1_rx_n), // i  [1 : 0]
-        .dn2_rx_p       (dn2_rx_p), // i  [1 : 0]
-        .dn2_rx_n       (dn2_rx_n), // i  [1 : 0]
-        .dn3_rx_p       (dn3_rx_p), // i  [1 : 0]
-        .dn3_rx_n       (dn3_rx_n), // i  [1 : 0]
+        .dn0_rx_p       (dn0_rx_p),     // i  [1 : 0]
+        .dn0_rx_n       (dn0_rx_n),     // i  [1 : 0]
+        .dn1_rx_p       (dn1_rx_p),     // i  [1 : 0]
+        .dn1_rx_n       (dn1_rx_n),     // i  [1 : 0]
+        .dn2_rx_p       (dn2_rx_p),     // i  [1 : 0]
+        .dn2_rx_n       (dn2_rx_n),     // i  [1 : 0]
+        .dn3_rx_p       (dn3_rx_p),     // i  [1 : 0]
+        .dn3_rx_n       (dn3_rx_n),     // i  [1 : 0]
 
         // GT TX
-        .dn0_tx_p       (dn0_tx_p), // o  [1 : 0]
-        .dn0_tx_n       (dn0_tx_n), // o  [1 : 0]
-        .dn1_tx_p       (dn1_tx_p), // o  [1 : 0]
-        .dn1_tx_n       (dn1_tx_n), // o  [1 : 0]
-        .dn2_tx_p       (dn2_tx_p), // o  [1 : 0]
-        .dn2_tx_n       (dn2_tx_n), // o  [1 : 0]
-        .dn3_tx_p       (dn3_tx_p), // o  [1 : 0]
-        .dn3_tx_n       (dn3_tx_n)  // o  [1 : 0]
+        .dn0_tx_p       (dn0_tx_p),     // o  [1 : 0]
+        .dn0_tx_n       (dn0_tx_n),     // o  [1 : 0]
+        .dn1_tx_p       (dn1_tx_p),     // o  [1 : 0]
+        .dn1_tx_n       (dn1_tx_n),     // o  [1 : 0]
+        .dn2_tx_p       (dn2_tx_p),     // o  [1 : 0]
+        .dn2_tx_n       (dn2_tx_n),     // o  [1 : 0]
+        .dn3_tx_p       (dn3_tx_p),     // o  [1 : 0]
+        .dn3_tx_n       (dn3_tx_n)      // o  [1 : 0]
     ); // the_dnstream_unit
 
 
@@ -304,21 +304,21 @@ module intnode
     upstream_unit the_upstream_unit
     (
         // Common asynchronous reset
-        .rst            (rst_sys),  // i
+        .rst            (rst_sys),      // i
 
         // Intialization clock
-        .clk_init       (clk_sys),  // i
+        .clk_init       (clk_gt_init),  // i
 
         // GT reference clock
-        .clk_gt         (clk_gt),   // i
+        .clk_gt         (clk_gt_ref),   // i
 
         // GT RX
-        .up0_rx_p       (up0_rx_p), // i  [1 : 0]
-        .up0_rx_n       (up0_rx_n), // i  [1 : 0]
+        .up0_rx_p       (up0_rx_p),     // i  [1 : 0]
+        .up0_rx_n       (up0_rx_n),     // i  [1 : 0]
 
         // GT TX
-        .up0_tx_p       (up0_tx_p), // o  [1 : 0]
-        .up0_tx_n       (up0_tx_n)  // o  [1 : 0]
+        .up0_tx_p       (up0_tx_p),     // o  [1 : 0]
+        .up0_tx_n       (up0_tx_n)      // o  [1 : 0]
     ); // the_upstream_unit
 
 

@@ -192,7 +192,9 @@ module extnode
     logic           clk_mig_sys;
     logic           clk_mig_ref;
     //
-    logic           clk_gt_aurora;
+    logic           clk_gt_ref_aurora;
+    logic           clk_gt_init_aurora;
+    //
     logic           clk_gt_jesd204b;
     logic           clk_ref;
     //
@@ -229,21 +231,30 @@ module extnode
 
 
     // Generates clocks and related resets
-    clock_unit the_clock_unit
-    (
-        // Input reference clock 100MHz
-        .clk_100mhz_p   (clk_100mhz_p), // i
-        .clk_100mhz_n   (clk_100mhz_n), // i
+    clock_unit the_clock_unit (
+        // Reference 100 MHz clock input
+        .clk_100mhz_p           (clk_100mhz_p),         // i
+        .clk_100mhz_n           (clk_100mhz_n),         // i
 
-        // System clock and reset
-        .clk_sys        (clk_sys),      // o
-        .rst_sys        (rst_sys),      // o
+        // GT reference 156.25 MHz clock input
+        .clk_gt_156p25mhz_p     (clk_gt_156p25mhz_p),   // i
+        .clk_gt_156p25mhz_n     (clk_gt_156p25mhz_n),   // i
 
-        // MIG system clock
-        .clk_mig_sys    (clk_mig_sys),  // o
+        // System clock and reset outputs
+        .clk_sys                (clk_sys),              // o
+        .rst_sys                (rst_sys),              // o
 
-        // MIG reference clock 200MHz
-        .clk_mig_ref    (clk_mig_ref)   // o
+        // MIG system clock output
+        .clk_mig_sys            (clk_mig_sys),          // o
+
+        // MIG reference clock output
+        .clk_mig_ref            (clk_mig_ref),          // o
+
+        // GT reference clock output
+        .clk_gt_ref             (clk_gt_ref_aurora),    // o
+
+        // GT init clock output
+        .clk_gt_init            (clk_gt_init_aurora)    // o
     ); // the_clock_unit
 
 
@@ -335,36 +346,25 @@ module extnode
     ); // the_mig7series
 
 
-    // GT differential buffer instance
-    IBUFDS_GTE2 ibufds_gte2_aurora
-    (
-        .I      (clk_gt_156p25mhz_p),
-        .IB     (clk_gt_156p25mhz_n),
-        .CEB    (1'b0),
-        .O      (clk_gt_aurora),
-        .ODIV2  (  )
-    ); // ibufds_gte2_aurora
-
-
     // Upstream unit
     upstream_unit the_upstream_unit
     (
         // Common asynchronous reset
-        .rst            (rst_sys),          // i
+        .rst            (rst_sys),              // i
 
         // Intialization clock
-        .clk_init       (clk_sys),          // i
+        .clk_init       (clk_gt_init_aurora),   // i
 
         // GT reference clock
-        .clk_gt         (clk_gt_aurora),    // i
+        .clk_gt         (clk_gt_ref_aurora),    // i
 
         // GT RX
-        .up0_rx_p       (up0_rx_p),         // i  [1 : 0]
-        .up0_rx_n       (up0_rx_n),         // i  [1 : 0]
+        .up0_rx_p       (up0_rx_p),             // i  [1 : 0]
+        .up0_rx_n       (up0_rx_n),             // i  [1 : 0]
 
         // GT TX
-        .up0_tx_p       (up0_tx_p),         // o  [1 : 0]
-        .up0_tx_n       (up0_tx_n)          // o  [1 : 0]
+        .up0_tx_p       (up0_tx_p),             // o  [1 : 0]
+        .up0_tx_n       (up0_tx_n)              // o  [1 : 0]
     ); // the_upstream_unit
 
 
