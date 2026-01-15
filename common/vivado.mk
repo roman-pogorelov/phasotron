@@ -44,6 +44,7 @@ PROJECT ?= $(FPGA_TOP)
 PRJ_TARGET = $(PROJECT).xpr
 SYN_TARGET = $(PROJECT).runs/synth_1/$(PROJECT).dcp
 IMP_TARGET = $(PROJECT).runs/impl_1/$(PROJECT)_routed.dcp
+STA_TARGET = $(PROJECT).runs/impl_1/$(PROJECT)_timing_summary_routed.rpt
 BIT_TARGET = $(PROJECT).runs/impl_1/$(PROJECT).bit
 ILA_TARGET = $(PROJECT).runs/impl_1/$(PROJECT).ltx
 
@@ -127,17 +128,24 @@ $(SYN_TARGET): create_project.tcl update_config.tcl $(SYN_FILES) $(INC_FILES) $(
 	@if [ -e $(IP_GEN_DIR) ]; then rm -rf $(IP_GEN_DIR); fi
 
 # implementation run
-$(IMP_TARGET): $(SYN_TARGET)
+$(IMP_TARGET) $(STA_TARGET): $(SYN_TARGET)
 	@echo "$(LIGHT_BLUE)\nRunning implementation...\n$(RESET)"
 	@echo "open_project $(PRJ_TARGET)" > run_impl.tcl
 	@echo "reset_run impl_1" >> run_impl.tcl
 	@echo "launch_runs -jobs 4 impl_1" >> run_impl.tcl
 	@echo "wait_on_run impl_1" >> run_impl.tcl
-	@echo "open_run impl_1" >> run_impl.tcl
-	@echo "report_utilization -file $(PROJECT)_utilization.rpt" >> run_impl.tcl
-	@echo "report_utilization -hierarchical -file $(PROJECT)_utilization_hierarchical.rpt" >> run_impl.tcl
+#	@echo "open_run impl_1" >> run_impl.tcl
+#	@echo "report_utilization -file $(PROJECT)_utilization.rpt" >> run_impl.tcl
+#	@echo "report_utilization -hierarchical -file $(PROJECT)_utilization_hierarchical.rpt" >> run_impl.tcl
 	vivado -nojournal -nolog -mode batch -source run_impl.tcl
 	@if [ -e $(IP_GEN_DIR) ]; then rm -rf $(IP_GEN_DIR); fi
+	@grep -q "All user specified timing constraints are met" $(STA_TARGET); \
+	if [ $$? -ne 0 ]; then \
+		echo "$(RED)Timing constraints are not met!$(RESET)"; \
+		exit 1; \
+	else \
+		echo "$(LIGHT_GREEN)All user specified timing constraints are met$(RESET)"; \
+	fi
 
 # bit file
 $(BIT_TARGET) $(ILA_TARGET): $(IMP_TARGET)
