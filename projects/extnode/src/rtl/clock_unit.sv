@@ -60,15 +60,17 @@ module clock_unit
 
 
     // Variables
-    logic [RST_SYS_CNT_W - 1 : 0]   rst_sys_cnt = '0;
-    logic                           rst_sys_req = '1;
+    logic                           clk_100mhz;
+    logic                           rst_100mhz;
+    //
+    logic                           mmcm_locked;
 
 
     // Diff buffer for the input reference clock 100MHz
     IBUFGDS clk_100mhz_buf (
         .I      (clk_100mhz_p),
         .IB     (clk_100mhz_n),
-        .O      (clk_gt_init)
+        .O      (clk_100mhz)
     ); // clk_100mhz_buf
 
 
@@ -83,11 +85,15 @@ module clock_unit
     ); // the_ibufds_gte2
 
 
+    // GT init clock output
+    assign clk_gt_init = clk_100mhz;
+
+
     // MMCM instance
     clk_gen the_clk_gen
     (
         // Clock in ports
-        .clk_in1    (clk_gt_init),  // i
+        .clk_in1    (clk_100mhz),   // i
 
         // Clock out ports
         .clk_out1   (clk_sys),      // o
@@ -95,16 +101,33 @@ module clock_unit
         .clk_out3   (clk_mig_sys),  // o
 
         // Status and control signals
-        .locked     (  )            // o
+        .locked     (mmcm_locked)   // o
     ); // the_clk_gen
 
 
-    // Generate the system clock domain reset
-    always @(posedge clk_sys) begin
-        rst_sys_cnt <= (rst_sys_cnt < RST_SYS_LEN) ? rst_sys_cnt + 1'b1 : rst_sys_cnt;
-        rst_sys_req <= (rst_sys_cnt < RST_SYS_LEN) & rst_sys_req;
-    end
-    assign rst_sys = rst_sys_req;
+    // XPM reset synchronizer
+    xpm_cdc_async_rst #(
+        .DEST_SYNC_FF       (10),
+        .INIT_SYNC_FF       (0),
+        .RST_ACTIVE_HIGH    (1)
+    )
+    xpm_cdc_async_rst_100mhz (
+        .src_arst           (!mmcm_locked),
+        .dest_clk           (clk_100mhz),
+        .dest_arst          (rst_100mhz)
+    ); // xpm_cdc_async_rst_100mhz
 
+
+    // XPM reset synchronizer
+    xpm_cdc_async_rst #(
+        .DEST_SYNC_FF       (10),
+        .INIT_SYNC_FF       (0),
+        .RST_ACTIVE_HIGH    (1)
+    )
+    xpm_cdc_async_rst_sys (
+        .src_arst           (rst_100mhz),
+        .dest_clk           (clk_sys),
+        .dest_arst          (rst_sys)
+    ); // xpm_cdc_async_rst_sys
 
 endmodule: clock_unit
