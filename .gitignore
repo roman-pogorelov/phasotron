@@ -1,2 +1,12 @@
+# Vivado artifacts
 /**/xil/**
 !/**/xil/Makefile
+
+# ModelSim artifacts
+[_@]*
+wlf*
+*.wlf
+*.vstf
+*.ini
+*.ver
+vsim.dbg
