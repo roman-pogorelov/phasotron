@@ -7,13 +7,14 @@
         // Common reset
         .reset      (), // i
 
-        // GT reference clock
+        // GT reference clock input
         .gt_clk     (), // i
 
-        // Free running clock
+        // Free running clock input
         .init_clk   (), // i
 
-        // Output user clock
+        // User reset and clock outputs
+        .user_rst   (), // o
         .user_clk   (), // o
 
         // GT serial RX
@@ -56,13 +57,14 @@ module aurora64b66b_wrp
     // Common reset
     input  logic                            reset,
 
-    // GT reference clock
+    // GT reference clock input
     input  logic                            gt_clk,
 
-    // Free running clock
+    // Free running clock input
     input  logic                            init_clk,
 
-    // Output user clock
+    // User reset and clock outputs
+    output logic                            user_rst,
     output logic                            user_clk,
 
     // GT serial RX
@@ -133,10 +135,23 @@ module aurora64b66b_wrp
         .INIT_SYNC_FF       (0),
         .RST_ACTIVE_HIGH    (1)
     )
-    xpm_cdc_async_rst_user (
+    xpm_cdc_async_rst_sys (
         .src_arst           (reset),
         .dest_clk           (user_clk),
         .dest_arst          (sys_reset)
+    ); // xpm_cdc_async_rst_sys
+
+
+    // XPM reset synchronizer
+    xpm_cdc_async_rst #(
+        .DEST_SYNC_FF       (10),
+        .INIT_SYNC_FF       (0),
+        .RST_ACTIVE_HIGH    (1)
+    )
+    xpm_cdc_async_rst_user (
+        .src_arst           (sys_reset | mmcm_not_locked),
+        .dest_clk           (user_clk),
+        .dest_arst          (user_rst)
     ); // xpm_cdc_async_rst_user
 
 

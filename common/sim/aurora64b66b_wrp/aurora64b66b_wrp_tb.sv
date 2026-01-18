@@ -25,6 +25,8 @@ module aurora64b66b_wrp_tb ();
     //
     logic           gt_clk;
     logic           init_clk;
+    //
+    logic           user_rst;
     logic           user_clk;
     //
     logic [1 : 0]   gt_serial0_p;
@@ -165,13 +167,14 @@ module aurora64b66b_wrp_tb ();
         // Common reset
         .reset      (rst),      // i
 
-        // GT reference clock
+        // GT reference clock input
         .gt_clk     (gt_clk),   // i
 
-        // Free running clock
+        // Free running clock input
         .init_clk   (init_clk), // i
 
-        // Output user clock
+        // User reset and clock outputs
+        .user_rst   (user_rst), // o
         .user_clk   (user_clk), // o
 
         // GT serial RX
