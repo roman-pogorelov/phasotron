@@ -57,6 +57,10 @@ module clock_unit
     // Constants
     localparam int unsigned     RST_SYS_LEN     = 1000;
     localparam int unsigned     RST_SYS_CNT_W   = $clog2(RST_SYS_LEN + 1);
+    //
+    localparam int unsigned     REF_CLK_FREQ    = 100_000_000;
+    localparam int unsigned     FREQ_EST_FACTOR = 4;
+    localparam int unsigned     FREQ_W          = $clog2(REF_CLK_FREQ * FREQ_EST_FACTOR);
 
 
     // Variables
@@ -64,6 +68,13 @@ module clock_unit
     logic                           rst_100mhz;
     //
     logic                           mmcm_locked;
+    //
+    (* mark_debug = "true" *)
+    logic [FREQ_W - 1 : 0]          clk_sys_freq;
+    (* mark_debug = "true" *)
+    logic [FREQ_W - 1 : 0]          clk_ram_freq;
+    (* mark_debug = "true" *)
+    logic [FREQ_W - 1 : 0]          clk_gt_ref_freq;
 
 
     // Diff buffer for the input reference clock 100MHz
@@ -129,5 +140,62 @@ module clock_unit
         .dest_clk           (clk_sys),
         .dest_arst          (rst_sys)
     ); // xpm_cdc_async_rst_sys
+
+
+    // Clock frequency estimator
+    freq_estimator
+    #(
+        .PERIOD         (REF_CLK_FREQ),     // Duration of estimation in refclk cycles (PERIOD > 0)
+        .FACTOR         (FREQ_EST_FACTOR)   // The maximum estclk to refclk ration
+    )
+    clk_sys_freq_estimator
+    (
+        // Reference clock
+        .refclk         (clk_gt_init),      // i
+
+        // Estimable clock
+        .estclk         (clk_sys),          // i
+
+        // Estimated clock frequency
+        .frequency      (clk_sys_freq)      // o  [$clog2(FACTOR * PERIOD) - 1 : 0]
+    ); // clk_sys_freq_estimator
+
+
+    // Clock frequency estimator
+    freq_estimator
+    #(
+        .PERIOD         (REF_CLK_FREQ),     // Duration of estimation in refclk cycles (PERIOD > 0)
+        .FACTOR         (FREQ_EST_FACTOR)   // The maximum estclk to refclk ration
+    )
+    clk_ram_freq_estimator
+    (
+        // Reference clock
+        .refclk         (clk_gt_init),      // i
+
+        // Estimable clock
+        .estclk         (clk_ram),          // i
+
+        // Estimated clock frequency
+        .frequency      (clk_ram_freq)      // o  [$clog2(FACTOR * PERIOD) - 1 : 0]
+    ); // clk_ram_freq_estimator
+
+
+    // Clock frequency estimator
+    freq_estimator
+    #(
+        .PERIOD         (REF_CLK_FREQ),     // Duration of estimation in refclk cycles (PERIOD > 0)
+        .FACTOR         (FREQ_EST_FACTOR)   // The maximum estclk to refclk ration
+    )
+    clk_gt_ref_freq_estimator
+    (
+        // Reference clock
+        .refclk         (clk_gt_init),      // i
+
+        // Estimable clock
+        .estclk         (clk_gt_ref),       // i
+
+        // Estimated clock frequency
+        .frequency      (clk_gt_ref_freq)   // o  [$clog2(FACTOR * PERIOD) - 1 : 0]
+    ); // clk_gt_ref_freq_estimator
 
 endmodule: clock_unit
