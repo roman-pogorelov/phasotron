@@ -116,6 +116,9 @@ module intnode
     logic           clk_ram;
     logic           rst_ram;
     //
+    logic           clk_user;
+    logic           rst_user;
+    //
     logic           clk_mig_sys;
     logic           clk_mig_ref;
     //
@@ -148,6 +151,13 @@ module intnode
     logic           init_calib_complete;
     //
     logic           gl_clk;
+
+
+    // Itrefaces
+    apb3_if         user_apb3_m();
+    //
+    axis_if         up_data_in();
+    axis_if         dn_data_out[4]();
 
 
     // Generates clocks and related resets
@@ -266,60 +276,87 @@ module intnode
     ); // the_mig7series
 
 
-    // Downstream unit
-    dnstream_unit the_dnstream_unit
-    (
-        // Common asynchronous reset
-        .rst            (rst_sys),      // i
+    // TIP midstream link
+    tip_mid_link #(
+        .TYPE_ID        (32'h00000000),     // Node type ID
+        .FW_REV_ID      (32'h00000000),     // FW revision ID
+        .DN_CNT         (4)                 // Number of downstream links
+    )
+    the_tip_mid_link (
+        // Common reset
+        .rst            (rst_sys),          // i
 
-        // Intialization clock
-        .clk_init       (clk_gt_init),  // i
+        // GT reference clock input
+        .gt_clk         (clk_gt_ref),       // i
 
-        // GT reference clock
-        .clk_gt         (clk_gt_ref),   // i
+        // Free running clock input
+        .init_clk       (clk_gt_init),      // i
 
-        // GT RX
-        .dn0_rx_p       (dn0_rx_p),     // i  [1 : 0]
-        .dn0_rx_n       (dn0_rx_n),     // i  [1 : 0]
-        .dn1_rx_p       (dn1_rx_p),     // i  [1 : 0]
-        .dn1_rx_n       (dn1_rx_n),     // i  [1 : 0]
-        .dn2_rx_p       (dn2_rx_p),     // i  [1 : 0]
-        .dn2_rx_n       (dn2_rx_n),     // i  [1 : 0]
-        .dn3_rx_p       (dn3_rx_p),     // i  [1 : 0]
-        .dn3_rx_n       (dn3_rx_n),     // i  [1 : 0]
+        // User reset and clock outputs
+        .user_rst       (rst_user),         // i
+        .user_clk       (clk_user),         // i
 
-        // GT TX
-        .dn0_tx_p       (dn0_tx_p),     // o  [1 : 0]
-        .dn0_tx_n       (dn0_tx_n),     // o  [1 : 0]
-        .dn1_tx_p       (dn1_tx_p),     // o  [1 : 0]
-        .dn1_tx_n       (dn1_tx_n),     // o  [1 : 0]
-        .dn2_tx_p       (dn2_tx_p),     // o  [1 : 0]
-        .dn2_tx_n       (dn2_tx_n),     // o  [1 : 0]
-        .dn3_tx_p       (dn3_tx_p),     // o  [1 : 0]
-        .dn3_tx_n       (dn3_tx_n)      // o  [1 : 0]
-    ); // the_dnstream_unit
+        // GT serial RX (upstream link)
+        .up_gt_rx_p     (up0_rx_p),         // i  [1 : 0]
+        .up_gt_rx_n     (up0_rx_n),         // i  [1 : 0]
+
+        // GT serial TX (upstream link)
+        .up_gt_tx_p     (up0_tx_p),         // o  [1 : 0]
+        .up_gt_tx_n     (up0_tx_n),         // o  [1 : 0]
+
+        // GT serial RX (downstream link)
+        .dn_gt_rx_p     ({
+                            dn3_rx_p,
+                            dn2_rx_p,
+                            dn1_rx_p,
+                            dn0_rx_p
+                        }),                 // i  [DN_CNT - 1 : 0][1 : 0]
+        .dn_gt_rx_n     ({
+                            dn3_rx_n,
+                            dn2_rx_n,
+                            dn1_rx_n,
+                            dn0_rx_n
+                        }),                 // i  [DN_CNT - 1 : 0][1 : 0]
+
+        // GT serial TX (downstream link)
+        .dn_gt_tx_p     ({
+                            dn3_tx_p,
+                            dn2_tx_p,
+                            dn1_tx_p,
+                            dn0_tx_p
+                        }),                 // o  [DN_CNT - 1 : 0][1 : 0]
+        .dn_gt_tx_n     ({
+                            dn3_tx_n,
+                            dn2_tx_n,
+                            dn1_tx_n,
+                            dn0_tx_n
+                        }),                 // o  [DN_CNT - 1 : 0][1 : 0]
+
+        // APB3 master to access the user-defined register map @ user_clk
+        .user_apb3_m    (user_apb3_m),      // apb3_if.master
+
+        // Data streams to the upstream / from the downstream links @ user_clk
+        .up_data_in     (up_data_in),       // axis_if.slave
+        .dn_data_out    (dn_data_out)       // axis_if[DN_CNT].master
+    ); // the_tip_mid_link
 
 
-    // Upstream unit
-    upstream_unit the_upstream_unit
-    (
-        // Common asynchronous reset
-        .rst            (rst_sys),      // i
+    // TODO: Connect the user-defined register map instead
+    assign user_apb3_m.pready = '1;
+    assign user_apb3_m.prdata = '0;
+    assign user_apb3_m.pslverr = '0;
 
-        // Intialization clock
-        .clk_init       (clk_gt_init),  // i
 
-        // GT reference clock
-        .clk_gt         (clk_gt_ref),   // i
-
-        // GT RX
-        .up0_rx_p       (up0_rx_p),     // i  [1 : 0]
-        .up0_rx_n       (up0_rx_n),     // i  [1 : 0]
-
-        // GT TX
-        .up0_tx_p       (up0_tx_p),     // o  [1 : 0]
-        .up0_tx_n       (up0_tx_n)      // o  [1 : 0]
-    ); // the_upstream_unit
+    // TODO: Connect AXIS stream processign instead
+    assign up_data_in.tdata = '0;
+    assign up_data_in.tkeep = '0;
+    assign up_data_in.tvalid = '0;
+    assign up_data_in.tlast = '0;
+    //
+    assign dn_data_out[0].tready = '1;
+    assign dn_data_out[1].tready = '1;
+    assign dn_data_out[2].tready = '1;
+    assign dn_data_out[3].tready = '1;
 
 
     // Differential clock buffer
