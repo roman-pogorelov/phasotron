@@ -2,7 +2,7 @@
     // Forwards the input stream to a mask-selected
     // subset of multiple outputs
     axis_multicast #(
-        .OUT_CNT    ()  // Number out output stream
+        .OUT_CNT    ()  // Number of output stream
     )
     the_axis_multicast (
         // Reset and clock
@@ -23,7 +23,7 @@
 
 module axis_multicast
 #(
-    parameter int unsigned          OUT_CNT = 2 // Number out output stream
+    parameter int unsigned          OUT_CNT = 2 // Number of output stream
 )
 (
     // Reset and clock
