@@ -189,6 +189,9 @@ module extnode
     logic           clk_ram;
     logic           rst_ram;
     //
+    logic           clk_user;
+    logic           rst_user;
+    //
     logic           clk_mig_sys;
     logic           clk_mig_ref;
     //
@@ -228,6 +231,12 @@ module extnode
     //
     logic [63 : 0]  dac0_data = '0;
     logic [63 : 0]  dac1_data = '0;
+
+
+    // Iterfaces
+    apb3_if         user_apb3_m();
+    //
+    axis_if         up_data_in();
 
 
     // Generates clocks and related resets
@@ -346,26 +355,52 @@ module extnode
     ); // the_mig7series
 
 
-    // Upstream unit
-    upstream_unit the_upstream_unit
-    (
-        // Common asynchronous reset
+    // TIP upstream link
+    tip_up_link #(
+        .TYPE_ID        (32'h00000000),         // Node type ID
+        .FW_REV_ID      (32'h00000000)          // FW revision ID
+    )
+    the_tip_up_link (
+        // Common reset
         .rst            (rst_sys),              // i
 
-        // Intialization clock
-        .clk_init       (clk_gt_init_aurora),   // i
+        // GT reference clock input
+        .gt_clk         (clk_gt_ref_aurora),    // i
 
-        // GT reference clock
-        .clk_gt         (clk_gt_ref_aurora),    // i
+        // Free running clock input
+        .init_clk       (clk_gt_init_aurora),   // i
 
-        // GT RX
-        .up0_rx_p       (up0_rx_p),             // i  [1 : 0]
-        .up0_rx_n       (up0_rx_n),             // i  [1 : 0]
+        // User reset and clock outputs
+        .user_rst       (rst_user),             // o
+        .user_clk       (clk_user),             // o
 
-        // GT TX
-        .up0_tx_p       (up0_tx_p),             // o  [1 : 0]
-        .up0_tx_n       (up0_tx_n)              // o  [1 : 0]
-    ); // the_upstream_unit
+        // GT serial RX
+        .gt_rx_p        (up0_rx_p),             // i  [1 : 0]
+        .gt_rx_n        (up0_rx_n),             // i  [1 : 0]
+
+        // GT serial TX
+        .gt_tx_p        (up0_tx_p),             // o  [1 : 0]
+        .gt_tx_n        (up0_tx_n),             // o  [1 : 0]
+
+        // APB3 master to access the user-defined register map @ user_clk
+        .user_apb3_m    (user_apb3_m),          // apb3_if.master
+
+        // Data stream to upstream link @ user_clk
+        .up_data_in     (up_data_in)            // axis_if.slave
+    ); // the_tip_up_link
+
+
+    // TODO: Connect the user-defined register map instead
+    assign user_apb3_m.pready = '1;
+    assign user_apb3_m.prdata = '0;
+    assign user_apb3_m.pslverr = '0;
+
+
+    // TODO: Connect an AXIS stream source instead
+    assign up_data_in.tdata = '0;
+    assign up_data_in.tkeep = '0;
+    assign up_data_in.tvalid = '0;
+    assign up_data_in.tlast = '0;
 
 
     // Differential clock buffer
