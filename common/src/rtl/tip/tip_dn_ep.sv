@@ -44,32 +44,44 @@ module tip_dn_ep
     axis_if.master              up_ctrl_out,
     axis_if.master              up_data_out
 );
-    // FIXME: loopback the transport streams
-    assign dn_transp_in.tdata = dn_transp_out.tdata;
-    assign dn_transp_in.tkeep = dn_transp_out.tkeep;
-    assign dn_transp_in.tvalid = dn_transp_out.tvalid;
-    assign dn_transp_in.tlast = dn_transp_out.tlast;
-    assign dn_transp_out.tready = dn_transp_in.tready;
+    // Interfaces
+    tip_dn_ctrl_if  dn_ctrl();
 
 
-    // FIXME: terminate dn_apb3_s
-    assign dn_apb3_s.pready = '1;
-    assign dn_apb3_s.prdata = '0;
-    assign dn_apb3_s.pslverr = '0;
+    // TIP downstream endpoint APB3 control unit
+    tip_dn_apb3 the_tip_dn_apb3 (
+        // Reset and clock
+        .rst            (rst),              // i
+        .clk            (clk),              // i
+
+        // APB3 slave interface
+        .dn_apb3_s      (dn_apb3_s),        // apb3_if.slave
+
+        // Downstream control interface
+        .dn_ctrl        (dn_ctrl),          // tip_dn_ctrl_if.master
+
+        // Transport status interface
+        .dn_transp_stat (dn_transp_stat)    // tip_transp_stat_if.slave
+    ); // the_tip_dn_apb3
 
 
-    // FIXME: do not send anything to the upstream endpoint
-    assign up_ctrl_out.tdata = '0;
-    assign up_ctrl_out.tkeep = '0;
-    assign up_ctrl_out.tvalid = '0;
-    assign up_ctrl_out.tlast = '0;
-    //
-    assign up_data_out.tdata = '0;
-    assign up_data_out.tkeep = '0;
-    assign up_data_out.tvalid = '0;
-    assign up_data_out.tlast = '0;
+    // TIP downstream endpoint router
+    tip_dn_router the_tip_dn_router (
+        // Reset and clock
+        .rst            (rst),                  // i
+        .clk            (clk),                  // i
 
-    // FIXME: remove everything received from upstream endpoint
-    assign up_ctrl_in.tready = '1;
+        // Control
+        .dn_ctrl        (dn_ctrl),              // tip_dn_ctrl_if.slave
+
+        // Streams to/from the transport
+        .dn_transp_in   (dn_transp_in),         // axis_if.slave
+        .dn_transp_out  (dn_transp_out),        // axis_if.master
+
+        // Streams to/from the upstream endpoint
+        .up_ctrl_in     (up_ctrl_in),           // axis_if.slave
+        .up_ctrl_out    (up_ctrl_out),          // axis_if.master
+        .up_data_out    (up_data_out)           // axis_if.master
+    ); // the_tip_dn_router
 
 endmodule: tip_dn_ep

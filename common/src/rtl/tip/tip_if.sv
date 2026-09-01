@@ -1,3 +1,4 @@
+// TIP transport status interface
 interface tip_transp_stat_if;
 
     // Interface signals
@@ -65,3 +66,27 @@ module tip_transp_stat_connect
     assign m.tx_frame_loss = s.tx_frame_loss;
 
 endmodule: tip_transp_stat_connect
+
+
+// TIP downstream control interface
+interface tip_dn_ctrl_if;
+
+    // Interface signals
+    logic transp_rx_ena;
+    logic transp_tx_ena;
+
+
+    // Master mode
+    modport master (
+        output transp_rx_ena,
+        output transp_tx_ena
+    );
+
+
+    // Slave mode
+    modport slave (
+        input  transp_rx_ena,
+        input  transp_tx_ena
+    );
+
+endinterface: tip_dn_ctrl_if
