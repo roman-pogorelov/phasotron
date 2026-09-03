@@ -90,3 +90,48 @@ interface tip_dn_ctrl_if;
     );
 
 endinterface: tip_dn_ctrl_if
+
+
+// TIP upsteram configuration interface
+interface tip_up_conf_if;
+
+    // Interface signals
+    logic [31 : 0]  indiv_addr;
+    logic [31 : 0]  group_addr0;
+    logic [31 : 0]  group_addr1;
+    logic [31 : 0]  group_addr2;
+    logic [31 : 0]  group_addr3;
+    logic [31 : 0]  group_addr4;
+    logic [31 : 0]  group_addr5;
+    logic [31 : 0]  group_addr6;
+    logic [31 : 0]  group_addr7;
+
+
+    // Master mode
+    modport master (
+        output indiv_addr,
+        output group_addr0,
+        output group_addr1,
+        output group_addr2,
+        output group_addr3,
+        output group_addr4,
+        output group_addr5,
+        output group_addr6,
+        output group_addr7
+    );
+
+
+    // Slave mode
+    modport slave (
+        input  indiv_addr,
+        input  group_addr0,
+        input  group_addr1,
+        input  group_addr2,
+        input  group_addr3,
+        input  group_addr4,
+        input  group_addr5,
+        input  group_addr6,
+        input  group_addr7
+    );
+
+endinterface: tip_up_conf_if

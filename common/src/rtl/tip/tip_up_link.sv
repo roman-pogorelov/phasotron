@@ -75,7 +75,7 @@ module tip_up_link
     axis_if                     dn_ctrl_in();
     axis_if                     dn_ctrl_out();
     //
-    apb3_if                     dn_apb3_m();
+    apb3_if                     dn_apb3();
     //
     tip_transp_stat_if          status[1]();
 
@@ -101,7 +101,7 @@ module tip_up_link
         .user_apb3_m    (user_apb3_m),  // apb3_if.master
 
         // APB3 master to control the downstream endpoints
-        .dn_apb3_m      (dn_apb3_m),    // apb3_if.master
+        .dn_apb3_m      (dn_apb3),      // apb3_if.master
 
         // Streams to/from the downstream endpoint
         .dn_ctrl_in     (dn_ctrl_in),   // axis_if.slave
@@ -147,12 +147,16 @@ module tip_up_link
     ); // tip_transport_up_link
 
 
-    // No control packets from/to the downsteam
+    // No downstream endpoins
     assign dn_ctrl_in.tdata = '0;
     assign dn_ctrl_in.tkeep = '0;
     assign dn_ctrl_in.tvalid = '0;
     assign dn_ctrl_in.tlast = '0;
     //
     assign dn_ctrl_out.tready = 1'b1;
+    //
+    assign dn_apb3.pready = '1;
+    assign dn_apb3.prdata = '0;
+    assign dn_apb3.pslverr = '0;
 
 endmodule: tip_up_link
