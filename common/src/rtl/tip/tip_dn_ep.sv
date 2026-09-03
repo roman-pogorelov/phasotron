@@ -48,8 +48,8 @@ module tip_dn_ep
     tip_dn_ctrl_if  dn_ctrl();
 
 
-    // TIP downstream endpoint APB3 control unit
-    tip_dn_apb3 the_tip_dn_apb3 (
+    // TIP downstream endpoint configuration unit
+    tip_dn_conf the_tip_dn_conf (
         // Reset and clock
         .rst            (rst),              // i
         .clk            (clk),              // i
@@ -62,7 +62,7 @@ module tip_dn_ep
 
         // Transport status interface
         .dn_transp_stat (dn_transp_stat)    // tip_transp_stat_if.slave
-    ); // the_tip_dn_apb3
+    ); // the_tip_dn_conf
 
 
     // TIP downstream endpoint router

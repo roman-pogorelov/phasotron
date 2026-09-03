@@ -1,6 +1,6 @@
 /*
-    // TIP downstream endpoint APB3 control unit
-    tip_dn_apb3 the_tip_dn_apb3 (
+    // TIP downstream endpoint configuration unit
+    tip_dn_conf the_tip_dn_conf (
         // Reset and clock
         .rst            (), // i
         .clk            (), // i
@@ -13,13 +13,13 @@
 
         // Transport status interface
         .dn_transp_stat ()  // tip_transp_stat_if.slave
-    ); // the_tip_dn_apb3
+    ); // the_tip_dn_conf
 */
 
 import apb3_defs::*;
 import tip_defs::*;
 
-module tip_dn_apb3
+module tip_dn_conf
 (
     // Reset and clock
     input  logic                rst,
@@ -34,8 +34,6 @@ module tip_dn_apb3
     // Transport status interface
     tip_transp_stat_if.slave    dn_transp_stat
 );
-    // Constants
-
     // Variables
     logic           wr_ena;
     //
@@ -121,4 +119,4 @@ module tip_dn_apb3
         endcase
     end
 
-endmodule: tip_dn_apb3
+endmodule: tip_dn_conf
