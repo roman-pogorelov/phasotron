@@ -59,6 +59,8 @@ package tip_defs;
 
 
     // TIP configuration register map
+    parameter apb3_addr_t  TIP_CFG_ADDR_SEC_MASK        = 32'hFFF_FFF00;
+    //
     parameter apb3_addr_t  TIP_CFG_ADDR_MAGIC_ID        = 32'h0000_0000;
     parameter apb3_addr_t  TIP_CFG_ADDR_REV_ID          = 32'h0000_0004;
     parameter apb3_addr_t  TIP_CFG_ADDR_TYPE_ID         = 32'h0000_0008;
