@@ -144,7 +144,7 @@ module tip_dn_router
     ); // dn_transp_in_buffer
 
 
-    // Identify the traffic coming the transport
+    // Identify the traffic coming from the transport
     assign dn_transp_in_hdr = dn_transp_in_sw_buf.tdata;
     //
     assign dn_transp_in_is_ctrl = (
