@@ -106,7 +106,10 @@ module tip_mid_ep
         for (i = 0; i < DN_CNT; i++) begin: dn_ep_gen
 
             // TIP downstream endpoint
-            tip_dn_ep the_tip_dn_ep (
+            tip_dn_ep #(
+                .DN_ID          (i)                     // Downstream endpoint ID
+            )
+            the_tip_dn_ep (
                 // Reset and clock
                 .rst            (rst),                  // i
                 .clk            (clk),                  // i

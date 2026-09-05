@@ -1,6 +1,9 @@
 /*
     // TIP downstream endpoint
-    tip_dn_ep the_tip_dn_ep (
+    tip_dn_ep #(
+        .DN_ID          ()  // Downstream endpoint ID
+    )
+    the_tip_dn_ep (
         // Reset and clock
         .rst            (), // i
         .clk            (), // i
@@ -24,6 +27,9 @@
 
 
 module tip_dn_ep
+#(
+    parameter int unsigned      DN_ID = 0   // Downstream endpoint ID
+)
 (
     // Reset and clock
     input  logic                rst,
@@ -49,7 +55,10 @@ module tip_dn_ep
 
 
     // TIP downstream endpoint configuration unit
-    tip_dn_conf the_tip_dn_conf (
+    tip_dn_conf #(
+        .DN_ID          (DN_ID)             // Downstream endpoint ID
+    )
+    the_tip_dn_conf (
         // Reset and clock
         .rst            (rst),              // i
         .clk            (clk),              // i

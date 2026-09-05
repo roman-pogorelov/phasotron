@@ -207,7 +207,10 @@ module tip_dn_ep_array_tb ();
         for (j = 0; j < DN_CNT; j++) begin: tip_dn_ep_gen
 
             // TIP downstream endpoint
-            tip_dn_ep the_tip_dn_ep (
+            tip_dn_ep #(
+                .DN_ID          (j)                     // Downstream endpoint ID
+            )
+            the_tip_dn_ep (
                 // Reset and clock
                 .rst            (rst),                  // i
                 .clk            (clk),                  // i

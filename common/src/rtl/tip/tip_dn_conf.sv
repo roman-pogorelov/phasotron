@@ -1,6 +1,9 @@
 /*
     // TIP downstream endpoint configuration unit
-    tip_dn_conf the_tip_dn_conf (
+    tip_dn_conf #(
+        .DN_ID          ()  // Downstream endpoint ID
+    )
+    the_tip_dn_conf (
         // Reset and clock
         .rst            (), // i
         .clk            (), // i
@@ -20,6 +23,9 @@ import apb3_defs::*;
 import tip_defs::*;
 
 module tip_dn_conf
+#(
+    parameter int unsigned      DN_ID = 0   // Downstream endpoint ID
+)
 (
     // Reset and clock
     input  logic                rst,
@@ -34,6 +40,14 @@ module tip_dn_conf
     // Transport status interface
     tip_transp_stat_if.slave    dn_transp_stat
 );
+    // Constants
+    localparam apb3_addr_t ADDR_DN_CNT          = TIP_CFG_ADDR_DN_CNT;
+    localparam apb3_addr_t ADDR_DN_LINK_STATE   = TIP_CFG_ADDR_DN_LINK_STATE;
+    localparam apb3_addr_t ADDR_DN_ENA          = TIP_CFG_ADDR_DN_ENA + apb3_addr_t'('{word_addr: DN_ID, byte_idx: 0});
+    localparam apb3_addr_t ADDR_DN_LINK_UP_CNT  = TIP_CFG_ADDR_DN_LINK_UP_CNT + apb3_addr_t'('{word_addr: DN_ID, byte_idx: 0});
+    localparam apb3_addr_t ADDR_DN_LINK_ERR_CNT = TIP_CFG_ADDR_DN_LINK_ERR_CNT + apb3_addr_t'('{word_addr: DN_ID, byte_idx: 0});
+
+
     // Variables
     logic           wr_ena;
     //
@@ -63,7 +77,7 @@ module tip_dn_conf
     always @(posedge rst, posedge clk) begin
         if (rst)
             transp_ena <= '0;
-        else if (wr_ena & (dn_apb3_s.paddr.word_addr == TIP_CFG_ADDR_DN_ENA.word_addr))
+        else if (wr_ena & (dn_apb3_s.paddr.word_addr == ADDR_DN_ENA.word_addr))
             transp_ena <= dn_apb3_s.pwdata[0] & dn_transp_stat.link_up;
         else
             transp_ena <= transp_ena & dn_transp_stat.link_up;
@@ -89,7 +103,7 @@ module tip_dn_conf
     always @(posedge rst, posedge clk) begin
         if (rst)
             link_up_cnt <= '0;
-        else if (wr_ena & (dn_apb3_s.paddr.word_addr == TIP_CFG_ADDR_DN_LINK_UP_CNT.word_addr))
+        else if (wr_ena & (dn_apb3_s.paddr.word_addr == ADDR_DN_LINK_UP_CNT.word_addr))
             link_up_cnt <= dn_apb3_s.pwdata;
         else
             link_up_cnt <= link_up_cnt + apb3_data_t'(link_up_rise);
@@ -100,7 +114,7 @@ module tip_dn_conf
     always @(posedge rst, posedge clk) begin
         if (rst)
             link_err_cnt <= '0;
-        else if (wr_ena & (dn_apb3_s.paddr.word_addr == TIP_CFG_ADDR_DN_LINK_ERR_CNT.word_addr))
+        else if (wr_ena & (dn_apb3_s.paddr.word_addr == ADDR_DN_LINK_ERR_CNT.word_addr))
             link_err_cnt <= dn_apb3_s.pwdata;
         else
             link_err_cnt <= link_err_cnt + apb3_data_t'(dn_transp_stat.hard_err);
@@ -110,12 +124,12 @@ module tip_dn_conf
     // ABP3 read logic
     always_comb begin
         case (dn_apb3_s.paddr.word_addr)
-            TIP_CFG_ADDR_DN_CNT.word_addr:          dn_apb3_s.prdata = apb3_data_t'(1);
-            TIP_CFG_ADDR_DN_LINK_STATE.word_addr:   dn_apb3_s.prdata = '{0: dn_transp_stat.link_up, default: 1'b0};
-            TIP_CFG_ADDR_DN_ENA.word_addr:          dn_apb3_s.prdata = '{0: transp_ena, default: 1'b0};
-            TIP_CFG_ADDR_DN_LINK_UP_CNT.word_addr:  dn_apb3_s.prdata = link_up_cnt;
-            TIP_CFG_ADDR_DN_LINK_ERR_CNT.word_addr: dn_apb3_s.prdata = link_err_cnt;
-            default:                                dn_apb3_s.prdata = apb3_data_t'(0);
+            ADDR_DN_CNT.word_addr:          dn_apb3_s.prdata = apb3_data_t'(1);
+            ADDR_DN_LINK_STATE.word_addr:   dn_apb3_s.prdata = '{DN_ID: dn_transp_stat.link_up, default: 1'b0};
+            ADDR_DN_ENA.word_addr:          dn_apb3_s.prdata = '{0: transp_ena, default: 1'b0};
+            ADDR_DN_LINK_UP_CNT.word_addr:  dn_apb3_s.prdata = link_up_cnt;
+            ADDR_DN_LINK_ERR_CNT.word_addr: dn_apb3_s.prdata = link_err_cnt;
+            default:                        dn_apb3_s.prdata = apb3_data_t'(0);
         endcase
     end
 

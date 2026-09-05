@@ -44,8 +44,6 @@ module tip_mid_apb3_intcon
     // Variables
     logic [DN_ADDR_LSB - 1 : 0]         dn_index;
     //
-    apb3_addr_t                         up_apb3_s_paddr_masked;
-    //
     logic [DN_CNT_MAX - 1 : 0]          dn_link_up_state;
     //
     apb3_data_t [DN_CNT_MAX - 1 : 0]    dn_apb3_m_prdata;
@@ -61,18 +59,11 @@ module tip_mid_apb3_intcon
     end
 
 
-    // Mask the address bits determining the downstream EP index
-    assign up_apb3_s_paddr_masked = '{
-        word_addr:  {up_apb3_s.paddr.word_addr[$high(up_apb3_s.paddr.word_addr) : DN_ADDR_LSB], {DN_ADDR_LSB{1'b0}}},
-        byte_idx:   up_apb3_s.paddr.byte_idx
-    };
-
-
     // Derive the downsteram endpoint index from the address
     assign dn_index = up_apb3_s.paddr.word_addr[DN_ADDR_LSB - 1 : 0];
 
 
-    // Generate logic for each downstream endpoints
+    // Generate logic for each downstream endpoint
     generate
         genvar i;
         for (i = 0; i < DN_CNT_MAX; i++) begin: dn_ep_logic_gen
@@ -81,16 +72,16 @@ module tip_mid_apb3_intcon
             if (i < DN_CNT) begin: dn_ep_logic_real
 
                 // APB3 master output signal logic
-                assign dn_apb3_m[i].paddr = (up_apb3_s.paddr.word_addr == TIP_CFG_ADDR_DN_LINK_STATE.word_addr) ? up_apb3_s.paddr : up_apb3_s_paddr_masked;
-                assign dn_apb3_m[i].psel = up_apb3_s.psel & (i == dn_index);
-                assign dn_apb3_m[i].penable = up_apb3_s.penable & (i == dn_index);
+                assign dn_apb3_m[i].paddr = up_apb3_s.paddr;
+                assign dn_apb3_m[i].psel = up_apb3_s.psel;
+                assign dn_apb3_m[i].penable = up_apb3_s.penable;
                 assign dn_apb3_m[i].pwrite = up_apb3_s.pwrite;
                 assign dn_apb3_m[i].pwdata = up_apb3_s.pwdata;
 
 
                 // Merge APB3 read data busses from the downstream endpoints
                 // to make a single link status register
-                assign dn_link_up_state[i] = dn_apb3_m[i].prdata[0];
+                assign dn_link_up_state[i] = dn_apb3_m[i].prdata[i];
 
 
                 // Merge APB3 slave input signals
