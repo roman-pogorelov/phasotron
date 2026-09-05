@@ -116,22 +116,25 @@ module tip_up_ep
 
     // TIP upstream endpoint configuration unit
     tip_up_conf #(
-        .TYPE_ID    (TYPE_ID),      // Node type ID
-        .FW_REV_ID  (FW_REV_ID)     // FW revision ID
+        .TYPE_ID        (TYPE_ID),          // Node type ID
+        .FW_REV_ID      (FW_REV_ID)         // FW revision ID
     )
     the_tip_up_conf (
         // Reset and clock
-        .rst        (rst),          // i
-        .clk        (clk),          // i
+        .rst            (rst),              // i
+        .clk            (clk),              // i
+
+        // Transport status interface
+        .up_transp_stat (up_transp_stat),   // tip_transp_stat_if.slave
 
         // Configuration control
-        .up_conf    (up_conf),      // tip_up_conf_if.master
+        .up_conf        (up_conf),          // tip_up_conf_if.master
 
         // APB3 slave interface
-        .apb3_s     (conf_apb3),    // apb3_if.slave
+        .apb3_s         (conf_apb3),        // apb3_if.slave
 
         // APB3 msater interface
-        .dn_apb3_m  (dn_apb3_m)     // apb3_if.master
+        .dn_apb3_m      (dn_apb3_m)         // apb3_if.master
     ); // the_tip_up_conf
 
 
