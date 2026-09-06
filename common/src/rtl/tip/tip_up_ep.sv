@@ -68,6 +68,8 @@ module tip_up_ep
     axis_if             user_rpt();
     //
     apb3_if             conf_apb3();
+    //
+    tip_up_req_if       up_req();
 
 
     // TIP upstream endpoint router
@@ -134,7 +136,10 @@ module tip_up_ep
         .apb3_s         (conf_apb3),        // apb3_if.slave
 
         // APB3 msater interface
-        .dn_apb3_m      (dn_apb3_m)         // apb3_if.master
+        .dn_apb3_m      (dn_apb3_m),        // apb3_if.master
+
+        // Request interface
+        .up_req         (up_req)            // tip_up_req_if.master
     ); // the_tip_up_conf
 
 

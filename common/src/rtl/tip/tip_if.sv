@@ -135,3 +135,23 @@ interface tip_up_conf_if;
     );
 
 endinterface: tip_up_conf_if
+
+
+// TIP upsteram request interface
+interface tip_up_req_if;
+
+    // Interface signals
+    logic   reset;
+
+    // Master mode
+    modport master (
+        output reset
+    );
+
+
+    // Slave mode
+    modport slave (
+        input  reset
+    );
+
+endinterface: tip_up_req_if

@@ -41,6 +41,10 @@ package tip_defs;
     } tip_pkt_hdr_t;
 
 
+    // TIP protocol revision ID
+    parameter logic [7 : 0] TIP_PROTOCOL_REV_ID     = 8'h00;
+
+
     // TIP packet types
     parameter logic [7 : 0] TIP_PKT_TYPE_CMD_CFG    = 8'h00;
     parameter logic [7 : 0] TIP_PKT_TYPE_CMD_USR    = 8'h01;
@@ -58,8 +62,20 @@ package tip_defs;
     import apb3_defs::apb3_addr_t;
 
 
+    // TIP configuration magic ID
+    parameter logic [31 : 0] TIP_CFG_MAGIC_ID           = 32'h7ACA_9797;
+
+
+    // TIP configuration register map revision ID
+    parameter logic [31 : 0] TIP_CFG_REV_ID             = 32'h0000_0000;
+
+
+    // TIP reset request key
+    parameter logic [31 : 0] TIP_CFG_RST_REQ_KEY        = 32'h2E87_82F0;
+
+
     // TIP configuration register map
-    parameter apb3_addr_t  TIP_CFG_ADDR_SEC_MASK        = 32'hFFF_FFF00;
+    parameter apb3_addr_t  TIP_CFG_ADDR_SEC_MASK        = 32'hFFFF_FF00;
     //
     parameter apb3_addr_t  TIP_CFG_ADDR_MAGIC_ID        = 32'h0000_0000;
     parameter apb3_addr_t  TIP_CFG_ADDR_REV_ID          = 32'h0000_0004;
