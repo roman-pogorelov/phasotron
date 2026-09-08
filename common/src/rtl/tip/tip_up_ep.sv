@@ -102,10 +102,16 @@ module tip_up_ep
 
     // Converts TIP AXIS packets into APB3 transactions and
     // converts APB3 responses back into TIP AXIS packets
-    tip_axis_apb3_bridge tip_axis_apb3_bridge_conf (
+    tip_axis_apb3_bridge  #(
+        .RPT_TYPE   (0)             // Report type: 0 - configuration report, 1 - user report
+    )
+    tip_axis_apb3_bridge_conf (
         // Reset and clock
         .rst        (rst),          // i
         .clk        (clk),          // i
+
+        // Configuration interface
+        .conf       (up_conf),      // tip_up_conf_if.slave
 
         // Control streams
         .ctrl_in    (conf_cmd),     // axis_if.slave
@@ -145,10 +151,16 @@ module tip_up_ep
 
     // Converts TIP AXIS packets into APB3 transactions and
     // converts APB3 responses back into TIP AXIS packets
-    tip_axis_apb3_bridge tip_axis_apb3_bridge_user (
+    tip_axis_apb3_bridge #(
+        .RPT_TYPE   (1)             // Report type: 0 - configuration report, 1 - user report
+    )
+    tip_axis_apb3_bridge_user (
         // Reset and clock
         .rst        (rst),          // i
         .clk        (clk),          // i
+
+        // Configuration interface
+        .conf       (up_conf),      // tip_up_conf_if.slave
 
         // Control streams
         .ctrl_in    (user_cmd),     // axis_if.slave

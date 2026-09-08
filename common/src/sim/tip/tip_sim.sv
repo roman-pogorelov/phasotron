@@ -174,4 +174,49 @@ package tip_sim;
     endtask
 
 
+    // Send a TIP configuration read command
+    task automatic tip_cmd_cfg_rd(virtual axis_if.master axis_m, ref logic clk, input int node_addr, input int addr, input int count);
+
+        automatic tip_pkt_hdr_t pkt_hdr = '{
+            ctl: '{
+                addr: addr,
+                reserved: 0,
+                flags: '{
+                    cmd_failed: 0,
+                    reserved: 0,
+                    no_addr_inc: 0,
+                    no_report: 0,
+                    cmd_type: TIP_CMD_RD
+                },
+                count: count - 1
+            },
+
+            cmn: '{
+                node_addr: node_addr,
+                reserved: 0,
+                type_id: TIP_PKT_TYPE_CMD_CFG,
+                rev_id: 0
+            }
+        };
+
+        if (count > 0) begin
+            @(posedge clk);
+
+            axis_m.tdata = pkt_hdr;
+            axis_m.tkeep = 16'hFFFF;
+            axis_m.tlast = 1;
+            axis_m.tvalid = 1;
+
+            do begin
+                @(posedge clk);
+            end while (!axis_m.tready);
+        end
+
+        axis_m.tdata = 0;
+        axis_m.tkeep = 0;
+        axis_m.tlast = 0;
+        axis_m.tvalid = 0;
+    endtask
+
+
 endpackage: tip_sim

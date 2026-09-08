@@ -15,7 +15,7 @@ package tip_defs;
     } tip_pkt_cmn_hdr_t;
 
 
-    // TIP packet: control flags
+    // TIP packet: control header: flags
     typedef struct packed {
         logic           cmd_failed;
         logic [3 : 0]   reserved;
@@ -25,12 +25,16 @@ package tip_defs;
     } tip_pkt_ctl_flags_t;
 
 
+    // TIP packet: control header: transfer count
+    typedef logic [7 : 0] tip_pkt_ctl_count_t;
+
+
     // TIP packet: control header
     typedef struct packed {
         logic [31 : 0]      addr;
         logic [15 : 0]      reserved;
         tip_pkt_ctl_flags_t flags;
-        logic [7 : 0]       count;
+        tip_pkt_ctl_count_t count;
     } tip_pkt_ctl_hdr_t;
 
 
@@ -104,5 +108,9 @@ package tip_defs;
     parameter apb3_addr_t  TIP_CFG_ADDR_DN_ENA          = 32'h0000_0500;
     parameter apb3_addr_t  TIP_CFG_ADDR_DN_LINK_UP_CNT  = 32'h0000_0600;
     parameter apb3_addr_t  TIP_CFG_ADDR_DN_LINK_ERR_CNT = 32'h0000_0700;
+
+
+    // TIP APB3 access timeout
+    localparam int unsigned TIP_APB3_TIMEOUT_CY         = 1000;
 
 endpackage: tip_defs
