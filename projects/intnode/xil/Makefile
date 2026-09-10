@@ -43,6 +43,8 @@ SYN_FILES += ../../../common/src/rtl/aurora/aurora_rx_guard.sv
 SYN_FILES += ../../../common/src/rtl/aurora/support_6_2500/aurora64b66b_clock_module.v
 SYN_FILES += ../../../common/src/rtl/aurora/support_6_2500/aurora64b66b_gt_common_wrapper.v
 SYN_FILES += ../../../common/src/rtl/aurora/support_6_2500/aurora64b66b_support_reset_logic.v
+SYN_FILES += ../../../common/src/rtl/dummy/user_system.sv
+SYN_FILES += ../../../common/src/rtl/dummy/dsp_system.sv
 
 
 # XDC files

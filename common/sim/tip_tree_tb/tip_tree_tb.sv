@@ -89,10 +89,6 @@ module tip_tree_tb ();
         mid_up_transp_stat.tx_data_loss = 0;
         mid_up_transp_stat.tx_frame_loss = 0;
         //
-        mid_user_apb3.pready = 1;
-        mid_user_apb3.prdata = 0;
-        mid_user_apb3.pslverr = 0;
-        //
         axis_master_idle_set(mid_up_transp_in);
         axis_slave_ready_set(mid_up_transp_out, 1);
         axis_master_idle_set(mid_up_data_in);
@@ -163,11 +159,11 @@ module tip_tree_tb ();
         tip_ctrl_rd_send(mid_up_transp_in, clk, 0, UP3_ADDR, 0, 4);
 
         #INITDLY;
-        tip_ctrl_wr_send(mid_up_transp_in, clk, 1, MID_ADDR, 0, '{1, 2, 3, 4});
-        tip_ctrl_wr_send(mid_up_transp_in, clk, 1, UP0_ADDR, 0, '{1, 2, 3, 4});
-        tip_ctrl_wr_send(mid_up_transp_in, clk, 1, UP1_ADDR, 0, '{1, 2, 3, 4});
-        tip_ctrl_wr_send(mid_up_transp_in, clk, 1, UP2_ADDR, 0, '{1, 2, 3, 4});
-        tip_ctrl_wr_send(mid_up_transp_in, clk, 1, UP3_ADDR, 0, '{1, 2, 3, 4});
+        tip_ctrl_wr_send(mid_up_transp_in, clk, 1, MID_ADDR, 'h10, '{1, 2, 3, 4});
+        tip_ctrl_wr_send(mid_up_transp_in, clk, 1, UP0_ADDR, 'h10, '{1, 2, 3, 4});
+        tip_ctrl_wr_send(mid_up_transp_in, clk, 1, UP1_ADDR, 'h10, '{1, 2, 3, 4});
+        tip_ctrl_wr_send(mid_up_transp_in, clk, 1, UP2_ADDR, 'h10, '{1, 2, 3, 4});
+        tip_ctrl_wr_send(mid_up_transp_in, clk, 1, UP3_ADDR, 'h10, '{1, 2, 3, 4});
 
         #INITDLY;
         #INITDLY;
@@ -181,7 +177,8 @@ module tip_tree_tb ();
         #INITDLY;
         #INITDLY;
         #INITDLY;
-        tip_ctrl_wr_send(mid_up_transp_in, clk, 1, GRP_ADDR, 0, '{1, 2, 3, 4});
+        tip_ctrl_wr_send(mid_up_transp_in, clk, 1, GRP_ADDR, 8, '{32'h89ABCDEF});
+        tip_ctrl_rd_send(mid_up_transp_in, clk, 1, GRP_ADDR, 0, 3);
     end
 
 
@@ -220,6 +217,17 @@ module tip_tree_tb ();
     ); // the_tip_mid_ep
 
 
+    // Placeholder for the user_system
+    user_system mid_user_system (
+        // Reset and clock
+        .rst        (rst),              // i
+        .clk        (clk),              // i
+
+        // APB3 slave interface
+        .apb3_s     (mid_user_apb3)     // apb3_if.slave
+    ); // mid_user_system
+
+
     // Generate upstream EPs
     generate
         genvar i;
@@ -242,10 +250,6 @@ module tip_tree_tb ();
                 up_transp_stat[i].rx_frame_loss = 0;
                 up_transp_stat[i].tx_data_loss = 0;
                 up_transp_stat[i].tx_frame_loss = 0;
-                //
-                up_user_apb3[i].pready = 1;
-                up_user_apb3[i].prdata = 0;
-                up_user_apb3[i].pslverr = 0;
                 //
                 up_dn_apb3[i].pready = 1;
                 up_dn_apb3[i].prdata = 0;
@@ -286,6 +290,17 @@ module tip_tree_tb ();
                 .dn_ctrl_out    (up_dn_ctrl_out[i]),    // axis_if.master
                 .dn_data_in     (up_dn_data_in[i])      // axis_if.slave
             ); // the_tip_up_ep
+
+
+            // Placeholder for the user_system
+            user_system up_user_system (
+                // Reset and clock
+                .rst        (rst),              // i
+                .clk        (clk),              // i
+
+                // APB3 slave interface
+                .apb3_s     (up_user_apb3[i])   // apb3_if.slave
+            ); // up_user_system
 
         end // up_ep_gen
     endgenerate

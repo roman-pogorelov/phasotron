@@ -234,9 +234,9 @@ module extnode
 
 
     // Iterfaces
-    apb3_if         user_apb3_m();
+    apb3_if         user_apb3();
     //
-    axis_if         up_data_in();
+    axis_if         up_data();
 
 
     // Generates clocks and related resets
@@ -383,24 +383,30 @@ module extnode
         .gt_tx_n        (up0_tx_n),             // o  [1 : 0]
 
         // APB3 master to access the user-defined register map @ user_clk
-        .user_apb3_m    (user_apb3_m),          // apb3_if.master
+        .user_apb3_m    (user_apb3),            // apb3_if.master
 
         // Data stream to upstream link @ user_clk
-        .up_data_in     (up_data_in)            // axis_if.slave
+        .up_data_in     (up_data)               // axis_if.slave
     ); // the_tip_up_link
 
 
-    // TODO: Connect the user-defined register map instead
-    assign user_apb3_m.pready = '1;
-    assign user_apb3_m.prdata = '0;
-    assign user_apb3_m.pslverr = '0;
+    // Placeholder for the user_system
+    // FIXME: needs to be implemented
+    user_system dummy_user_system (
+        // Reset and clock
+        .rst        (rst_user),     // i
+        .clk        (clk_user),     // i
+
+        // APB3 slave interface
+        .apb3_s     (user_apb3)     // apb3_if.slave
+    ); // dummy_user_system
 
 
-    // TODO: Connect an AXIS stream source instead
-    assign up_data_in.tdata = '0;
-    assign up_data_in.tkeep = '0;
-    assign up_data_in.tvalid = '0;
-    assign up_data_in.tlast = '0;
+    // FIXME: Connect an AXIS stream source
+    assign up_data.tdata = '0;
+    assign up_data.tkeep = '0;
+    assign up_data.tvalid = '0;
+    assign up_data.tlast = '0;
 
 
     // Differential clock buffer

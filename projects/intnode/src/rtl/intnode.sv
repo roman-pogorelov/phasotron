@@ -154,10 +154,10 @@ module intnode
 
 
     // Itrefaces
-    apb3_if         user_apb3_m();
+    apb3_if         user_apb3();
     //
-    axis_if         up_data_in();
-    axis_if         dn_data_out[4]();
+    axis_if         up_data();
+    axis_if         dn_data[4]();
 
 
     // Generates clocks and related resets
@@ -333,30 +333,40 @@ module intnode
                         }),                 // o  [DN_CNT - 1 : 0][1 : 0]
 
         // APB3 master to access the user-defined register map @ user_clk
-        .user_apb3_m    (user_apb3_m),      // apb3_if.master
+        .user_apb3_m    (user_apb3),        // apb3_if.master
 
         // Data streams to the upstream / from the downstream links @ user_clk
-        .up_data_in     (up_data_in),       // axis_if.slave
-        .dn_data_out    (dn_data_out)       // axis_if[DN_CNT].master
+        .up_data_in     (up_data),          // axis_if.slave
+        .dn_data_out    (dn_data)           // axis_if[DN_CNT].master
     ); // the_tip_mid_link
 
 
-    // TODO: Connect the user-defined register map instead
-    assign user_apb3_m.pready = '1;
-    assign user_apb3_m.prdata = '0;
-    assign user_apb3_m.pslverr = '0;
+    // Placeholder for the user_system
+    // FIXME: needs to be implemented
+    user_system dummy_user_system (
+        // Reset and clock
+        .rst        (rst_user),     // i
+        .clk        (clk_user),     // i
+
+        // APB3 slave interface
+        .apb3_s     (user_apb3)     // apb3_if.slave
+    ); // dummy_user_system
 
 
-    // TODO: Connect AXIS stream processign instead
-    assign up_data_in.tdata = '0;
-    assign up_data_in.tkeep = '0;
-    assign up_data_in.tvalid = '0;
-    assign up_data_in.tlast = '0;
-    //
-    assign dn_data_out[0].tready = '1;
-    assign dn_data_out[1].tready = '1;
-    assign dn_data_out[2].tready = '1;
-    assign dn_data_out[3].tready = '1;
+    // Placeholder for the DSP system
+    // FIXME: needs to be implemented
+    dsp_system #(
+        .DN_CNT         (4)         // Number of downstream links
+    )
+    dummy_dsp_system (
+        // Reset and clock
+        .rst            (rst_user), // i
+        .clk            (clk_user), // i
+
+        // Streams to/from the upstream/downstream endpoints
+        .up_data_out    (up_data),  // axis_if.master
+        .dn_data_in     (dn_data)   // axis_if[DN_CNT].slave
+    ); // dummy_dsp_system
 
 
     // Differential clock buffer
