@@ -78,6 +78,8 @@ module tip_up_link
     apb3_if                     dn_apb3();
     //
     tip_transp_stat_if          status[1]();
+    //
+    tip_up_req_if               up_req();
 
 
     // TIP upstream endpoint
@@ -92,6 +94,9 @@ module tip_up_link
 
         // Upstream tsransport status
         .up_transp_stat (status[0]),    // tip_transp_stat_if.slave
+
+        // Request interface
+        .up_req         (up_req),       // tip_up_req_if.master
 
         // Streams to/from the upstream transport
         .up_transp_in   (transp_rx[0]), // axis_if.slave

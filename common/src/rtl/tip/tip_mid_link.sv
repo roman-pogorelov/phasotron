@@ -97,6 +97,8 @@ module tip_mid_link
     axis_if                 transp_rx_dn[DN_CNT]();
     axis_if                 transp_tx[DN_CNT + 1]();
     axis_if                 transp_tx_dn[DN_CNT]();
+    //
+    tip_up_req_if           up_req();
 
 
     // TIP midstream endpoint
@@ -113,6 +115,9 @@ module tip_mid_link
         // Upstream/downstream tsransport status
         .up_transp_stat (status[DN_CNT]),       // tip_transp_stat_if.slave
         .dn_transp_stat (status_dn),            // tip_transp_stat_if[DN_CNT].slave
+
+        // Request interface
+        .up_req         (up_req),               // tip_up_req_if.master
 
         // Streams to/from the upstream/downstream transport
         .up_transp_in   (transp_rx[DN_CNT]),    // axis_if.slave

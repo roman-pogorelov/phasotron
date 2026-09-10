@@ -50,6 +50,9 @@ module tip_tree_tb ();
     tip_transp_stat_if      mid_dn_transp_stat[DN_CNT]();
     tip_transp_stat_if      up_transp_stat[DN_CNT]();
     //
+    tip_up_req_if           mid_up_req();
+    tip_up_req_if           up_req[DN_CNT]();
+    //
     apb3_if                 mid_user_apb3();
     apb3_if                 up_user_apb3[DN_CNT]();
     apb3_if                 up_dn_apb3[DN_CNT]();
@@ -202,6 +205,9 @@ module tip_tree_tb ();
         .up_transp_stat (mid_up_transp_stat),   // tip_transp_stat_if.slave
         .dn_transp_stat (mid_dn_transp_stat),   // tip_transp_stat_if[DN_CNT].slave
 
+        // Request interface
+        .up_req         (mid_up_req),           // tip_up_req_if.master
+
         // Streams to/from the upstream/downstream transport
         .up_transp_in   (mid_up_transp_in),     // axis_if.slave
         .up_transp_out  (mid_up_transp_out),    // axis_if.master
@@ -274,6 +280,9 @@ module tip_tree_tb ();
 
                 // Upstream tsransport status
                 .up_transp_stat (up_transp_stat[i]),    // tip_transp_stat_if.slave
+
+                // Request interface
+                .up_req         (up_req[i]),            // tip_up_req_if.master
 
                 // Streams to/from the upstream transport
                 .up_transp_in   (mid_dn_transp_out[i]), // axis_if.slave

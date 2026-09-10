@@ -14,6 +14,9 @@
         .up_transp_stat (), // tip_transp_stat_if.slave
         .dn_transp_stat (), // tip_transp_stat_if[DN_CNT].slave
 
+        // Request interface
+        .up_req         (), // tip_up_req_if.master
+
         // Streams to/from the upstream/downstream transport
         .up_transp_in   (), // axis_if.slave
         .up_transp_out  (), // axis_if.master
@@ -45,6 +48,9 @@ module tip_mid_ep
     // Upstream/downstream tsransport status
     tip_transp_stat_if.slave    up_transp_stat,
     tip_transp_stat_if.slave    dn_transp_stat[DN_CNT],
+
+    // Request interface
+    tip_up_req_if.master        up_req,
 
     // Streams to/from the upstream/downstream transport
     axis_if.slave               up_transp_in,
@@ -82,6 +88,9 @@ module tip_mid_ep
 
         // Upstream tsransport status
         .up_transp_stat (up_transp_stat),   // tip_transp_stat_if.slave
+
+        // Request interface
+        .up_req         (up_req),           // tip_up_req_if.master
 
         // Streams to/from the upstream transport
         .up_transp_in   (up_transp_in),     // axis_if.slave

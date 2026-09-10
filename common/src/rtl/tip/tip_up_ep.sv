@@ -12,6 +12,9 @@
         // Upstream tsransport status
         .up_transp_stat (), // tip_transp_stat_if.slave
 
+        // Request interface
+        .up_req         (), // tip_up_req_if.master
+
         // Streams to/from the upstream transport
         .up_transp_in   (), // axis_if.slave
         .up_transp_out  (), // axis_if.master
@@ -43,6 +46,9 @@ module tip_up_ep
     // Upstream tsransport status
     tip_transp_stat_if.slave    up_transp_stat,
 
+    // Request interface
+    tip_up_req_if.master        up_req,
+
     // Streams to/from the upstream transport
     axis_if.slave               up_transp_in,
     axis_if.master              up_transp_out,
@@ -68,8 +74,6 @@ module tip_up_ep
     axis_if             user_rpt();
     //
     apb3_if             conf_apb3();
-    //
-    tip_up_req_if       up_req();
 
 
     // TIP upstream endpoint router

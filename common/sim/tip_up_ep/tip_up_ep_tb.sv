@@ -39,6 +39,8 @@ module tip_up_ep_tb ();
     // Interfaces
     tip_transp_stat_if      transp_stat();
     //
+    tip_up_req_if           up_req();
+    //
     apb3_if                 user_apb3();
     apb3_if                 dn_apb3();
     //
@@ -135,6 +137,9 @@ module tip_up_ep_tb ();
 
         // Upstream tsransport status
         .up_transp_stat (transp_stat),  // tip_transp_stat_if.slave
+
+        // Request interface
+        .up_req         (up_req),       // tip_up_req_if.master
 
         // Streams to/from the upstream transport
         .up_transp_in   (transp_in),    // axis_if.slave
