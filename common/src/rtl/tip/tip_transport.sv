@@ -107,17 +107,17 @@ module tip_transport
             assign status[ch].tx_data_loss  = stat_tx_data_loss[ch];
             assign status[ch].tx_frame_loss = stat_tx_frame_loss[ch];
             //
-            assign tx[ch].tdata  = tx_tdata[ch];
-            assign tx[ch].tkeep  = tx_tkeep[ch];
-            assign tx[ch].tvalid = tx_tvalid[ch];
-            assign tx[ch].tlast  = tx_tlast[ch];
-            assign tx_tready[ch] = tx[ch].tready;
+            assign tx_tdata[ch]  = tx[ch].tdata;
+            assign tx_tkeep[ch]  = tx[ch].tkeep;
+            assign tx_tvalid[ch] = tx[ch].tvalid;
+            assign tx_tlast[ch]  = tx[ch].tlast;
+            assign tx[ch].tready = tx_tready[ch];
             //
-            assign rx_tdata[ch]  = rx[ch].tdata;
-            assign rx_tkeep[ch]  = rx[ch].tkeep;
-            assign rx_tvalid[ch] = rx[ch].tvalid;
-            assign rx_tlast[ch]  = rx[ch].tlast;
-            assign rx[ch].tready = rx_tready[ch];
+            assign rx[ch].tdata  = rx_tdata[ch];
+            assign rx[ch].tkeep  = rx_tkeep[ch];
+            assign rx[ch].tvalid = rx_tvalid[ch];
+            assign rx[ch].tlast  = rx_tlast[ch];
+            assign rx_tready[ch] = rx[ch].tready;
         end // axis_if_conn
     endgenerate
 
