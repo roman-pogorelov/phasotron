@@ -109,8 +109,8 @@ module tip_mid_link
     )
     the_tip_mid_ep (
         // Reset and clock
-        .rst            (rst),                  // i
-        .clk            (clk),                  // i
+        .rst            (user_rst),             // i
+        .clk            (user_clk),             // i
 
         // Upstream/downstream tsransport status
         .up_transp_stat (status[DN_CNT]),       // tip_transp_stat_if.slave
