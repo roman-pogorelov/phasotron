@@ -361,9 +361,6 @@ module extnode
         .FW_REV_ID      (32'h00000000)          // FW revision ID
     )
     the_tip_up_link (
-        // Common reset
-        .rst            (rst_sys),              // i
-
         // GT reference clock input
         .gt_clk         (clk_gt_ref_aurora),    // i
 

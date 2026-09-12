@@ -283,9 +283,6 @@ module intnode
         .DN_CNT         (4)                 // Number of downstream links
     )
     the_tip_mid_link (
-        // Common reset
-        .rst            (rst_sys),          // i
-
         // GT reference clock input
         .gt_clk         (clk_gt_ref),       // i
 

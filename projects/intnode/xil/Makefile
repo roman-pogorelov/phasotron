@@ -22,6 +22,7 @@ SYN_FILES += ../../../common/src/rtl/axis/axis_arbiter.sv
 SYN_FILES += ../../../common/src/rtl/tip/tip_if.sv
 SYN_FILES += ../../../common/src/rtl/tip/tip_defs.sv
 SYN_FILES += ../../../common/src/rtl/tip/tip_transport.sv
+SYN_FILES += ../../../common/src/rtl/tip/tip_reset.sv
 SYN_FILES += ../../../common/src/rtl/tip/tip_axis_apb3_bridge.sv
 SYN_FILES += ../../../common/src/rtl/tip/tip_up_router.sv
 SYN_FILES += ../../../common/src/rtl/tip/tip_up_conf.sv

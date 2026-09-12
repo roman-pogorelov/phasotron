@@ -6,9 +6,6 @@
         .DN_CNT         ()  // Number of downstream links
     )
     the_tip_mid_link (
-        // Common reset
-        .rst            (), // i
-
         // GT reference clock input
         .gt_clk         (), // i
 
@@ -53,9 +50,6 @@ module tip_mid_link
     parameter int unsigned                  DN_CNT      = 1             // Number of downstream links
 )
 (
-    // Common reset
-    input  logic                            rst,
-
     // GT reference clock input
     input  logic                            gt_clk,
 
@@ -89,6 +83,10 @@ module tip_mid_link
     axis_if.slave                           up_data_in,
     axis_if.master                          dn_data_out[DN_CNT]
 );
+    // Variables
+    logic                   rst;
+
+
     // Interfaces
     tip_transp_stat_if      status[DN_CNT + 1]();
     tip_transp_stat_if      status_dn[DN_CNT]();
@@ -99,6 +97,23 @@ module tip_mid_link
     axis_if                 transp_tx_dn[DN_CNT]();
     //
     tip_up_req_if           up_req();
+
+
+    // TIP reset unit
+    tip_reset the_tip_reset (
+        // Free running clock input
+        .init_clk   (init_clk),     // i
+
+        // User reset and clock inputs
+        .user_rst   (user_rst),     // i
+        .user_clk   (user_clk),     // i
+
+        // Reset request input @ user_clk
+        .rst_req    (up_req.reset), // i
+
+        // Common reset output
+        .rst_out    (rst)           // o
+    ); // the_tip_reset
 
 
     // TIP midstream endpoint

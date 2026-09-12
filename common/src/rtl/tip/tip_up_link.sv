@@ -5,9 +5,6 @@
         .FW_REV_ID      ()  // FW revision ID
     )
     the_tip_up_link (
-        // Common reset
-        .rst            (), // i
-
         // GT reference clock input
         .gt_clk         (), // i
 
@@ -41,9 +38,6 @@ module tip_up_link
     parameter logic [31 : 0]    FW_REV_ID   = 32'h00000000  // FW revision ID
 )
 (
-    // Common reset
-    input  logic                rst,
-
     // GT reference clock input
     input  logic                gt_clk,
 
@@ -68,6 +62,10 @@ module tip_up_link
     // Data stream to upstream link @ user_clk
     axis_if.slave               up_data_in
 );
+    // Variables
+    logic                       rst;
+
+
     // Itrefaces
     axis_if                     transp_rx[1]();
     axis_if                     transp_tx[1]();
@@ -80,6 +78,23 @@ module tip_up_link
     tip_transp_stat_if          status[1]();
     //
     tip_up_req_if               up_req();
+
+
+    // TIP reset unit
+    tip_reset the_tip_reset (
+        // Free running clock input
+        .init_clk   (init_clk),     // i
+
+        // User reset and clock inputs
+        .user_rst   (user_rst),     // i
+        .user_clk   (user_clk),     // i
+
+        // Reset request input @ user_clk
+        .rst_req    (up_req.reset), // i
+
+        // Common reset output
+        .rst_out    (rst)           // o
+    ); // the_tip_reset
 
 
     // TIP upstream endpoint
