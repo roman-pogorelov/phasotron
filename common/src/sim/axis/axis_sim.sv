@@ -15,4 +15,12 @@ package axis_sim;
         axis_s.tready = ready;
     endtask
 
+
+    // Waits for a packet to come in
+    task automatic axis_packet_wait(virtual axis_if axis, ref logic clk);
+        do begin
+            @(posedge clk);
+        end while (!(axis.tvalid & axis.tready & axis.tlast));
+    endtask
+
 endpackage:  axis_sim

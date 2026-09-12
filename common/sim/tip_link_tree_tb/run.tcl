@@ -72,6 +72,7 @@ vlog -work work ../../src/rtl/tip/tip_dn_link.sv
 vlog -work work ../../src/rtl/tip/tip_mid_apb3_intcon.sv
 vlog -work work ../../src/rtl/tip/tip_mid_axis_intcon.sv
 vlog -work work ../../src/rtl/tip/tip_mid_ep.sv
+vlog -work work ../../src/rtl/tip/tip_reset.sv
 vlog -work work ../../src/rtl/dummy/user_system.sv
 
 vlog -sv -work work ./tip_link_tree_tb.sv
