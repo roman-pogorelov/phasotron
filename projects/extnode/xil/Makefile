@@ -15,6 +15,7 @@ SYN_FILES += ../src/rtl/dac_stub.sv
 SYN_FILES += ../src/rtl/lmk0482_stub.sv
 SYN_FILES += ../src/rtl/mig7_stub.sv
 SYN_FILES += ../src/rtl/gt_common_wrapper.v
+SYN_FILES += ../../../common/src/rtl/misc/freq_estimator.sv
 SYN_FILES += ../../../common/src/rtl/generic/onehot2binary.sv
 SYN_FILES += ../../../common/src/rtl/generic/arbiter.sv
 SYN_FILES += ../../../common/src/rtl/apb3/apb3.sv
@@ -47,6 +48,7 @@ SYN_FILES += ../../../common/src/rtl/dummy/user_system.sv
 # XDC files
 XDC_FILES  = ../src/xdc/extnode.xdc
 XDC_FILES += ../src/xdc/timing.xdc
+XDC_FILES += ../src/xdc/debug.xdc
 XDC_FILES += ../../../common/src/xdc/aurora64b66b_wrp.xdc
 
 
