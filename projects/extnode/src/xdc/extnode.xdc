@@ -2,6 +2,9 @@
 set_property CFGBVS         VCCO                [current_design]
 set_property CONFIG_VOLTAGE 3.3                 [current_design]
 #
+# Bitstream settings
+set_property BITSTREAM.GENERAL.COMPRESS TRUE    [current_design]
+#
 # System clock
 set_property IOSTANDARD     DIFF_SSTL15         [get_ports {clk_100mhz_?}]
 set_property PACKAGE_PIN    AG10                [get_ports {clk_100mhz_p}]
