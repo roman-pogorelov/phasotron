@@ -47,6 +47,7 @@ IMP_TARGET = $(PROJECT).runs/impl_1/$(PROJECT)_routed.dcp
 STA_TARGET = $(PROJECT).runs/impl_1/$(PROJECT)_timing_summary_routed.rpt
 BIT_TARGET = $(PROJECT).runs/impl_1/$(PROJECT).bit
 ILA_TARGET = $(PROJECT).runs/impl_1/$(PROJECT).ltx
+MCS_TARGET = $(PROJECT).mcs
 
 # directory created by Vivado for some reason
 IP_GEN_DIR = ../../$(PROJECT).gen
@@ -80,6 +81,8 @@ RESET = \033[0m
 all: fpga
 
 fpga: $(BIT_TARGET)
+
+flash: $(MCS_TARGET)
 
 vivado: $(PRJ_TARGET)
 	@echo "$(LIGHT_BLUE)\nOpening Vivado project...\n$(RESET)"
@@ -155,3 +158,10 @@ $(BIT_TARGET) $(ILA_TARGET): $(IMP_TARGET)
 	@echo "write_bitstream -force $(BIT_TARGET)" >> generate_bit.tcl
 	@echo "write_debug_probes -force $(ILA_TARGET)" >> generate_bit.tcl
 	vivado -nojournal -nolog -mode batch -source generate_bit.tcl
+
+# mcs file
+$(MCS_TARGET): $(BIT_TARGET)
+	@echo "$(LIGHT_BLUE)\nGenerating memory configuration file...\n$(RESET)"
+	@echo "open_project $(PRJ_TARGET)" > flash.tcl
+	@echo "write_cfgmem  -format mcs -size 64 -interface SPIx1 -loadbit {up 0x00000000 $(BIT_TARGET)} -force -file $(MCS_TARGET)" >> flash.tcl
+	vivado -nojournal -nolog -mode batch -source flash.tcl
