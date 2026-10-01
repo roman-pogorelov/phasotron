@@ -326,4 +326,17 @@ module aurora_transport
         end // channel_gen
     endgenerate
 
+
+    // DEBUG:
+    (* mark_debug = "true" *)
+    logic [CH_CNT - 1 : 0] aurora_link_up;
+    (* mark_debug = "true" *)
+    logic [CH_CNT - 1 : 0] aurora_soft_err;
+    (* mark_debug = "true" *)
+    logic [CH_CNT - 1 : 0] aurora_hard_err;
+    //
+    assign aurora_link_up  = stat_link_up;
+    assign aurora_soft_err = stat_soft_err;
+    assign aurora_hard_err = stat_hard_err;
+
 endmodule: aurora_transport
