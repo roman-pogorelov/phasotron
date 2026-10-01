@@ -64,6 +64,8 @@ module clock_unit
 
 
     // Variables
+    logic                           clk_100mhz_buf;
+    //
     logic                           clk_100mhz;
     logic                           rst_100mhz;
     //
@@ -72,17 +74,22 @@ module clock_unit
     (* mark_debug = "true" *)
     logic [FREQ_W - 1 : 0]          clk_sys_freq;
     (* mark_debug = "true" *)
-    logic [FREQ_W - 1 : 0]          clk_ram_freq;
-    (* mark_debug = "true" *)
     logic [FREQ_W - 1 : 0]          clk_gt_ref_freq;
 
 
     // Diff buffer for the input reference clock 100MHz
-    IBUFGDS clk_100mhz_buf (
+    IBUFGDS clk_100mhz_ibufgds (
         .I      (clk_100mhz_p),
         .IB     (clk_100mhz_n),
+        .O      (clk_100mhz_buf)
+    ); // clk_100mhz_ibufgds
+
+
+    // Global clock buffer for the input reference clock 100MHz
+    BUFG clk_100mhz_bufg (
+        .I      (clk_100mhz_buf),
         .O      (clk_100mhz)
-    ); // clk_100mhz_buf
+    ); // clk_100mhz_bufg
 
 
     // GT differential buffer instance
@@ -159,25 +166,6 @@ module clock_unit
         // Estimated clock frequency
         .frequency      (clk_sys_freq)      // o  [$clog2(FACTOR * PERIOD) - 1 : 0]
     ); // clk_sys_freq_estimator
-
-
-    // Clock frequency estimator
-    freq_estimator
-    #(
-        .PERIOD         (REF_CLK_FREQ),     // Duration of estimation in refclk cycles (PERIOD > 0)
-        .FACTOR         (FREQ_EST_FACTOR)   // The maximum estclk to refclk ration
-    )
-    clk_ram_freq_estimator
-    (
-        // Reference clock
-        .refclk         (clk_gt_init),      // i
-
-        // Estimable clock
-        .estclk         (clk_ram),          // i
-
-        // Estimated clock frequency
-        .frequency      (clk_ram_freq)      // o  [$clog2(FACTOR * PERIOD) - 1 : 0]
-    ); // clk_ram_freq_estimator
 
 
     // Clock frequency estimator
