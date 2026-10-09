@@ -145,6 +145,10 @@ module tip_dn_router
 
 
     // Identify the traffic coming from the transport
+    // REVIEW: if neither classification matches below (e.g. an unexpected type_id, or a short
+    // tkeep that fails both checks), dn_transp_in_router's out_mask is all-zero and the packet
+    // is silently absorbed with no destination and no error/drop counter -- consider flagging
+    // this case (e.g. bump stat_rx_frame_loss-style counter) instead of dropping it unnoticed.
     assign dn_transp_in_hdr = dn_transp_in_sw_buf.tdata;
     //
     assign dn_transp_in_is_ctrl = (

@@ -72,6 +72,10 @@ module tip_dn_conf
     assign wr_ena = dn_apb3_s.psel & dn_apb3_s.penable & dn_apb3_s.pwrite;
 
 
+    // REVIEW: if software writes transp_ena=1 while link_up is still 0, the AND here clears it
+    // back to 0 immediately, and it stays 0 forever afterwards (the 'else' branch only ANDs the
+    // existing value with link_up, it never re-asserts once the link comes up) -- software must
+    // write this register again *after* observing link_up, a write-before-link-up is silently lost.
     // Enables the downstream enpoint to send/receive traffic
     // from/to the transport
     always @(posedge rst, posedge clk) begin
@@ -121,9 +125,19 @@ module tip_dn_conf
     end
 
 
+    // REVIEW: this module also uses always_comb for combinational logic (consistent with a few
+    // other tip_* files), but every sequential block in this file -- and in the codebase overall
+    // -- still uses the legacy 'always @(posedge rst, posedge clk)' form instead of always_ff.
+    // Worth picking one style consistently (always_comb/always_ff pair, or plain always @ for both).
+    //
     // ABP3 read logic
     always_comb begin
         case (dn_apb3_s.paddr.word_addr)
+            // REVIEW: always returns a hardcoded 1 regardless of DN_ID/actual downstream count,
+            // and this address (TIP_CFG_ADDR_DN_CNT, no +DN_ID offset) is also intercepted and
+            // answered directly by tip_mid_apb3_intcon before reaching this slave, so this case
+            // is unreachable/dead from the host's point of view -- consider removing it or wiring
+            // it to something meaningful.
             ADDR_DN_CNT.word_addr:          dn_apb3_s.prdata = apb3_data_t'(1);
             ADDR_DN_LINK_STATE.word_addr:   dn_apb3_s.prdata = '{DN_ID: dn_transp_stat.link_up, default: 1'b0};
             ADDR_DN_ENA.word_addr:          dn_apb3_s.prdata = '{0: transp_ena, default: 1'b0};

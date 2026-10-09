@@ -88,12 +88,18 @@ module axis_multicast
 
         for (i = 0; i < OUT_CNT; i++) begin: out_gen
             for (j = 0; j < OUT_CNT; j++) begin: mask_gen
+                // REVIEW: an identity matrix built via a nested generate loop is
+                // overkill here — mask[i] = OUT_CNT'(1) << i would read more clearly.
                 assign mask[i][j] = (i == j);
             end // mask_gen
 
             assign out[i].tdata = in.tdata;
             assign out[i].tkeep = in.tkeep;
             assign out[i].tlast = in.tlast;
+            // REVIEW: out[i].tvalid combinationally depends on every other selected
+            // out[k].tready, so all selected sinks must assert tready in lock-step;
+            // worth documenting as a hard requirement on downstream consumers
+            // (a tready that itself depends on tvalid would close a comb. loop here).
             assign out[i].tvalid = in.tvalid & out_mask_pkt[i] & (&(out_tready | mask[i] | ~out_mask_pkt));
         end // out_gen
 
@@ -102,6 +108,9 @@ module axis_multicast
         end // out_tready_gen
 
     endgenerate
+    // REVIEW: if out_mask selects no outputs, in.tready is forced high and the
+    // packet is silently dropped with no error/status indication — confirm this
+    // is the intended behavior.
     assign in.tready = &(out_tready | ~out_mask_pkt);
 
 endmodule: axis_multicast

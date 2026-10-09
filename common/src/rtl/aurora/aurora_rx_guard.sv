@@ -157,6 +157,11 @@ module aurora_rx_guard
                 end
             end
 
+            // REVIEW: st_wait_channel_up and st_wait_frame_start below have byte-for-byte
+            // identical bodies -- as written, st_wait_channel_up never actually waits for
+            // channel_up to rise (it already requires channel_up==1 to do anything, same as
+            // st_wait_frame_start), so the two states appear mergeable. If a distinction was
+            // intended, it isn't expressed in the code.
             st_wait_channel_up: begin
                 if (channel_up) begin
                     buf_capture = i_rx_tvalid & i_rx_tfirst;

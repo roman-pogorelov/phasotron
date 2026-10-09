@@ -185,6 +185,7 @@ module aurora_transport
     ); // the_aurora64b66b_wrp
 
 
+    // REVIEW: typo, "Gererate" -> "Generate"
     // Gererate the utility units
     generate
         genvar ch;
@@ -327,6 +328,9 @@ module aurora_transport
     endgenerate
 
 
+    // REVIEW: permanent ILA debug probes left in mainline RTL, unguarded by a
+    // debug-build flag — consider wrapping in a `ifdef or removing before the
+    // next release so they don't silently keep consuming device resources.
     // DEBUG:
     (* mark_debug = "true" *)
     logic [CH_CNT - 1 : 0] aurora_link_up;

@@ -224,6 +224,7 @@ module tip_up_router
         ((transp_in_hdr.cmn.node_addr == up_conf.group_addr7) & (up_conf.group_addr7 != 0))
     );
     assign is_conf_cmd = is_tkeep_valid & (transp_in_hdr.cmn.type_id == TIP_PKT_TYPE_CMD_CFG) & does_addr_match;
+    // REVIEW: stray double semicolon (harmless, just a typo)
     assign is_user_cmd = is_tkeep_valid & (transp_in_hdr.cmn.type_id == TIP_PKT_TYPE_CMD_USR) & does_addr_match;;
     assign is_ctrl_pkt = is_tkeep_valid & ((transp_in_hdr.cmn.type_id == TIP_PKT_TYPE_CMD_CFG) | (transp_in_hdr.cmn.type_id == TIP_PKT_TYPE_CMD_USR));
 

@@ -165,6 +165,9 @@ module tip_mid_ep
 
     // APB3 interconnect routing downstream control transactions
     // driven by the upstream endpoint
+    // REVIEW: instance name "tip_mid_apb3_intcon" shadows the module name and breaks the "the_"
+    // instance-naming convention used everywhere else in this file (the_tip_up_ep, the_tip_dn_ep,
+    // the_tip_mid_axis_intcon) -- rename to the_tip_mid_apb3_intcon for consistency.
     tip_mid_apb3_intcon #(
         .DN_CNT         (DN_CNT)        // Number of downstream links
     )

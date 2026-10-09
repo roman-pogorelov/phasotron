@@ -10,6 +10,9 @@
     ); // the_user_system
 */
 
+// REVIEW: compilation-unit-scope import leaks apb3_defs into every other file
+// compiled in the same unit — prefer `module user_system import apb3_defs::*; (...)`
+// or import inside the module body.
 import apb3_defs::*;
 
 module user_system

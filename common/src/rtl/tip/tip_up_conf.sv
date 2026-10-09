@@ -81,6 +81,11 @@ module tip_up_conf
     apb3_data_t     group_addr7 = '0;
 
 
+    // REVIEW: psel/penable/pwrite/pwdata are forwarded to dn_apb3_m unconditionally, even for
+    // addresses below DN_ADDR_BASE that are fully handled locally below -- this asserts PSEL on
+    // the downstream bus during transactions not meant for it, violating the APB3 single-slave-
+    // select invariant. Currently harmless only because the local and downstream address ranges
+    // happen not to overlap; consider gating with (apb3_s.paddr >= DN_ADDR_BASE) for robustness.
     // Froward some APB3 signals from the slave to the master
     assign dn_apb3_m.paddr = apb3_s.paddr;
     assign dn_apb3_m.psel = apb3_s.psel;

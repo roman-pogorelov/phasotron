@@ -104,6 +104,9 @@ module tip_mid_axis_intcon
     ); // the_axis_arbiter
 
 
+    // REVIEW: this instance is misnamed "up2dn_ctrl_buf" (duplicating the name of the generate-
+    // block instance above) but it actually buffers the dn2up_ctrl -> up_ctrl_out path, i.e. the
+    // opposite direction. Should be something like "dn2up_ctrl_buf" for clarity.
     // 2-stage AXIS buffer
     axis_2stage_buf up2dn_ctrl_buf (
         // Reset and clock

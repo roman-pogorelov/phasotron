@@ -79,6 +79,10 @@ module axis_arbiter
         .req            (in_tvalid),                // i  [REQS - 1 : 0]
 
         // Ready to process a request
+        // REVIEW: missing out.tvalid qualifier — when the bus is idle, out.tlast
+        // (= in_tlast[active_idx]) is a don't-care per AXI-Stream and can glitch
+        // high, spuriously asserting rdy and rotating the grant on a transfer
+        // that never happened.
         .rdy            (out.tready & out.tlast),   // i
 
         // Grants vector

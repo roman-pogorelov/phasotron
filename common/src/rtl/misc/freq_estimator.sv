@@ -21,6 +21,8 @@
 
 module freq_estimator
 #(
+    // REVIEW: comments below are in Russian; every other file (and the template
+    // above) is in English — translate for consistency.
     parameter int unsigned                          PERIOD = 1000,  // Период замеров в тактах refclk (PERIOD > 0)
     parameter int unsigned                          FACTOR = 2      // Максимально возможное отношение estclk/refclk
 )
