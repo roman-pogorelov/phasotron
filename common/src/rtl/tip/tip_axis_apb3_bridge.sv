@@ -147,14 +147,7 @@ module tip_axis_apb3_bridge
     logic [RAM_BUF_DATA_W - 1 : 0]          ram_buf_in;
     logic [AXIS_APB3_RATIO - 1 : 0]         ram_buf_we;
     logic [RAM_BUF_DATA_W - 1 : 0]          ram_buf_out;
-    // REVIEW: dimensioned by RAM_BUF_DATA_W (128) instead of AXIS_APB3_RATIO (4) -- a
-    // 4096-bit packed array instead of the intended 4x32-bit view of ram_buf_out.
-    // Functionally harmless today: the `= ram_buf_out` assignment below zero-extends the
-    // 128-bit RHS LSB-aligned, so elements [0..3] (the only ones ram_buf_rd_addr.idx ever
-    // selects) do come out correct -- but the oversized/misleading declaration should still
-    // be fixed to `apb3_data_t [AXIS_APB3_RATIO - 1 : 0]` for clarity and to avoid surprises
-    // if RAM_BUF_DATA_W and AXIS_APB3_RATIO ever diverge.
-    apb3_data_t [RAM_BUF_DATA_W - 1 : 0]    ram_buf_out_apb3;
+    apb3_data_t [AXIS_APB3_RATIO - 1 : 0]   ram_buf_out_apb3;
     //
     ram_buf_addr_t                          ram_buf_wr_addr = 0;
     logic                                   ram_buf_wr_addr_clr;
@@ -450,15 +443,12 @@ module tip_axis_apb3_bridge
 
                 if (ctrl_in.tvalid) begin
                     if (ctrl_in.tkeep != axis_tkeep_calc(axis_xfer_cnt)) begin
-                        // REVIEW: missing 'else' -- this statement always executes after the if
-                        // above, unconditionally overwriting nstate regardless of ctrl_in.tlast.
-                        // A malformed beat that also carries TLAST ends up in st_remove_bad_pkt
-                        // (waiting for a further TLAST that already happened) instead of going
-                        // back to st_wait_pkt, corrupting handling of the next packet too.
                         if (ctrl_in.tlast) begin
                             nstate = st_wait_pkt;
                         end
+                        else begin
                             nstate = st_remove_bad_pkt;
+                        end
                     end
                     else begin
                         if (axis_xfer_cnt < AXIS_APB3_RATIO) begin
@@ -564,11 +554,7 @@ module tip_axis_apb3_bridge
 
             st_do_apb3_rd_access: begin
                 ram_buf_in = {AXIS_APB3_RATIO{apb3_m.prdata}};
-                // REVIEW: asserted every cycle in this state, not just when apb3_m.pready is
-                // high -- relies on ram_buf_wr_addr staying put while waiting so the (possibly
-                // X/garbage) prdata writes get overwritten by the real one once pready arrives.
-                // Correct today, but fragile/non-obvious; gate explicitly on apb3_m.pready.
-                ram_buf_we = ram_buf_we_calc(ram_buf_wr_addr);
+                ram_buf_we = {AXIS_APB3_RATIO{apb3_m.pready}} & ram_buf_we_calc(ram_buf_wr_addr);
                 ram_buf_wr_addr_inc = ram_buf_addr_t'('{off: 0, idx: apb3_m.pready});
                 if (apb3_m.pready) begin
                     cmd_failed_set = apb3_m.pslverr;

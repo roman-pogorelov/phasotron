@@ -75,10 +75,6 @@ module aurora_tx_fifo
         .FIFO_READ_LATENCY      (0),
         .FIFO_WRITE_DEPTH       (FIFO_DEPTH),
         .FULL_RESET_VALUE       (0),
-        // REVIEW: dead configuration -- prog_empty/prog_full are left unconnected below, and
-        // USE_ADV_FEATURES ("0000") doesn't even enable them, so these magic-number thresholds
-        // have no effect. Looks like a leftover from copying the aurora_rx_fifo.sv template,
-        // where the equivalent thresholds are parameterized and actually used.
         .PROG_EMPTY_THRESH      (10),
         .PROG_FULL_THRESH       (10),
         .RD_DATA_COUNT_WIDTH    ($clog2(FIFO_DEPTH + 1)),
@@ -109,16 +105,11 @@ module aurora_tx_fifo
         .wr_data_count          (  ),                           // WR_DATA_COUNT_WIDTH-bit output
         .wr_rst_busy            (wr_rst_busy),                  // 1-bit output
         .din                    ({i_tdata, i_tkeep, i_tlast}),  // WRITE_DATA_WIDTH-bit input
-        // REVIEW: injectdbiterr/injectsbiterr tied to constant 1, same as in aurora_rx_fifo.sv --
-        // harmless only while ECC_MODE is "no_ecc"; would corrupt every word if ECC were enabled.
-        .injectdbiterr          (1'b1),                         // 1-bit input
-        .injectsbiterr          (1'b1),                         // 1-bit input
+        .injectdbiterr          (1'b0),                         // 1-bit input
+        .injectsbiterr          (1'b0),                         // 1-bit input
         .rd_en                  (fifo_ready & o_tready),        // 1-bit input
         .rst                    (rst),                          // 1-bit input
-        // REVIEW: 'sleep' tied to constant 1 -- per Xilinx XPM_FIFO docs this permanently puts
-        // the memory in power-saving mode; almost certainly should be 1'b0. Same issue as
-        // aurora_rx_fifo.sv.
-        .sleep                  (1'b1),                         // 1-bit input
+        .sleep                  (1'b0),                         // 1-bit input
         .wr_clk                 (clk),                          // 1-bit input
         // REVIEW: wr_en is not qualified with !full (unlike i_tready below) -- if the upstream
         // source holds i_tvalid high while the FIFO is full (legal AXI-Stream behavior while

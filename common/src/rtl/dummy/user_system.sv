@@ -10,10 +10,6 @@
     ); // the_user_system
 */
 
-// REVIEW: compilation-unit-scope import leaks apb3_defs into every other file
-// compiled in the same unit — prefer `module user_system import apb3_defs::*; (...)`
-// or import inside the module body.
-import apb3_defs::*;
 
 module user_system
 (
@@ -24,6 +20,10 @@ module user_system
     // APB3 slave interface
     apb3_if.slave           apb3_s
 );
+    // Packages
+    import apb3_defs::*;
+
+
     // Constants
     localparam apb3_addr_t      MAGIC_ID_ADDR   = 32'h00000000;
     localparam apb3_addr_t      COUNTER_ADDR    = 32'h00000004;

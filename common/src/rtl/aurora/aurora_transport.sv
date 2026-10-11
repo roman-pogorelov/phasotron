@@ -185,8 +185,7 @@ module aurora_transport
     ); // the_aurora64b66b_wrp
 
 
-    // REVIEW: typo, "Gererate" -> "Generate"
-    // Gererate the utility units
+    // Generate the utility units
     generate
         genvar ch;
         for (ch = 0; ch < CH_CNT; ch++) begin: channel_gen

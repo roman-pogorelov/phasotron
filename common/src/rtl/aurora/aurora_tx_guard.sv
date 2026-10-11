@@ -70,10 +70,6 @@ module aurora_tx_guard
 
 
     // Indicates that a frame is being removed
-    // REVIEW: redundant with the inline initializer on the declaration above (`= 1'b0`); unlike
-    // loss_data/loss_frame below, which rely solely on this initial block since they have no
-    // inline initializer.
-    initial removal_wip = 1'b0;
     always @(posedge rst, posedge clk) begin
         if (rst)
             removal_wip <= 1'b0;

@@ -3,7 +3,7 @@
     freq_estimator
     #(
         .PERIOD         (), // Duration of estimation in refclk cycles (PERIOD > 0)
-        .FACTOR         ()  // The maximum estclk to refclk ration
+        .FACTOR         ()  // The maximum estclk to refclk ratio
     )
     the_freq_estimator
     (
@@ -21,10 +21,8 @@
 
 module freq_estimator
 #(
-    // REVIEW: comments below are in Russian; every other file (and the template
-    // above) is in English — translate for consistency.
-    parameter int unsigned                          PERIOD = 1000,  // Период замеров в тактах refclk (PERIOD > 0)
-    parameter int unsigned                          FACTOR = 2      // Максимально возможное отношение estclk/refclk
+    parameter int unsigned                          PERIOD = 1000,  // Duration of estimation in refclk cycles (PERIOD > 0)
+    parameter int unsigned                          FACTOR = 2      // The maximum estclk to refclk ratio
 )
 (
     // Reference clock

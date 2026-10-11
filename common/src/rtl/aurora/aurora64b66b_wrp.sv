@@ -143,10 +143,6 @@ module aurora64b66b_wrp
 
 
     // XPM reset synchronizer
-    // REVIEW: DEST_SYNC_FF=10 here vs. 5 for the other two resets above — if this
-    // deeper chain is deliberate (e.g. to absorb mmcm_not_locked metastability
-    // margin), a comment explaining why would help the next reader; otherwise
-    // this is likely meant to match the others.
     xpm_cdc_async_rst #(
         .DEST_SYNC_FF       (10),
         .INIT_SYNC_FF       (0),

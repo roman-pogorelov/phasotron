@@ -78,10 +78,6 @@ module tip_dn_link
         .user_rst   (user_rst), // i
         .user_clk   (user_clk), // i
 
-        // REVIEW: tied to constant 0, unlike tip_up_link.sv/tip_mid_link.sv which wire this to
-        // up_req.reset -- so a downstream link can never be soft-reset via TIP_CFG_ADDR_RST_REQ.
-        // Confirm this asymmetry is intentional (e.g. soft reset is meant to be an "up"-side-only
-        // feature) rather than a missed wiring.
         // Reset request input @ user_clk
         .rst_req    (1'b0),     // i
 

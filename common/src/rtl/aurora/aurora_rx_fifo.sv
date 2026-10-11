@@ -114,18 +114,11 @@ module aurora_rx_fifo
         .wr_data_count          (  ),                           // WR_DATA_COUNT_WIDTH-bit output
         .wr_rst_busy            (wr_rst_busy),                  // 1-bit output
         .din                    ({i_tdata, i_tkeep, i_tlast}),  // WRITE_DATA_WIDTH-bit input
-        // REVIEW: injectdbiterr/injectsbiterr tied to constant 1 -- harmless today only because
-        // ECC_MODE is "no_ecc" above, but this looks like a copy-paste default rather than a
-        // deliberate choice (the Vivado template normally ties these 0). If ECC is ever enabled
-        // on this instance, every write would be flagged as a double-bit error.
-        .injectdbiterr          (1'b1),                         // 1-bit input
-        .injectsbiterr          (1'b1),                         // 1-bit input
+        .injectdbiterr          (1'b0),                         // 1-bit input
+        .injectsbiterr          (1'b0),                         // 1-bit input
         .rd_en                  (fifo_ready & o_tready),        // 1-bit input
         .rst                    (rst),                          // 1-bit input
-        // REVIEW: 'sleep' tied to constant 1 puts the XPM FIFO's memory in power-saving mode
-        // permanently, per Xilinx XPM_FIFO docs -- this looks like it should be 1'b0 (always
-        // active) rather than 1'b1; please double-check this isn't disabling the FIFO.
-        .sleep                  (1'b1),                         // 1-bit input
+        .sleep                  (1'b0),                         // 1-bit input
         .wr_clk                 (clk),                          // 1-bit input
         .wr_en                  (fifo_ready & i_tvalid)         // 1-bit input
     ); // rx_fifo
