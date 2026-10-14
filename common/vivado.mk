@@ -71,6 +71,9 @@ LIGHT_GRAY = \033[0;37m
 WHITE = \033[1;37m
 RESET = \033[0m
 
+# Configuration mode
+CFG_MODE ?= SPIx1
+
 ###################################################################
 # Main Targets
 #
@@ -163,5 +166,5 @@ $(BIT_TARGET) $(ILA_TARGET): $(IMP_TARGET)
 $(MCS_TARGET): $(BIT_TARGET)
 	@echo "$(LIGHT_BLUE)\nGenerating memory configuration file...\n$(RESET)"
 	@echo "open_project $(PRJ_TARGET)" > flash.tcl
-	@echo "write_cfgmem  -format mcs -size 64 -interface SPIx1 -loadbit {up 0x00000000 $(BIT_TARGET)} -force -file $(MCS_TARGET)" >> flash.tcl
+	@echo "write_cfgmem  -format mcs -size 64 -interface $(CFG_MODE) -loadbit {up 0x00000000 $(BIT_TARGET)} -force -file $(MCS_TARGET)" >> flash.tcl
 	vivado -nojournal -nolog -mode batch -source flash.tcl
