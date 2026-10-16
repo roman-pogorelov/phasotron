@@ -7,6 +7,10 @@ FPGA_PART = xc7k355tffg901-1
 FPGA_TOP = intnode
 
 
+# GT Rate
+GT_RATE ?= 6_2500
+
+
 # Files for synthesis
 SYN_FILES  = ../src/rtl/intnode.sv
 SYN_FILES += ../src/rtl/clock_unit.sv
@@ -41,9 +45,9 @@ SYN_FILES += ../../../common/src/rtl/aurora/aurora_rx_fifo.sv
 SYN_FILES += ../../../common/src/rtl/aurora/aurora_tx_fifo.sv
 SYN_FILES += ../../../common/src/rtl/aurora/aurora_tx_guard.sv
 SYN_FILES += ../../../common/src/rtl/aurora/aurora_rx_guard.sv
-SYN_FILES += ../../../common/src/rtl/aurora/support_6_2500/aurora64b66b_clock_module.v
-SYN_FILES += ../../../common/src/rtl/aurora/support_6_2500/aurora64b66b_gt_common_wrapper.v
-SYN_FILES += ../../../common/src/rtl/aurora/support_6_2500/aurora64b66b_support_reset_logic.v
+SYN_FILES += ../../../common/src/rtl/aurora/support_$(GT_RATE)/aurora64b66b_clock_module.v
+SYN_FILES += ../../../common/src/rtl/aurora/support_$(GT_RATE)/aurora64b66b_gt_common_wrapper.v
+SYN_FILES += ../../../common/src/rtl/aurora/support_$(GT_RATE)/aurora64b66b_support_reset_logic.v
 SYN_FILES += ../../../common/src/rtl/dummy/user_system.sv
 SYN_FILES += ../../../common/src/rtl/dummy/dsp_system.sv
 
@@ -58,7 +62,7 @@ XDC_FILES += ../../../common/src/xdc/aurora64b66b_wrp.xdc
 # IP
 IP_TCL_FILES  = ../src/tcl/clk_gen.tcl
 IP_TCL_FILES += ../src/tcl/mig7series.tcl
-IP_TCL_FILES += ../../../common/src/tcl/aurora64b66b_6_2500.tcl
+IP_TCL_FILES += ../../../common/src/tcl/aurora64b66b_$(GT_RATE).tcl
 
 
 # Configuration
