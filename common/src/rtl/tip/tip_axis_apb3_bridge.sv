@@ -86,30 +86,18 @@ module tip_axis_apb3_bridge
 
     // Returns the expected TKEEP based on the given transfer counter
     function logic [TIP_AXIS_TKEEP_W - 1 : 0] axis_tkeep_calc(input tip_pkt_ctl_count_t count);
-        if (count == 0)
-            return 16'h000F;
-        else if (count == 1)
-            return 16'h00FF;
-        else if (count == 2)
-            return 16'h0FFF;
+        localparam int unsigned WORD_KEEP_W = TIP_AXIS_TKEEP_W / AXIS_APB3_RATIO;
+        localparam logic [TIP_AXIS_TKEEP_W - 1 : 0] LSW_MASK = TIP_AXIS_TKEEP_W'({WORD_KEEP_W{1'b1}});
+        if (count < (AXIS_APB3_RATIO - 1))
+            return ~((~LSW_MASK) << (WORD_KEEP_W * count));
         else
             return AXIS_TKEEP_ALL;
     endfunction
 
 
-    // REVIEW: the 4'hX literals below hardcode AXIS_APB3_RATIO == 4; the function signature
-    // looks parameterized ([AXIS_APB3_RATIO-1:0]) but the body isn't -- it would silently break
-    // if the width check above ever allowed a different TIP_AXIS_TDATA_W/APB3 data-width ratio.
     // Returns the RAM buffer WE mask based on the given address counter
     function logic [AXIS_APB3_RATIO - 1 : 0] ram_buf_we_calc(input ram_buf_addr_t addr);
-        if (addr.idx == 0)
-            return 4'h1;
-        else if (addr.idx == 1)
-            return 4'h2;
-        else if (addr.idx == 2)
-            return 4'h4;
-        else
-            return 4'h8;
+        return AXIS_APB3_RATIO'(1) << addr.idx;
     endfunction
 
 
