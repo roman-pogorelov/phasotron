@@ -72,7 +72,7 @@ WHITE = \033[1;37m
 RESET = \033[0m
 
 # Configuration mode
-CFG_MODE ?= SPIx1
+CFG_MODE ?= SPIx4
 
 ###################################################################
 # Main Targets
